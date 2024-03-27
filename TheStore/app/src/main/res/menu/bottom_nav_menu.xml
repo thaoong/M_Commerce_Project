@@ -7,7 +7,7 @@
         android:title="Trang chủ" />
     <item
         android:id="@+id/navigation_category"
-        android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+        android:icon="@drawable/ic_category_24"
         android:title="Danh mục" />
     <item
         android:id="@+id/navigation_notification"
@@ -15,6 +15,6 @@
         android:title="Thông báo" />
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:icon="@drawable/ic_account_circle_24"
         android:title="Tài khoản" />
 </menu>
