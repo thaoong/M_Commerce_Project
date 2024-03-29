@@ -6,15 +6,6 @@
     android:orientation="vertical"
     tools:context=".CategoryFragment">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/strProductcatalog"
-        android:textColor="#5C3507"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="8dp" />
@@ -41,7 +32,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strHorrified" />
+                android:text="@string/strHorrified"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -54,7 +47,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strNovel" />
+                android:text="@string/strNovel"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -67,7 +62,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strLiterature" />
+                android:text="@string/strLiterature"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -91,7 +88,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strDetective" />
+                android:text="@string/strDetective"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -104,7 +103,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strScience" />
+                android:text="@string/strScience"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -117,7 +118,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strLove" />
+                android:text="@string/strLove"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -142,7 +145,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strSelfHelp" />
+                android:text="@string/strSelfHelp"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -155,7 +160,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strBrief" />
+                android:text="@string/strBrief"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -168,7 +175,9 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/brown_button"
-                android:text="@string/strComic" />
+                android:text="@string/strComic"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -208,7 +217,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_background"
-            android:text="@string/strHot" />
+            android:text="@string/strHot"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="wrap_content"
@@ -221,7 +232,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_background"
-            android:text="@string/strNew" />
+            android:text="@string/strNew"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="wrap_content"
@@ -234,7 +247,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_background"
-            android:text="@string/strSale" />
+            android:text="@string/strSale"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="wrap_content"
@@ -247,7 +262,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_background"
-            android:text="@string/strPrice" />
+            android:text="@string/strPrice"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="wrap_content"
