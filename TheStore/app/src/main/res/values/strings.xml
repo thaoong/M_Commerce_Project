@@ -37,4 +37,20 @@
     <string name="strDeleteAddress">Delete address</string>
     <string name="strNoProduct">There are no items in the shopping cart</string>
     <string name="strChooseProduct">Choose Product</string>
+    <string name="strProductcatalog">Product catalog</string>
+    <string name="strHorrified">Horrified</string>
+    <string name="strNovel">Novel</string>
+    <string name="strLiterature">Literature</string>
+    <string name="strDetective">Detective</string>
+    <string name="strScience">Science</string>
+    <string name="strLove">Love</string>
+    <string name="strSelfhelp">Selfhelp</string>
+    <string name="strSelfHelp">Self-help</string>
+    <string name="strBrief">Brief</string>
+    <string name="strComic">Comic</string>
+    <string name="strHot">Hot</string>
+    <string name="strNew">New</string>
+    <string name="strSale">Sale</string>
+    <string name="strPrice">Price</string>
+    <string name="strExplore">Explore</string>
 </resources>
