@@ -7,16 +7,16 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 
-import com.nguyenthithao.thestore.databinding.ActivityAddAddressBinding;
+import com.nguyenthithao.thestore.databinding.ActivityEditAddressBinding;
 
-public class AddAddressActivity extends AppCompatActivity {
-    ActivityAddAddressBinding binding;
+public class EditAddressActivity extends AppCompatActivity {
+    ActivityEditAddressBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_address);
-        binding = ActivityAddAddressBinding.inflate(getLayoutInflater());
+        //setContentView(R.layout.activity_edit_address);
+        binding = ActivityEditAddressBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayActionBar();
     }
@@ -25,7 +25,7 @@ public class AddAddressActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        String title = getResources().getString(R.string.strAddNewAddress);
+        String title = getResources().getString(R.string.strEditAddress);
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    tools:context=".ChangeLanguageActivity">
+
+    <TextView
+        android:id="@+id/txtDistrict"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/strChooseLanguage"
+        android:textColor="@color/brown_text"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/radEnglish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/brown_text"
+            android:text="@string/strEnglish"
+            android:textColor="@color/brown_text"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radVietnamese"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/brown_text"
+            android:text="@string/strVietnamese"
+            android:textColor="@color/brown_text"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnChangeLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/brown_button"
+            android:text="@string/strSaveChanges" />
+    </RadioGroup>
+
+</LinearLayout>

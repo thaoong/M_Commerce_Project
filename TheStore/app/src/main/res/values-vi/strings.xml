@@ -5,18 +5,19 @@
     <string name="strCategory">Danh mục</string>
     <string name="strNotification">Thông báo</string>
     <string name="strProfile">Tài khoản</string>
-    <string name="strPofileInfo">Thông tin tài khoản</string>
+    <string name="strProfileInfo">Thông tin tài khoản</string>
     <string name="strName">Tên:</string>
     <string name="strPhone">SĐT:</string>
     <string name="strEmail">Email:</string>
     <string name="strAddressList">Sổ địa chỉ</string>
     <string name="strOrderHistory">Lịch sử mua hàng</string>
-    <string name="strWhistlist">Sản phẩm yêu thích</string>
+    <string name="strWishlist">Sản phẩm yêu thích</string>
     <string name="strVoucher">Ví voucher</string>
     <string name="strChangeLanguage">Đổi ngôn ngữ</string>
     <string name="strChangePassword">Đổi mật khẩu</string>
     <string name="strSupport">Hỗ trợ</string>
     <string name="strAddNewAddress">Thêm địa chỉ mới</string>
+    <string name="strEditAddress">Sửa địa chỉ</string>
     <string name="strFullName">Họ và tên:</string>
     <string name="strPhoneNumber">Số điện thoại:</string>
     <string name="strDateOfBirth">Ngày sinh:</string>
@@ -24,4 +25,16 @@
     <string name="strMale">Nam</string>
     <string name="strFemale">Nữ</string>
     <string name="strSaveChanges">Lưu thay đổi</string>
+    <string name="strChooseLanguage">Chọn ngôn ngữ:</string>
+    <string name="strEnglish">English</string>
+    <string name="strVietnamese">Tiếng Việt</string>
+    <string name="strSignout">Đăng xuất</string>
+    <string name="strProvince">Tỉnh/Thành phố</string>
+    <string name="strDistrict">Quận/Huyện:</string>
+    <string name="strWard">Phường/Xã:</string>
+    <string name="strStreet">Địa chỉ nhà:</string>
+    <string name="strSetAsDefaultAddress">Đặt làm địa chỉ mặc định</string>
+    <string name="strSaveAddress">Lưu địa chỉ</string>
+    <string name="strDeleteAddress">Xóa địa chỉ</string>
+
 </resources>
