@@ -47,7 +47,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageView"
-                android:text="Thông tin tài khoản"
+                android:text="@string/strPofileInfo"
                 android:textColor="@color/brown_text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -74,8 +74,8 @@
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên:"
+                android:layout_height="match_parent"
+                android:text="@string/strName"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp" />
 
@@ -101,7 +101,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SĐT:"
+                android:text="@string/strPhone"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp" />
 
@@ -126,7 +126,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
+                android:text="@string/strEmail"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp" />
 
@@ -175,7 +175,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imgAddress"
-                android:text="Sổ địa chỉ"
+                android:text="@string/strAddressList"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -220,7 +220,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewOrder"
-                android:text="Lịch sử mua hàng"
+                android:text="@string/strOrderHistory"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -265,7 +265,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageWhistlist"
-                android:text="Sản phẩm yêu thích"
+                android:text="@string/strWhistlist"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -310,7 +310,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewVoucher"
-                android:text="Ví voucher"
+                android:text="@string/strVoucher"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -355,9 +355,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewChangeLanguage"
-                android:text="Đổi ngôn ngữ"
+                android:text="@string/strChangeLanguage"
                 android:textColor="@color/brown_text"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageButton
@@ -402,9 +402,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageChangepaword"
-                android:text="Đổi mật khẩu"
+                android:text="@string/strChangePassword"
                 android:textColor="@color/brown_text"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageButton
@@ -447,9 +447,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageSupport"
-                android:text="Hỗ trợ"
+                android:text="@string/strSupport"
                 android:textColor="@color/brown_text"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageButton

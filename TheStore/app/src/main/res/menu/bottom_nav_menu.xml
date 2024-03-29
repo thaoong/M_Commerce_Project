@@ -4,17 +4,17 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Trang chủ" />
+        android:title="@string/strHome" />
     <item
         android:id="@+id/navigation_category"
         android:icon="@drawable/ic_category_24"
-        android:title="Danh mục" />
+        android:title="@string/strCategory" />
     <item
         android:id="@+id/navigation_notification"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Thông báo" />
+        android:title="@string/strNotification" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_account_circle_24"
-        android:title="Tài khoản" />
+        android:title="@string/strProfile" />
 </menu>

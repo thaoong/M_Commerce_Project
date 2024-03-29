@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TheStore</string>
+    <string name="strHome">Trang chủ</string>
+    <string name="strCategory">Danh mục</string>
+    <string name="strNotification">Thông báo</string>
+    <string name="strProfile">Tài khoản</string>
+    <string name="strPofileInfo">Thông tin tài khoản</string>
+    <string name="strName">Tên:</string>
+    <string name="strPhone">SĐT:</string>
+    <string name="strEmail">Email:</string>
+    <string name="strAddressList">Sổ địa chỉ</string>
+    <string name="strOrderHistory">Lịch sử mua hàng</string>
+    <string name="strWhistlist">Sản phẩm yêu thích</string>
+    <string name="strVoucher">Ví voucher</string>
+    <string name="strChangeLanguage">Đổi ngôn ngữ</string>
+    <string name="strChangePassword">Đổi mật khẩu</string>
+    <string name="strSupport">Hỗ trợ</string>
+    <string name="strAddNewAddress">Thêm địa chỉ mới</string>
+    <string name="strFullName">Họ và tên:</string>
+    <string name="strPhoneNumber">Số điện thoại:</string>
+    <string name="strDateOfBirth">Ngày sinh:</string>
+    <string name="strGender">Giới tính:</string>
+    <string name="strMale">Nam</string>
+    <string name="strFemale">Nữ</string>
+    <string name="strSaveChanges">Lưu thay đổi</string>
+</resources>

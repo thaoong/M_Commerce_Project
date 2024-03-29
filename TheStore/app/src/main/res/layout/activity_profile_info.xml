@@ -12,7 +12,7 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Họ và tên:"
+        android:text="@string/strFullName"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -38,7 +38,7 @@
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số điện thoại:"
+        android:text="@string/strPhoneNumber"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -62,7 +62,7 @@
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email:"
+        android:text="@string/strEmail"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -86,7 +86,7 @@
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ngày sinh:"
+        android:text="@string/strDateOfBirth"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -110,7 +110,7 @@
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Giới tính:"
+        android:text="@string/strGender"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/brown_text"
-            android:text="Nam"
+            android:text="@string/strMale"
             android:textColor="@color/brown_text" />
 
         <RadioButton
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:buttonTint="@color/brown_text"
-            android:text="Nữ"
+            android:text="@string/strFemale"
             android:textColor="@color/brown_text" />
 
     </RadioGroup>
@@ -145,6 +145,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/brown_button"
-        android:text="Lưu thay đổi"
+        android:text="@string/strSaveChanges"
         android:textStyle="bold" />
 </LinearLayout>

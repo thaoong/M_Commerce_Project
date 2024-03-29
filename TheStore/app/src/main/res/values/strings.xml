@@ -1,5 +1,26 @@
 <resources>
     <string name="app_name">TheStore</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="strHome">Home</string>
+    <string name="strCategory">Category</string>
+    <string name="strNotification">Notification</string>
+    <string name="strProfile">Profile</string>
+    <string name="strPofileInfo">Profile information</string>
+    <string name="strName">Name:</string>
+    <string name="strPhone">Phone:</string>
+    <string name="strEmail">Email:</string>
+    <string name="strAddressList">Address list</string>
+    <string name="strOrderHistory">Order history</string>
+    <string name="strWhistlist">Whistlist</string>
+    <string name="strVoucher">Voucher wallet</string>
+    <string name="strChangeLanguage">Change language</string>
+    <string name="strChangePassword">Change password</string>
+    <string name="strSupport">Support</string>
+    <string name="strAddNewAddress">Add a new address</string>
+    <string name="strFullName">Full name:</string>
+    <string name="strPhoneNumber">Phone number:</string>
+    <string name="strDateOfBirth">Date of birth:</string>
+    <string name="strGender">Gender:</string>
+    <string name="strMale">Male</string>
+    <string name="strFemale">Female</string>
+    <string name="strSaveChanges">Save changes</string>
 </resources>
