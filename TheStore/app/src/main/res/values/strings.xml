@@ -35,4 +35,6 @@
     <string name="strSetAsDefaultAddress">Set as default address</string>
     <string name="strSaveAddress">Save address</string>
     <string name="strDeleteAddress">Delete address</string>
+    <string name="strNoProduct">There are no items in the shopping cart</string>
+    <string name="strChooseProduct">Choose Product</string>
 </resources>

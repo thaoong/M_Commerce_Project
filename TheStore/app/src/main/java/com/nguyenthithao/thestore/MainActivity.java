@@ -31,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         displayActionBar();
         createBottomNavigation();
+
+
+        if (getIntent().hasExtra("selectedFragment")) {
+            String selectedFragment = getIntent().getStringExtra("selectedFragment");
+
+            if (selectedFragment.equals("navigation_category")) {
+                binding.mainViewpager.setCurrentItem(1);
+            }
+        }
     }
 
     private void createBottomNavigation() {

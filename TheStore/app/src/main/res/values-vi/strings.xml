@@ -36,5 +36,7 @@
     <string name="strSetAsDefaultAddress">Đặt làm địa chỉ mặc định</string>
     <string name="strSaveAddress">Lưu địa chỉ</string>
     <string name="strDeleteAddress">Xóa địa chỉ</string>
+    <string name="strNoProduct">Chưa có sản phẩm nào trong giỏ hàng</string>
+    <string name="strChooseProduct">Mua ngay</string>
 
 </resources>
