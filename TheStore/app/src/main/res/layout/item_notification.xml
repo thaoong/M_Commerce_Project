@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/notification_border"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/txt_NotiTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔔 Bạn đang có 2 mã voucher sắp hết hạn"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/txt_NotiContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voucher giảm 8% cho đơn hàng viên uống DHC từ 600K sẽ hết hạn vào ngày mai. Voucher miễn phí vận chuyển cho đơn hàng từ 600K sẽ hết hạn sau 2 ngày nữa"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/txt_NotiTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🕒 10:00 12/12/2020"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>

@@ -3,16 +3,25 @@ package com.nguyenthithao.thestore;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class CartActivity extends AppCompatActivity {
+     Button btnBuy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         displayActionBar();
+        addViews();
+    }
+
+    private void addViews() {
+        btnBuy=findViewById(R.id.btnBuy);
     }
 
     private void displayActionBar() {
@@ -29,5 +38,14 @@ public class CartActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void buyProduct(View view) {
+//        Intent intent = new Intent(CartActivity.this, CategoryFragment.class);
+//        startActivity(intent);
+
+        Intent intent = new Intent(CartActivity.this, MainActivity.class);
+        intent.putExtra("selectedFragment", "navigation_category");
+        startActivity(intent);
     }
 }

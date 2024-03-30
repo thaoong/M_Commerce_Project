@@ -60,4 +60,8 @@
     <string name="strText">Join us now and start Your Journey.</string>
     <string name="strBtnWelcome">Explore Now</string>
     <string name="strTeam">\@2024 DELE.TEAM</string>
+
+    <string name="strNoProduct">Chưa có sản phẩm nào trong giỏ hàng</string>
+    <string name="strChooseProduct">Mua ngay</string>
+
 </resources>
