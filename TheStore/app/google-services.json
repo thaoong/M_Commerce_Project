@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900770592311",
+    "project_id": "mcommerceproject-4ed91",
+    "storage_bucket": "mcommerceproject-4ed91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900770592311:android:b9749911282e5ec585b1b2",
+        "android_client_info": {
+          "package_name": "com.nguyenthithao.thestore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAChx7PiqOJOdnSIpG7kBDv7gSttrpoHag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
