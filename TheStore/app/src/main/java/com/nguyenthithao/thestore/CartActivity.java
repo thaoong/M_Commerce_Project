@@ -41,8 +41,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void buyProduct(View view) {
-//        Intent intent = new Intent(CartActivity.this, CategoryFragment.class);
-//        startActivity(intent);
 
         Intent intent = new Intent(CartActivity.this, MainActivity.class);
         intent.putExtra("selectedFragment", "navigation_category");
