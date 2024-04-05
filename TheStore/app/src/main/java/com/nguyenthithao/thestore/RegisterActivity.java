@@ -51,20 +51,22 @@ public class RegisterActivity extends AppCompatActivity {
         String password = binding.edtInputPassword.getText().toString();
         String conformPw = binding.edtConformPassword.getText().toString();
 
-        if (name.isEmpty()){
+        if (name.isEmpty()) {
             binding.edtInputUser.setError("Enter your name");
+        } else {
+            binding.edtInputUser.setError(null);}
+
+        if (!email.matches(emailPattern)) {
+//            Toast.makeText(RegisterActivity.this, "Enter a valid email address!", Toast.LENGTH_SHORT).show();
+            binding.edtInputEmail.setError("Enter a valid email address");
         }
-        else
-            if (email.matches(emailPattern)){
-            binding.edtInputEmail.setError("Enter Context Email!");
-        }
-        else if (password.isEmpty() || password.length()<6){
+
+        if (password.isEmpty() || password.length() < 6) {
             binding.edtInputPassword.setError("Enter Proper Password!");
-        } else if (!    password.equals(conformPw)) {
-            binding.edtConformPassword.setError("Password Not Match Both Field");
-        }
-        else {
-            progressDialog.setMessage("Please wait while registration...");
+        } else if (!password.equals(conformPw)) {
+            binding.edtConformPassword.setError("Password does not match!");
+        } else {
+            progressDialog.setMessage("Please wait while registering...");
             progressDialog.setTitle("Registration");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
@@ -72,14 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         progressDialog.dismiss();
                         sendUser2NextActivity();
                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

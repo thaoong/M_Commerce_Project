@@ -5,7 +5,7 @@
     <string name="strNotification">Notification</string>
     <string name="strProfile">Profile</string>
     <string name="strProfileInfo">Profile information</string>
-    <string name="strName">Name:</string>
+    <string name="strName">Enter your name</string>
     <string name="strPhone">Phone:</string>
     <string name="strEmail">Email:</string>
     <string name="strAddressList">Address list</string>
@@ -77,5 +77,6 @@
     <string name="strSale">Sale</string>
     <string name="strPrice">Price</string>
     <string name="strExplore">Explore</string>
+    <string name="default_web_client_id">318647012345-7jsl5hpfrr5fonkvsg3454pqa1q57u1h.apps.googleusercontent.com</string>
 
 </resources>
