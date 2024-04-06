@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="#4D924F00"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="167dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="246dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="138dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#4D924F00"
+                    app:srcCompat="@drawable/ic_person_outline_24" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="126dp"
+                    android:layout_height="match_parent"
+                    android:background="#4D924F00"
+                    android:text="Nguyen Van A"
+                    android:textAlignment="center"
+                    android:textColor="#5C3507"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="187dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Cover design:"
+                android:textColor="#5C3507"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCoverDesign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Good, beautiful, new book"
+                android:textColor="#5C3507"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Target audience:"
+                android:textColor="#5C3507"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTargetAudience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Everyone"
+                android:textColor="#5C3507"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Other reviews:"
+                android:textColor="#5C3507"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtOtherReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Very good product, the smell of new books is fragrant, fast delivery, well packaged. Quality ok. Everyone should buy from this shop!"
+                android:textColor="#5C3507"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/img_bookdemo" />
+    </LinearLayout>
+</LinearLayout>
