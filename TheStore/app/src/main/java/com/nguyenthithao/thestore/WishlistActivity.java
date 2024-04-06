@@ -1,5 +1,7 @@
 package com.nguyenthithao.thestore;
 
+//import static android.os.Build.VERSION_CODES.R;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +12,8 @@ import android.widget.ListView;
 
 import com.nguyenthithao.adapter.BookAdapter;
 import com.nguyenthithao.models.Book;
+import com.nguyenthithao.thestore.R;
+
 import com.nguyenthithao.thestore.databinding.ActivityAddressBinding;
 import com.nguyenthithao.thestore.databinding.ActivityWishlistBinding;
 
@@ -41,8 +45,8 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
     private void giaLapBook() {
-        dsBook.add(new Book("Tại sao lại phải code android",100000, 120000, R.drawable.bot_ic));
-        dsBook.add(new Book("Tại sao lại phải code android",100000, 120000, R.drawable.bot_ic));
+        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
+        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
 
         adapterBook.notifyDataSetChanged();
     }

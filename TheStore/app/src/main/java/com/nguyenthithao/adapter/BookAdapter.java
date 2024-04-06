@@ -40,10 +40,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         Book book = this.objects.get(position);
         txtName.setText(book.getName());
-//        txtPrice.setText(book.getPrice());
-//        txtFakePrice.setText(book.getFakePrice());
-        txtPrice.setText(String.valueOf(book.getPrice()));
-        txtFakePrice.setText(String.valueOf(book.getFakePrice()));
+        txtPrice.setText(book.getPrice());
+        txtFakePrice.setText(book.getFakePrice());
+//        txtPrice.setText(String.valueOf(book.getPrice()));
+//        txtFakePrice.setText(String.valueOf(book.getFakePrice()));
 
         return row;
     }

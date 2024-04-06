@@ -2,14 +2,14 @@ package com.nguyenthithao.models;
 
 public class Book {
     private String Name;
-    private float Price;
-    private float FakePrice;
+    private String Price;
+    private String FakePrice;
     private int imageFavoBook;
 
     public Book() {
     }
 
-    public Book(String name, float price, float fakePrice, int imageFavoBook) {
+    public Book(String name, String price, String fakePrice, int imageFavoBook) {
         Name = name;
         Price = price;
         FakePrice = fakePrice;
@@ -24,19 +24,19 @@ public class Book {
         Name = name;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return Price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         Price = price;
     }
 
-    public float getFakePrice() {
+    public String getFakePrice() {
         return FakePrice;
     }
 
-    public void setFakePrice(float fakePrice) {
+    public void setFakePrice(String fakePrice) {
         FakePrice = fakePrice;
     }
 

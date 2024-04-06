@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/imgFavoBook"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:padding="3dp"
             app:srcCompat="@mipmap/ic_logo" />
@@ -49,9 +49,10 @@
                     android:id="@+id/txtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:text="TextView"
                     android:textColor="@color/brown_text"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -65,9 +66,10 @@
                     android:id="@+id/txtPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:text="TextView"
                     android:textColor="#E43333"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <Space
                     android:layout_width="6dp"
@@ -80,7 +82,8 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
                     android:text="TextView"
-                    android:textColor="#979593" />
+                    android:textColor="#979593"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -105,7 +108,8 @@
                         android:gravity="center"
                         android:text="Mua ngay"
                         android:textColor="@color/brown_text"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
