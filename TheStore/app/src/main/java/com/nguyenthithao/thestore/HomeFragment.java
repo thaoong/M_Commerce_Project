@@ -16,9 +16,8 @@ import android.view.ViewGroup;
 
 import com.nguyenthithao.thestore.databinding.FragmentHomeBinding;
 
-import com.google.android.material.slider.Slider;
 import com.nguyenthithao.adapter.SliderAdapter;
-import com.nguyenthithao.models.SliderItems;
+import com.nguyenthithao.model.SliderItems;
 
 import java.util.ArrayList;
 import java.util.List;

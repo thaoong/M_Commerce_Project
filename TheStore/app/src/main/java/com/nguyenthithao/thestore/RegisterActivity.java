@@ -1,7 +1,6 @@
 package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.nguyenthithao.models.User;
+import com.nguyenthithao.model.User;
 import com.nguyenthithao.thestore.databinding.ActivityRegisterBinding;
 
 public class RegisterActivity extends AppCompatActivity {

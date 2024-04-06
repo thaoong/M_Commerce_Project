@@ -3,15 +3,70 @@ package com.nguyenthithao.thestore;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.nguyenthithao.thestore.databinding.ActivityAddAddressBinding;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+
 public class AddAddressActivity extends AppCompatActivity {
     ActivityAddAddressBinding binding;
+    ArrayAdapter<String> provinceAdapter, districtAdapter, wardAdapter;
+    public static final String DATABASE_NAME = "diachivietnam.db";
+    public static final String DB_PATH_SUFFIX = "/databases/";
+    public static SQLiteDatabase database = null;
 
+    private void copyDataBase(){
+        try{
+            File dbFile = getDatabasePath(DATABASE_NAME);
+            if(!dbFile.exists()){
+                if(CopyDBFromAsset()){
+                    Toast.makeText(AddAddressActivity.this,
+                            "Copy database successful!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(AddAddressActivity.this,
+                            "Copy database fail!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }catch (Exception e){
+            Log.e("Error: ", e.toString());
+        }
+    }
+
+    private boolean CopyDBFromAsset() {
+        String dbPath = getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
+        try {
+            InputStream inputStream = getAssets().open(DATABASE_NAME);
+            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
+            if(!f.exists()){
+                f.mkdir();
+            }
+            OutputStream outputStream = new FileOutputStream(dbPath);
+            byte[] buffer = new byte[1024]; int length;
+            while((length=inputStream.read(buffer))>0){
+                outputStream.write(buffer,0, length);
+            }
+            outputStream.flush();  outputStream.close(); inputStream.close();
+            return  true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +74,80 @@ public class AddAddressActivity extends AppCompatActivity {
         binding = ActivityAddAddressBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayActionBar();
+        copyDataBase();
+        loadProvince();
+        loadDistrict();
+        loadWard();
+    }
+
+    private void loadWard() {
+        ArrayList<String> wardsArr = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM ward", null);
+        while (cursor.moveToNext())
+        {
+            String wardName = cursor.getString(1);
+            wardsArr.add(wardName);
+        }
+        cursor.close();
+        String[] wards = wardsArr.toArray(new String[wardsArr.size()]);
+        wardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wards);
+        wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerWard.setAdapter(wardAdapter);
+        binding.spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                binding.edtWard.setText(wards[arg2]);
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                binding.edtWard.setText("");
+            }
+        });
+    }
+
+    private void loadDistrict() {
+        ArrayList<String> districtsArr = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM district", null);
+        while (cursor.moveToNext())
+        {
+            String districtName = cursor.getString(1);
+            districtsArr.add(districtName);
+        }
+        cursor.close();
+        String[] districts = districtsArr.toArray(new String[districtsArr.size()]);
+        districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, districts);
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerDistrict.setAdapter(districtAdapter);
+        binding.spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                binding.edtDistrict.setText(districts[arg2]);
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                binding.edtDistrict.setText("");
+            }
+        });
+    }
+
+    private void loadProvince() {
+        ArrayList<String> provincesArr = new ArrayList<>();
+        database = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM province", null);
+        while (cursor.moveToNext())
+        {
+            String provinceName = cursor.getString(1);
+            provincesArr.add(provinceName);
+        }
+        cursor.close();
+        String[] provinces = provincesArr.toArray(new String[provincesArr.size()]);
+        provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, provinces);
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerProvince.setAdapter(provinceAdapter);
+        binding.spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                binding.edtProvince.setText(provinces[arg2]);
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                binding.edtProvince.setText("");
+            }
+        });
     }
 
     private void displayActionBar() {
