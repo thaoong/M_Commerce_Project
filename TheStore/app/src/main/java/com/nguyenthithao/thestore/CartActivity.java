@@ -17,12 +17,12 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         displayActionBar();
-        addViews();
+        //addViews();
     }
 
-    private void addViews() {
-        btnBuy=findViewById(R.id.btnBuy);
-    }
+//    private void addViews() {
+//        btnBuy=findViewById(R.id.btnBuy);
+//    }
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();

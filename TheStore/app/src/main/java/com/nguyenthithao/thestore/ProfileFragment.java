@@ -53,5 +53,13 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        binding.btnViewWhistlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WishlistActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
