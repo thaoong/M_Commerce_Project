@@ -70,6 +70,24 @@
         android:paddingBottom="10dp" />
 
     <EditText
+        android:id="@+id/edtInputPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_baseline_email"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/strHintPhone"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp" />
+
+    <EditText
         android:id="@+id/edtInputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

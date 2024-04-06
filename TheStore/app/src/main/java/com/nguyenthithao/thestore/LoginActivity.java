@@ -44,11 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         hideActionBar();
         createAccount();
         addEvents();
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Google sign in...");
-        progressDialog.show();
-
     }
 
     private void addEvents() {
@@ -64,16 +59,15 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        binding.imgGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
+            }
+        });
 
-//        binding.imgGoogle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Google sign in...");
     }
 
     // [START onactivityresult]
@@ -138,6 +132,22 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+    }
+
+    private void signInWithGoogle() {
+        //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        //startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Gọi phương thức silentSignIn() để kiểm tra xem người dùng đã đăng nhập trước đó chưa
+        Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
+        if (task.isSuccessful()) {
+            // Nếu đã đăng nhập trước đó, chuyển đến phương thức firebaseAuthWithGoogle() để xác thực
+            GoogleSignInAccount account = task.getResult();
+            firebaseAuthWithGoogle(account.getIdToken());
+        } else {
+            // Nếu chưa đăng nhập trước đó, mở hộp thoại chọn tài khoản Google để đăng nhập
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
     }
 
     // Phương thức ẩn ActionBar

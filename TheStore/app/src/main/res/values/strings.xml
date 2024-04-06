@@ -37,7 +37,8 @@
     <string name="strDeleteAddress">Delete address</string>
     <string name="strWelcome">Welcome back</string>
     <string name="strLogin">Login to your account</string>
-    <string name="strHintEmail">Enter email or phone*</string>
+    <string name="strHintEmail">Enter your email</string>
+    <string name="strHintPhone">Enter your phone*</string>
     <string name="strEnterPw">Password</string>
     <string name="strForgotPw">"Forgot Password? "</string>
     <string name="strSaveLogin">Remember me</string>
