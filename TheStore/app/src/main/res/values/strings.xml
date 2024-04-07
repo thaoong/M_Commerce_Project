@@ -5,9 +5,9 @@
     <string name="strNotification">Notification</string>
     <string name="strProfile">Profile</string>
     <string name="strProfileInfo">Profile information</string>
-    <string name="strName">Enter your name</string>
-    <string name="strPhone">Phone:</string>
-    <string name="strEmail">Email:</string>
+    <string name="strName">Name</string>
+    <string name="strPhone">Phone</string>
+    <string name="strEmail">Email</string>
     <string name="strAddressList">Address list</string>
     <string name="strOrderHistory">Order history</string>
     <string name="strWishlist">Wishlist</string>
@@ -37,8 +37,8 @@
     <string name="strDeleteAddress">Delete address</string>
     <string name="strWelcome">Welcome back</string>
     <string name="strLogin">Login to your account</string>
-    <string name="strHintEmail">Enter your email</string>
-    <string name="strHintPhone">Enter your phone*</string>
+    <string name="strHintEmail">Email</string>
+    <string name="strHintPhone">Phone</string>
     <string name="strEnterPw">Password</string>
     <string name="strForgotPw">"Forgot Password? "</string>
     <string name="strSaveLogin">Remember me</string>
@@ -54,7 +54,7 @@
     <string name="strSignUp">Sign Up</string>
     <string name="strAlreadyHaveAccount">"Already have an Account? "</string>
     <string name="strChangeR2L">Log In</string>
-    <string name="strConformPw">Conform password</string>
+    <string name="strConformPw">Confirm password</string>
     <string name="strGet">Get</string>
     <string name="strStarted">Started!</string>
     <string name="strText">Join us now and start Your Journey.</string>

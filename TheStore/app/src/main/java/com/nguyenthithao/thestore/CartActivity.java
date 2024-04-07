@@ -74,4 +74,9 @@ public class CartActivity extends AppCompatActivity {
 
         adapterBook.notifyDataSetChanged();
     }
+
+    public void buyProductActivity(View view) {
+        Intent intent = new Intent(CartActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

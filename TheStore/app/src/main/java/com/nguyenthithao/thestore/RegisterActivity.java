@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,13 +17,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.nguyenthithao.model.User;
 import com.nguyenthithao.thestore.databinding.ActivityRegisterBinding;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     ActivityRegisterBinding binding;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
+    boolean isAgreed=false;
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -33,9 +35,16 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        hideActionBar();
-        haveAccount();
         addEvents();
+
+    }
+
+    private void addEvents() {
+        progressDialog = new ProgressDialog(this);
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        getSupportActionBar().hide();
 
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,12 +52,13 @@ public class RegisterActivity extends AppCompatActivity {
                 PerForAuth();
             }
         });
-    }
 
-    private void addEvents() {
-        progressDialog = new ProgressDialog(this);
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
+        binding.txtChange2L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
     }
 
     private void PerForAuth() {
@@ -56,8 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = binding.edtInputEmail.getText().toString();
         String phone = binding.edtInputPhone.getText().toString();
         String password = binding.edtInputPassword.getText().toString();
-        String conformPw = binding.edtConformPassword.getText().toString();
-        String dob = binding.edtInputDOB.getText().toString();
+        String confirmPw = binding.edtConfirmPassword.getText().toString();
 
         // Kiểm tra các trường thông tin nhập vào
         if (name.isEmpty()) {
@@ -72,14 +81,15 @@ public class RegisterActivity extends AppCompatActivity {
             binding.edtInputPassword.setError("Enter Proper Password!");
             return;
         }
-        if (!password.equals(conformPw)) {
-            binding.edtConformPassword.setError("Password does not match!");
+        if (!password.equals(confirmPw)) {
+            binding.edtConfirmPassword.setError("Password does not match!");
             return;
         }
-        if (dob.isEmpty()) {
-            binding.edtInputDOB.setError("Enter your birthday!");
+
+        if (!isAgreed) {
+            Toast.makeText(this, "Please agree to terms and conditions", Toast.LENGTH_SHORT).show();
             return;
-        }
+        } else {
 
         // Hiển thị hộp thoại ProgressDialog
         progressDialog.setMessage("Please wait while registering...");
@@ -97,17 +107,23 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
 
-                            // Tạo một đối tượng User và đưa dữ liệu vào
-                            User newUser = new User(name, email, password, dob, phone);
-                            databaseReference.child("users").child(userId).setValue(newUser)
+                            // Tạo một HashMap chứa thông tin người dùng
+                            HashMap<String, Object> userMap = new HashMap<>();
+                            userMap.put("name", name);
+                            userMap.put("email", email);
+                            userMap.put("password", password);
+                            userMap.put("phone", phone);
+
+                            // Lưu thông tin người dùng vào Realtime Database
+                            databaseReference.child("users").child(userId).setValue(userMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 // Gửi dữ liệu thành công, chuyển đến màn hình chính
                                                 progressDialog.dismiss();
-                                                sendUser2NextActivity();
                                                 Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                                sendUser2NextActivity();
                                             } else {
                                                 progressDialog.dismiss();
                                                 Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -120,26 +136,28 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });}
     }
+
+//    private void sendUser2NextActivity() {
+//        Intent intent = (new Intent(RegisterActivity.this, MainActivity.class));
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//    }
 
     private void sendUser2NextActivity() {
-        Intent intent = (new Intent(RegisterActivity.this, MainActivity.class));
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
-    private void haveAccount() {
-        binding.txtChange2L.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
-    }
-
-    // Phương thức ẩn ActionBar
-    private void hideActionBar() {
-        getSupportActionBar().hide();
+    public void AcceptActivity(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        isAgreed = checkBox.isChecked();
+        if (isAgreed) {
+            binding.btnRegister.setEnabled(true);
+        } else {
+            binding.btnRegister.setEnabled(false);
+        }
     }
 }

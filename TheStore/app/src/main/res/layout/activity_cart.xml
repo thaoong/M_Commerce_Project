@@ -51,6 +51,7 @@
 
         <Button
             android:id="@+id/btnBuy"
+            android:onClick="buyProductActivity"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="110dp"

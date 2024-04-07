@@ -12,6 +12,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         app:srcCompat="@mipmap/ic_logo" />
 
     <TextView
@@ -95,10 +96,9 @@
 
         <TextView
             android:id="@+id/txtForgotPw"
-            android:layout_width="190dp"
+            android:layout_width="147dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:gravity="right"
+            android:layout_marginHorizontal="80dp"
             android:text="@string/strForgotPw"
             android:textColor="#FA0000" />
     </LinearLayout>
@@ -197,6 +197,7 @@
             android:id="@+id/txtCreateAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="@string/strCreateAccount"
             android:textColor="@color/brown_text"
             android:textStyle="bold" />
