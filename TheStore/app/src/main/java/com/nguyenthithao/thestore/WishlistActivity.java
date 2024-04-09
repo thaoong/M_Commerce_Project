@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.nguyenthithao.adapter.BookAdapter;
-import com.nguyenthithao.models.Book;
+import com.nguyenthithao.model.Book;
 import com.nguyenthithao.thestore.R;
 
 import com.nguyenthithao.thestore.databinding.ActivityAddressBinding;

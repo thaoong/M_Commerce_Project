@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.nguyenthithao.models.Book;
+import com.nguyenthithao.model.Book;
 import com.nguyenthithao.thestore.R;
 
 import java.util.List;

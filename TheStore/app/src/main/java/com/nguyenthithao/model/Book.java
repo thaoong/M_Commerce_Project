@@ -1,4 +1,4 @@
-package com.nguyenthithao.models;
+package com.nguyenthithao.model;
 
 public class Book {
     private String Name;

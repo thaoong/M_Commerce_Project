@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.nguyenthithao.adapter.BookAdapter;
-import com.nguyenthithao.models.Book;
+import com.nguyenthithao.model.Book;
 
 import java.util.ArrayList;
 
