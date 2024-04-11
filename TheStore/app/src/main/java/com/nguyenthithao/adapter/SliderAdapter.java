@@ -17,14 +17,22 @@ import com.bumptech.glide.request.RequestOptions;
 import com.nguyenthithao.model.SliderItems;
 import com.nguyenthithao.thestore.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
-    private List<SliderItems> sliderItems;
+    private ArrayList<SliderItems> sliderItems;
     private ViewPager2 viewPager2;
     private Context context;
+//    private Runnable runnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            sliderItems.addAll(sliderItems);
+//            notifyDataSetChanged();
+//        }
+//    };
 
-    public SliderAdapter(List<SliderItems> sliderItems, ViewPager2 viewPager2) {
+    public SliderAdapter(ArrayList<SliderItems> sliderItems, ViewPager2 viewPager2) {
         this.sliderItems = sliderItems;
         this.viewPager2 = viewPager2;
     }
@@ -54,8 +62,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
 
     public class SliderViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-
-
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageSlide);
@@ -65,7 +71,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
             requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(60));
 
             Glide.with(context)
-                    .load(sliderItem.getImage())
+                    .load(sliderItem.getImageLink())
                     .apply(requestOptions)
                     .into(imageView);
         }

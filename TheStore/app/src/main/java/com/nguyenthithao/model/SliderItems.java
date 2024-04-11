@@ -1,17 +1,21 @@
 package com.nguyenthithao.model;
 
 public class SliderItems {
-    private int image;
+    private String imageLink;
 
-    public SliderItems(int image) {
-        this.image = image;
+    public SliderItems() {
     }
 
-    public int getImage() {
-        return image;
+    public SliderItems(String imageLink) {
+        this.imageLink = imageLink;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public String getImageLink() {
+        return imageLink;
     }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
 }
