@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,7 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nguyenthithao.adapter.BookAdapter;
 import com.nguyenthithao.adapter.CategoryAdapter;
+import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.Category;
 import com.nguyenthithao.thestore.databinding.FragmentHomeBinding;
 
@@ -28,7 +29,6 @@ import com.nguyenthithao.adapter.SliderAdapter;
 import com.nguyenthithao.model.SliderItems;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private Handler slideHandler = new Handler();
@@ -48,7 +48,71 @@ public class HomeFragment extends Fragment {
         view = binding.getRoot();
         loadBanner();
         loadCategory();
+        loadFlashSale();
+        loadBestSelling();
         return view;
+    }
+
+    private void loadFlashSale() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("books");
+        binding.progressBarFlashSale.setVisibility(View.VISIBLE);
+        ArrayList<Book> items = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        Book book = issue.getValue(Book.class);
+                        if (book != null && book.getOldPrice() != 0) {
+                            items.add(book);
+                        }
+                    }
+                    if (!items.isEmpty()) {
+                        binding.rvFlashSale.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvFlashSale.setAdapter(new BookAdapter(items));
+                    }
+                    binding.progressBarFlashSale.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadBestSelling() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("books");
+        binding.progressBarBestSelling.setVisibility(View.VISIBLE);
+        ArrayList<Book> items = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        Book book = issue.getValue(Book.class);
+                        if (book != null && book.getBestSelling() == 1) {
+                            items.add(book);
+                        }
+                    }
+                    if (!items.isEmpty()) {
+                        binding.rvBestSelling.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvBestSelling.setAdapter(new BookAdapter(items));
+                    }
+                    binding.progressBarBestSelling.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadCategory() {

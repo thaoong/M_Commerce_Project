@@ -1,7 +1,5 @@
 package com.nguyenthithao.thestore;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.nguyenthithao.adapter.BookAdapter;
+import com.nguyenthithao.adapter.BookAdapterTest;
 import com.nguyenthithao.model.Book;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class CartActivity extends AppCompatActivity {
 
     ListView lvFavoBook;
     ArrayList<Book>dsBook;
-    BookAdapter adapterBook;
+    BookAdapterTest adapterBook;
      Button btnBuy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +60,18 @@ public class CartActivity extends AppCompatActivity {
     private void addViews() {
         lvFavoBook=findViewById(R.id.lvFavoBook);
         dsBook=new ArrayList<>();
-        adapterBook=new BookAdapter(CartActivity.this, R.layout.item_cart, dsBook);
+        adapterBook=new BookAdapterTest(CartActivity.this, R.layout.item_cart, dsBook);
         lvFavoBook.setAdapter(adapterBook);
 
-        giaLapBook();
+        //giaLapBook();
     }
 
-    private void giaLapBook() {
-        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-
-        adapterBook.notifyDataSetChanged();
-    }
+//    private void giaLapBook() {
+//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
+//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
+//
+//        adapterBook.notifyDataSetChanged();
+//    }
 
     public void buyProductActivity(View view) {
         Intent intent = new Intent(CartActivity.this, LoginActivity.class);

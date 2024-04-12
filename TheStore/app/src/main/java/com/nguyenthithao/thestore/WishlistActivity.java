@@ -10,12 +10,8 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.nguyenthithao.adapter.BookAdapter;
+import com.nguyenthithao.adapter.BookAdapterTest;
 import com.nguyenthithao.model.Book;
-import com.nguyenthithao.thestore.R;
-
-import com.nguyenthithao.thestore.databinding.ActivityAddressBinding;
-import com.nguyenthithao.thestore.databinding.ActivityWishlistBinding;
 
 import java.util.ArrayList;
 
@@ -23,7 +19,7 @@ public class WishlistActivity extends AppCompatActivity {
 
     ListView lvFavoBook;
     ArrayList<Book>dsBook;
-    BookAdapter adapterBook;
+    BookAdapterTest adapterBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +34,18 @@ public class WishlistActivity extends AppCompatActivity {
     private void addViews() {
         lvFavoBook=findViewById(R.id.lvFavoBook);
         dsBook=new ArrayList<>();
-        adapterBook=new BookAdapter(WishlistActivity.this, R.layout.item_wishlist, dsBook);
+        adapterBook=new BookAdapterTest(WishlistActivity.this, R.layout.item_wishlist, dsBook);
         lvFavoBook.setAdapter(adapterBook);
 
-        giaLapBook();
+        //giaLapBook();
     }
 
-    private void giaLapBook() {
-        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-
-        adapterBook.notifyDataSetChanged();
-    }
+//    private void giaLapBook() {
+//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
+//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
+//
+//        adapterBook.notifyDataSetChanged();
+//    }
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();

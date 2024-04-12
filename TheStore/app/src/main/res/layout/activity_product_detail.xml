@@ -313,7 +313,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="• Main content:"
+                    android:text="• Description:"
                     android:textColor="#5C3507"
                     android:textStyle="bold" />
 
@@ -341,13 +341,12 @@
                 android:textColor="#5C3507"
                 android:textStyle="bold" />
 
-            <GridView
-                android:id="@+id/gvProduct"
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp" />
+                android:layout_marginEnd="24dp"/>
 
             <TextView
                 android:id="@+id/textView46"
@@ -356,7 +355,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="COMMENTS"
+                android:text="REVIEWS"
                 android:textAllCaps="true"
                 android:textColor="#5C3507"
                 android:textStyle="bold" />
