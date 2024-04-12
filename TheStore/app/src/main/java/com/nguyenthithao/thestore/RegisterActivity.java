@@ -68,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         String password = binding.edtInputPassword.getText().toString();
         String confirmPw = binding.edtConfirmPassword.getText().toString();
 
-        // Kiểm tra các trường thông tin nhập vào
         if (name.isEmpty()) {
             binding.edtInputUser.setError("Enter your name");
             return;
@@ -103,18 +102,15 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Đăng ký thành công, gửi dữ liệu đến Realtime Database
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
 
-                            // Tạo một HashMap chứa thông tin người dùng
                             HashMap<String, Object> userMap = new HashMap<>();
                             userMap.put("name", name);
                             userMap.put("email", email);
                             userMap.put("password", password);
                             userMap.put("phone", phone);
 
-                            // Lưu thông tin người dùng vào Realtime Database
                             databaseReference.child("users").child(userId).setValue(userMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -131,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         }
                                     });
                         } else {
-                            // Đăng ký thất bại, hiển thị thông báo lỗi
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -148,7 +143,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void sendUser2NextActivity() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void AcceptActivity(View view) {
@@ -159,5 +153,10 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             binding.btnRegister.setEnabled(false);
         }
+    }
+
+    public void txtLogin(View view) {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }

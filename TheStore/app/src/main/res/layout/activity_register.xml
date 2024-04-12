@@ -236,6 +236,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/strChangeR2L"
                 android:textColor="@color/brown_text"
+                android:onClick="txtLogin"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

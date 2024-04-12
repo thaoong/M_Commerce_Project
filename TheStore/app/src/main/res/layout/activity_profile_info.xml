@@ -100,11 +100,14 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/rectangle_background_shape"
         android:ems="10"
-        android:inputType="date"
+        android:inputType="none"
         android:paddingTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/brown_text"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:hint="Date of Birth"
+        android:focusable="false"
+        android:onClick="showDatePickerDialog" />
 
     <TextView
         android:id="@+id/textView9"
@@ -116,6 +119,7 @@
         android:textStyle="bold" />
 
     <RadioGroup
+        android:id="@+id/radioGroupGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

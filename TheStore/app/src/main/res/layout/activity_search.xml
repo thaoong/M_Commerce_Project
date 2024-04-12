@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/brown_button"
-        android:onClick="buyProduct"
+        android:onClick="search"
         android:text="Search"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

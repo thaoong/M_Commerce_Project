@@ -48,12 +48,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+        addEvents();
 
-        // Khởi tạo SharedPreferences để lưu thông tin đăng nhập
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        // Kiểm tra và tự động điền thông tin đăng nhập đã lưu trữ
+        if (isLoggedIn()) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+
         String savedEmail = sharedPreferences.getString("email", "");
         String savedPassword = sharedPreferences.getString("password", "");
         if (!savedEmail.isEmpty() && !savedPassword.isEmpty()) {
@@ -62,28 +67,23 @@ public class LoginActivity extends AppCompatActivity {
             binding.checkBox.setChecked(true);
         }
 
-        // Thiết lập các sự kiện và định cấu hình
-        setup();
+        loadCredentials();
     }
-
-    private void setup() {
-        getSupportActionBar().hide(); // Ẩn ActionBar
-
-        // Khởi tạo Firebase Authentication
+    private boolean isLoggedIn() {
+        return sharedPreferences.getBoolean("isLoggedIn", false);
+    }
+    private void addEvents() {
         mAuth = FirebaseAuth.getInstance();
 
-        // Khởi tạo Firebase Database
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("users");
 
-        // Cấu hình đăng nhập Google
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        // Đăng ký sự kiện khi nhấn vào nút Đăng ký
         binding.txtCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Đăng ký sự kiện khi nhấn vào nút Đăng nhập
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Đăng ký sự kiện khi thay đổi trạng thái của CheckBox
         binding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -118,8 +116,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Google sign in...");
     }
 
-    // Phương thức xử lý đăng nhập
     private void validateAndSignIn() {
+
         String userEmail = binding.edtInputEmail.getText().toString().trim();
         String userPassword = binding.edtPassword.getText().toString().trim();
 
@@ -132,91 +130,76 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Hiển thị hộp thoại ProgressDialog
         progressDialog.show();
 
-        // Đăng nhập Firebase Authentication
         mAuth.signInWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss(); // Đóng ProgressDialog sau khi xử lý hoàn tất
+                        progressDialog.dismiss();
 
                         if (task.isSuccessful()) {
-                            // Đăng nhập thành công, chuyển đến MainActivity
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
+                            Toast.makeText(LoginActivity.this, "Login successful" , Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                            finish(); // Kết thúc LoginActivity để ngăn người dùng quay lại
-
-                            // Hiển thị thông báo đăng nhập thành công
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
-                            // Đăng nhập thất bại, hiển thị thông báo lỗi
-                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Email or password is incorrect" , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    // Phương thức lưu thông tin đăng nhập vào SharedPreferences
     private void saveCredentials(boolean isChecked) {
         if (isChecked) {
-            // Lưu thông tin đăng nhập vào SharedPreferences
             editor.putString("email", binding.edtInputEmail.getText().toString().trim());
             editor.putString("password", binding.edtPassword.getText().toString().trim());
             editor.apply();
         } else {
-            // Xóa thông tin đăng nhập khỏi SharedPreferences nếu CheckBox không được chọn
             editor.remove("email");
             editor.remove("password");
             editor.apply();
         }
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Kiểm tra xem người dùng đã đăng nhập trước đó chưa khi mở ứng dụng
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // Nếu đã đăng nhập trước đó, chuyển đến MainActivity
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish(); // Kết thúc LoginActivity để ngăn người dùng quay lại
-        }
-    }
-
-
-    // Phương thức xử lý đăng nhập bằng Google
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
+//    }
+//
     private void signInWithGoogle() {
-        // Kiểm tra xem người dùng đã đăng nhập trước đó chưa bằng cách gọi phương thức silentSignIn()
         Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
         if (task.isSuccessful()) {
-            // Nếu đã đăng nhập trước đó, thực hiện xác thực
             GoogleSignInAccount account = task.getResult();
             firebaseAuthWithGoogle(account.getIdToken());
         } else {
-            // Nếu chưa đăng nhập trước đó, mở hộp thoại chọn tài khoản Google để đăng nhập
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
         }
     }
-
-    // Xử lý kết quả sau khi đăng nhập bằng Google
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == RC_SIGN_IN) {
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogle(account.getIdToken());
+//            } catch (ApiException e) {
+//                Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -224,7 +207,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Đăng nhập bằng Google thành công, chuyển đến MainActivity
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -233,5 +215,15 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void loadCredentials() {
+        String savedEmail = sharedPreferences.getString("email", "");
+        String savedPassword = sharedPreferences.getString("password", "");
+        if (!savedEmail.isEmpty() && !savedPassword.isEmpty()) {
+            binding.edtInputEmail.setText(savedEmail);
+            binding.edtPassword.setText(savedPassword);
+            binding.checkBox.setChecked(true);
+        }
     }
 }
