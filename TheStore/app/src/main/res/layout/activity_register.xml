@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/strCreateNewAccount"
+            android:text="@string/strCreateyAccount"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -83,7 +83,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/input_bg"
-            android:drawableLeft="@drawable/ic_baseline_email"
+            android:drawableLeft="@drawable/baseline_local_phone_24"
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="@string/strHintPhone"
@@ -226,7 +226,7 @@
                 android:id="@+id/textView02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/strCreateNewAccount"
+                android:text="@string/strHaveAccount"
                 android:textColor="@color/black"/>
 
             <TextView

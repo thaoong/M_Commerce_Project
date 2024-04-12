@@ -47,7 +47,9 @@
     <string name="strDonotHaveAccount">Don’t have an Account?</string>
     <string name="strCreateAccount">Create Account</string>
     <string name="strRegister">Register</string>
-    <string name="strCreateNewAccount">Do you have an account?</string>
+    <string name="strCreateyAccount">Create your account</string>
+    <string name="strCreateNewAccount">Create your new account</string>
+    <string name="strHaveAccount">Do you have an account?</string>
     <string name="strEnterName">Enter your name*</string>
     <string name="strDOB">Enter date of birth</string>
     <string name="strAgree"><![CDATA[By signing up you agree to our Terms & Conditions and Privacy Policy]]></string>

@@ -90,13 +90,11 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         } else {
 
-        // Hiển thị hộp thoại ProgressDialog
         progressDialog.setMessage("Please wait while registering...");
         progressDialog.setTitle("Registration");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        // Thực hiện đăng ký tài khoản trong Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -122,23 +120,17 @@ public class RegisterActivity extends AppCompatActivity {
                                                 sendUser2NextActivity();
                                             } else {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RegisterActivity.this, "Registration failed " , Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Registration failed " , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });}
     }
-
-//    private void sendUser2NextActivity() {
-//        Intent intent = (new Intent(RegisterActivity.this, MainActivity.class));
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
-//    }
 
     private void sendUser2NextActivity() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

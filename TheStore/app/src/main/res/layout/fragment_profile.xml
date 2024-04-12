@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="100dp"
@@ -474,6 +475,15 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/brown_button"
+                android:text="Log in"
+                android:textStyle="bold" />
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"

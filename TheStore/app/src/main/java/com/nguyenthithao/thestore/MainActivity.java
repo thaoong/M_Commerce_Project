@@ -19,6 +19,7 @@ import com.nguyenthithao.thestore.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+    private boolean isLoggedIn = false;
 //    public static ViewPager viewPager;
 //    private BottomNavigationView bottomNavigationView;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         displayActionBar();
         createBottomNavigation();
+//        isLoggedIn = checkLoginStatus();
 
 
         if (getIntent().hasExtra("selectedFragment")) {
