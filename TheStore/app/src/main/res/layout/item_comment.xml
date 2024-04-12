@@ -6,7 +6,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
-    android:background="#4D924F00"
+    android:background="@drawable/rectangle_background_shape"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,6 +26,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/brown_button"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -33,14 +34,12 @@
                     android:layout_width="138dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#4D924F00"
                     app:srcCompat="@drawable/ic_person_outline_24" />
 
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="126dp"
                     android:layout_height="match_parent"
-                    android:background="#4D924F00"
                     android:text="Nguyen Van A"
                     android:textAlignment="center"
                     android:textColor="#5C3507"

@@ -21,7 +21,7 @@ public class CartActivity extends AppCompatActivity {
     ListView lvFavoBook;
     ArrayList<Book>dsBook;
     BookAdapterTest adapterBook;
-     Button btnBuy;
+    Button btnBuy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

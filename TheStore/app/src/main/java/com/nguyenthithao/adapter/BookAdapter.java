@@ -1,5 +1,6 @@
 package com.nguyenthithao.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -37,7 +38,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Viewholder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull BookAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.binding.txtName.setText(items.get(position).getName());
 
         float unitPrice = items.get(position).getUnitPrice();
@@ -67,7 +68,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Viewholder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("SELECT_BOOK", items.get(position));
+                intent.putExtra("SELECTED_BOOK", items.get(position));
                 context.startActivity(intent);
             }
         });
