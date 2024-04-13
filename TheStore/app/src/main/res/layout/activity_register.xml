@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/strCreateyAccount"
+            android:text="@string/strCreateNewAccount"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -50,7 +50,7 @@
             android:drawableLeft="@drawable/ic_account_circle_24"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:hint="@string/strName"
+            android:hint="@string/strHintName"
             android:inputType="text"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -121,7 +121,7 @@
             android:drawableLeft="@drawable/ic_security"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:hint="@string/strConformPw"
+            android:hint="@string/strConfirmPw"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"

@@ -32,10 +32,11 @@ import com.nguyenthithao.thestore.databinding.ActivityProductDetailBinding;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductDetailActivity extends AppCompatActivity {
     ActivityProductDetailBinding binding;
-    private Book book;
+    private Book selectedBook;
     private Handler slideHandle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void getBookImages() {
-        book = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+        selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
         ArrayList<SliderItems> sliderItems = new ArrayList<>();
-        for (int i = 0; i < book.getImageLink().size(); i++) {
-            sliderItems.add(new SliderItems(book.getImageLink().get(i)));
+        for (int i = 0; i < selectedBook.getImageLink().size(); i++) {
+            sliderItems.add(new SliderItems(selectedBook.getImageLink().get(i)));
         }
         binding.viewpagerSlider.setAdapter(new SliderAdapter(sliderItems, binding.viewpagerSlider));
         binding.viewpagerSlider.setClipToPadding(false);
@@ -66,8 +67,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void getRelatedProducts() {
-        book = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
-        String category = book.getCategory();
+        selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+        String category = selectedBook.getCategory();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("books");
         ArrayList<Book> items = new ArrayList<>();
@@ -77,7 +78,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         Book book = issue.getValue(Book.class);
-                        items.add(book);
+                        if (!Objects.equals(selectedBook.getName(), book.getName())) {
+                            items.add(book);
+                        }
                     }
                     if (!items.isEmpty()) {
                         binding.rvRelatedProduct.setLayoutManager(new LinearLayoutManager(ProductDetailActivity.this,
@@ -129,17 +132,17 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void getBookDetails() {
-        book = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
-        binding.txtTittle.setText(book.getName());
-        binding.txtRating.setText(book.getRating()+"");
-        binding.ratingBar.setRating(book.getRating());
-        binding.txtNumofComment.setText("("+book.getReviewNum()+")");
+        selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+        binding.txtTittle.setText(selectedBook.getName());
+        binding.txtRating.setText(selectedBook.getRating()+"");
+        binding.ratingBar.setRating(selectedBook.getRating());
+        binding.txtNumofComment.setText("("+selectedBook.getReviewNum()+")");
 
-        float unitPrice = book.getUnitPrice();
+        float unitPrice = selectedBook.getUnitPrice();
         String formattedUnitPrice = formatCurrency(unitPrice);
         binding.txtUnitPrice.setText(formattedUnitPrice + "đ");
 
-        float oldPrice = book.getOldPrice();
+        float oldPrice = selectedBook.getOldPrice();
         if (oldPrice != 0) {
             String formattedOldPrice = formatCurrency(oldPrice);
             binding.txtOldPrice.setText(formattedOldPrice+ "đ");
@@ -152,12 +155,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             binding.txtSalePercent.setVisibility(View.GONE);
         }
 
-        binding.txtAuthor.setText(book.getAuthor());
-        binding.txtPublicationDate.setText(book.getPublicationDate());
-        binding.txtDescription.setText(book.getDescription());
+        binding.txtAuthor.setText(selectedBook.getAuthor());
+        binding.txtPublicationDate.setText(selectedBook.getPublicationDate());
+        binding.txtDescription.setText(selectedBook.getDescription());
 
         // Get category name from category table
-        DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference().child("categories").child(book.getCategory());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference categoryRef = firebaseDatabase.getReference().child("categories").child(selectedBook.getCategory());
         categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

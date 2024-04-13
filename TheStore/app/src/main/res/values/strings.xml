@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">TheStore</string>
+    <string name="app_name">The Store</string>
     <string name="strHome">Home</string>
     <string name="strCategory">Category</string>
     <string name="strNotification">Notification</string>
     <string name="strProfile">Profile</string>
     <string name="strProfileInfo">Profile information</string>
-    <string name="strName">Name</string>
-    <string name="strPhone">Phone</string>
-    <string name="strEmail">Email</string>
+    <string name="strName">Name:</string>
+    <string name="strPhone">Phone:</string>
+    <string name="strEmail">Email:</string>
     <string name="strAddressList">Address list</string>
     <string name="strOrderHistory">Order history</string>
     <string name="strWishlist">Wishlist</string>
     <string name="strVoucher">Voucher wallet</string>
-    <string name="strChangeLanguage">Change language</string>
+    <string name="strMyReview">My Review</string>
     <string name="strChangePassword">Change password</string>
     <string name="strSupport">Support</string>
     <string name="strAddNewAddress">Add a new address</string>
@@ -37,6 +37,7 @@
     <string name="strDeleteAddress">Delete address</string>
     <string name="strWelcome">Welcome back</string>
     <string name="strLogin">Login to your account</string>
+    <string name="strHintName">Name</string>
     <string name="strHintEmail">Email</string>
     <string name="strHintPhone">Phone</string>
     <string name="strEnterPw">Password</string>
@@ -47,19 +48,18 @@
     <string name="strDonotHaveAccount">Don’t have an Account?</string>
     <string name="strCreateAccount">Create Account</string>
     <string name="strRegister">Register</string>
-    <string name="strCreateyAccount">Create your account</string>
     <string name="strCreateNewAccount">Create your new account</string>
     <string name="strHaveAccount">Do you have an account?</string>
     <string name="strEnterName">Enter your name*</string>
     <string name="strDOB">Enter date of birth</string>
     <string name="strAgree"><![CDATA[By signing up you agree to our Terms & Conditions and Privacy Policy]]></string>
     <string name="strSignUp">Sign Up</string>
-    <string name="strAlreadyHaveAccount">"Already have an Account? "</string>
+    <string name="strAlreadyHaveAccount">"Already have an account? "</string>
     <string name="strChangeR2L">Log In</string>
-    <string name="strConformPw">Confirm password</string>
+    <string name="strConfirmPw">Confirm password</string>
     <string name="strGet">Get</string>
     <string name="strStarted">Started!</string>
-    <string name="strText">Join us now and start Your Journey.</string>
+    <string name="strText">Join us now and start Your Journey</string>
     <string name="strBtnWelcome">Explore Now</string>
     <string name="strTeam">\@2024 DELE.TEAM</string>
     <string name="strNoProduct">There are no items in the shopping cart</string>
@@ -71,15 +71,9 @@
     <string name="strDetective">Detective</string>
     <string name="strScience">Science</string>
     <string name="strLove">Love</string>
-    <string name="strSelfhelp">Selfhelp</string>
     <string name="strSelfHelp">Self-help</string>
     <string name="strBrief">Brief</string>
     <string name="strComic">Comic</string>
-    <string name="strHot">Hot</string>
-    <string name="strNew">New</string>
-    <string name="strSale">Sale</string>
-    <string name="strPrice">Price</string>
-    <string name="strExplore">Explore</string>
     <string name="default_web_client_id">318647012345-7jsl5hpfrr5fonkvsg3454pqa1q57u1h.apps.googleusercontent.com</string>
 
 </resources>

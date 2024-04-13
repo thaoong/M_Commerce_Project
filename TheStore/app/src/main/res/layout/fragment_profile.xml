@@ -17,15 +17,46 @@
             android:orientation="vertical">
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="15dp"
-                android:src="@mipmap/ic_logo"
-                app:civ_border_color="@color/brown_text"
-                app:civ_border_width="2dp" />
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:src="@mipmap/ic_logo"
+                    app:civ_border_color="@color/brown_text"
+                    app:civ_border_width="2dp" />
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imgProfile"
+                    android:layout_centerVertical="true"
+                    android:backgroundTint="@color/brown_button"
+                    android:text="@string/strBtnLogin"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSignup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/btnLogin"
+                    android:backgroundTint="@color/brown_button"
+                    android:text="@string/strSignUp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -356,7 +387,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="2dp"
-                        android:src="@drawable/ic_language_24" />
+                        android:src="@drawable/ic_review_24" />
 
                     <TextView
                         android:id="@+id/textViewChangeLanguage"
@@ -365,7 +396,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imageViewChangeLanguage"
-                        android:text="@string/strChangeLanguage"
+                        android:text="@string/strMyReview"
                         android:textColor="@color/brown_text"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -475,15 +506,6 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/brown_button"
-                android:text="Log in"
-                android:textStyle="bold" />
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"

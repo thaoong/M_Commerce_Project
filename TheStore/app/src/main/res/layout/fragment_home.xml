@@ -272,11 +272,11 @@
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#5C3507"
                     android:layout_weight="1"
+                    android:text="NEW ARRIVALS"
+                    android:textColor="#5C3507"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="COMING SOON" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView23"

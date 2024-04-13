@@ -135,13 +135,11 @@ public class HomeFragment extends Fragment {
                     binding.progressBarCategory.setVisibility(View.GONE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 
     private void loadBanner() {
@@ -162,7 +160,6 @@ public class HomeFragment extends Fragment {
                     binding.progressBarBanner.setVisibility(View.GONE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

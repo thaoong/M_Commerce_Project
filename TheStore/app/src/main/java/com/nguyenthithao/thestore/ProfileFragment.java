@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -59,6 +60,7 @@ public class ProfileFragment extends Fragment {
         if (currentUser != null) {
             isLoggedIn = true;
             binding.btnLogin.setVisibility(View.GONE);
+            binding.btnSignup.setVisibility(View.GONE);
             binding.btnLogout.setVisibility(View.VISIBLE);
             binding.imgProfile.setVisibility(View.VISIBLE);
             binding.txtName.setVisibility(View.VISIBLE);
@@ -194,7 +196,7 @@ public class ProfileFragment extends Fragment {
         binding.btnChangeLanguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChangeLanguageActivity.class);
+                Intent intent = new Intent(getActivity(), MyReviewActivity.class);
                 startActivity(intent);
             }
         });
