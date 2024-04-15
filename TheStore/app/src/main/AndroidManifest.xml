@@ -21,12 +21,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".RatingHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RatingActivity"
+            android:exported="false" />
+        <activity
             android:name=".VoucherActivity"
             android:exported="false" />
         <activity
             android:name=".DeliveryAddressActivity"
             android:exported="false" />
-
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
