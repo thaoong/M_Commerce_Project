@@ -21,7 +21,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+<<<<<<< Updated upstream
             android:name=".VoucherActivity"
+=======
+            android:name=".DeliveryAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrePaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentActivity"
+>>>>>>> Stashed changes
             android:exported="false" />
         <activity
             android:name=".OrderHistoryActivity"
