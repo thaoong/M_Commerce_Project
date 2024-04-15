@@ -32,7 +32,7 @@ public class BookAdapterTest extends ArrayAdapter<Book> {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View row = inflater.inflate(this.resource, null);
         TextView txtName = row.findViewById(R.id.txtName);
-        TextView txtPrice = row.findViewById(R.id.txtPrice);
+        TextView txtPrice = row.findViewById(R.id.txtCondition);
         TextView txtFakePrice = row.findViewById(R.id.txtFakePrice);
 
 

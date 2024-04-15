@@ -209,6 +209,13 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        binding.btnViewVouchers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), VoucherActivity.class);
+                startActivity(intent);
+            }
+        });
 
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +231,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
