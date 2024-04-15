@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -223,6 +224,12 @@ public class ProfileFragment extends Fragment {
                 login();
             }
         });
+        binding.btnSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSupport();
+            }
+        });
     }
 
     private void login() {
@@ -246,4 +253,8 @@ public class ProfileFragment extends Fragment {
         getActivity().finish();
     }
 
+    public void openSupport() {
+        Intent intent = new Intent(getActivity(), SupportActivity.class);
+        startActivity(intent);
+    }
 }
