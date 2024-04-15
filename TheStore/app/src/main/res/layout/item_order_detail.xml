@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtOrderID"
+                android:id="@+id/OrderID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -62,7 +62,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/ngaymua"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Ngày mua:"
@@ -70,7 +70,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtDateBuy"
+                android:id="@+id/DateBuy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -88,7 +88,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/ngaynhan"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Ngày nhận:"
@@ -96,7 +96,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtDateReceive"
+                android:id="@+id/DateReceive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -121,7 +121,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtBookQuantity"
+                android:id="@+id/BookQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -138,7 +138,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tổng tiền:"
@@ -146,7 +146,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtTotalPrice"
+                android:id="@+id/TotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -159,7 +159,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/infor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -183,7 +183,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtOrderID"
+                android:id="@+id/ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -203,7 +203,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="0356791135"
@@ -220,7 +220,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="45 Tân Lập, phường Đông Hoà, thành phố Dĩ An, tỉnh Bình Dương"
@@ -232,7 +232,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/method"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -256,7 +256,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtOrderID"
+                android:id="@+id/methodcontent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -385,7 +385,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tamtinh"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Tạm tính:"
@@ -393,7 +393,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtDateBuy"
+                android:id="@+id/tamtinhgia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -420,7 +420,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtDateReceive"
+                android:id="@+id/shippingfee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -445,7 +445,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtBookQuantity"
+                android:id="@+id/sale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="200dp"
@@ -473,7 +473,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtTotalPrice"
+                android:id="@+id/TotalMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
