@@ -24,6 +24,13 @@
             android:name=".VoucherActivity"
             android:exported="false" />
         <activity
+            android:name=".DeliveryAddressActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrderHistoryActivity"
             android:exported="false" />
         <activity
