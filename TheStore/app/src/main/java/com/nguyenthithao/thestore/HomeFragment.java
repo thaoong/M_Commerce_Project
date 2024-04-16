@@ -18,9 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nguyenthithao.adapter.AuthorAdapter;
 import com.nguyenthithao.adapter.BookAdapter;
 import com.nguyenthithao.adapter.CategoryAdapter;
+import com.nguyenthithao.model.Author;
 import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.Category;
 import com.nguyenthithao.thestore.databinding.FragmentHomeBinding;
@@ -29,6 +32,11 @@ import com.nguyenthithao.adapter.SliderAdapter;
 import com.nguyenthithao.model.SliderItems;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
     private Handler slideHandler = new Handler();
@@ -50,7 +58,110 @@ public class HomeFragment extends Fragment {
         loadCategory();
         loadFlashSale();
         loadBestSelling();
+        loadAuthor();
+        loadNewArrivals();
+        loadForYou();
         return view;
+    }
+
+    private void loadForYou() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("books");
+        binding.progressBarForYou.setVisibility(View.VISIBLE);
+        ArrayList<Book> items = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    List<DataSnapshot> snapshotList = new ArrayList<>();
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        snapshotList.add(childSnapshot);
+                    }
+
+                    int totalItems = snapshotList.size();
+                    int itemsToRetrieve = Math.min(totalItems, 7); // Lấy tối đa 7 giá trị
+
+                    Random random = new Random();
+                    Set<Integer> randomIndexes = new HashSet<>();
+                    while (randomIndexes.size() < itemsToRetrieve) {
+                        int randomIndex = random.nextInt(totalItems);
+                        randomIndexes.add(randomIndex);
+                    }
+
+                    for (Integer randomIndex : randomIndexes) {
+                        DataSnapshot randomSnapshot = snapshotList.get(randomIndex);
+                        items.add(randomSnapshot.getValue(Book.class));
+                    }
+
+                    if (!items.isEmpty()) {
+                        binding.rvForYou.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvForYou.setAdapter(new BookAdapter(items));
+                    }
+                }
+                binding.progressBarForYou.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadNewArrivals() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("books");
+        binding.progressBarNewArrivals.setVisibility(View.VISIBLE);
+        ArrayList<Book> items = new ArrayList<>();
+        myRef.limitToLast(7).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        items.add(issue.getValue(Book.class));
+                    }
+                    if (!items.isEmpty()) {
+                        binding.rvNewArrivals.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvNewArrivals.setAdapter(new BookAdapter(items));
+                    }
+                }
+                binding.progressBarNewArrivals.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadAuthor() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("authors");
+        binding.progressBarAuthor.setVisibility(View.VISIBLE);
+        ArrayList<Author> items = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        items.add(issue.getValue(Author.class));
+                    }
+                    if (!items.isEmpty()) {
+                        binding.rvAuthor.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvAuthor.setAdapter(new AuthorAdapter(items));
+                    }
+                    binding.progressBarAuthor.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadFlashSale() {

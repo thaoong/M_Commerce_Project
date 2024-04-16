@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.BookAdapter;
 import com.nguyenthithao.adapter.CategoryAdapter;
+import com.nguyenthithao.adapter.CategoryAdapter2;
 import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.Category;
 import com.nguyenthithao.thestore.databinding.FragmentCategoryBinding;
@@ -54,7 +55,7 @@ public class CategoryFragment extends Fragment {
                     }
                     if (!items.isEmpty()) {
                         binding.rvCategory.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                        binding.rvCategory.setAdapter(new CategoryAdapter(items));
+                        binding.rvCategory.setAdapter(new CategoryAdapter2(items));
                     }
                 }
             }
