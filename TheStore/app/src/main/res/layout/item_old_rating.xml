@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_marginEnd="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,32 +15,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/img_Product"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/product_photo"
-                android:background="@drawable/border_radius_pink"/>
+                android:src="@drawable/product_photo" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:id="@+id/txt_ProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Product Name"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_custom_pink"/>
-                <TextView
+                    android:textColor="@color/brown_text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Giao hàng thành công: 15/10/2020"
-                    android:textSize="14sp"
-                    android:textColor="@color/color_custom_light_gray"/>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giao hàng thành công:"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="12/12/2024"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <TableRow
@@ -49,81 +66,144 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:layout_marginTop="5dp">
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="192dp"
                 android:layout_height="wrap_content"
-                android:text="Chất lượng sản phẩm"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_star_rate_24"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_star_rate_24"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_star_rate_24"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_star_rate_24"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_baseline_star_rate_24"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rất tuyệt vời"
-                android:textSize="12sp"
-                android:textColor="@color/color_custom_pink"
-                android:textStyle="bold"
                 android:layout_weight="1"
-                android:gravity="end"/>
+                android:text="Chất lượng sản phẩm"
+                android:textColor="@color/brown_text"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@android:style/Widget.DeviceDefault.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:numStars="5"
+                android:progressTint="#ffc106"
+                android:rating="3"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:stepSize="0.1" />
+
         </TableRow>
     </LinearLayout>
-    <TextView
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:id="@+id/txt_Review"
-        android:layout_width="match_parent"
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sản phẩm chính hãng, dưỡng ẩm cho da rất tốt mà không bị nhờn rít. Nhân viên tư vấn rất nhiệt tình. Vận chuyển tuy hơi chậm một chút nhưng shipper dễ thương."/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/txt_date"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_background_shape"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="25/10/2022"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 thích"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 bình luận"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:layout_weight="1"/>
+            android:layout_height="167dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="246dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/brown_button"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="138dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_person_outline_24" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="126dp"
+                        android:layout_height="match_parent"
+                        android:text="Nguyen Van A"
+                        android:textAlignment="center"
+                        android:textColor="#5C3507"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="187dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Cover design:"
+                    android:textColor="#5C3507"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCoverDesign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Good, beautiful, new book"
+                    android:textColor="#5C3507"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Target audience:"
+                    android:textColor="#5C3507"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTargetAudience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Everyone"
+                    android:textColor="#5C3507"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Other reviews:"
+                    android:textColor="#5C3507"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtOtherReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Very good product, the smell of new books is fragrant, fast delivery, well packaged. Quality ok. Everyone should buy from this shop!"
+                    android:textColor="#5C3507"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/img_bookdemo" />
+        </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>
