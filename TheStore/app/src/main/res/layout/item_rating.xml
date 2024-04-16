@@ -18,7 +18,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/product_photo" />
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -107,7 +107,6 @@
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
             android:backgroundTint="@color/brown_button"
-            android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
             android:gravity="center|center_horizontal"
             android:text="Thêm hình ảnh"
             android:textSize="12sp" />
