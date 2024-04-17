@@ -1,5 +1,6 @@
 package com.nguyenthithao.thestore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,30 +10,68 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.BookAdapterTest;
+import com.nguyenthithao.adapter.CartAdapter;
 import com.nguyenthithao.model.Book;
+import com.nguyenthithao.model.CartItem;
 
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
+    ListView lvCart;
+    CartAdapter cartAdapter;
+    LinearLayout llNoItem;
+    LinearLayout llHaveItem;
 
-    ListView lvFavoBook;
-    ArrayList<Book>dsBook;
-    BookAdapterTest adapterBook;
-    Button btnBuy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         displayActionBar();
         addViews();
+        getCartByUser();
     }
 
-//    private void addViews() {
-//        btnBuy=findViewById(R.id.btnBuy);
-//    }
+    private void getCartByUser() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products");
+        cartAdapter.clear();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getChildrenCount() == 0) {
+                    llHaveItem.setVisibility(View.GONE);
+                    llNoItem.setVisibility(View.VISIBLE);
+                } else {
+                    llHaveItem.setVisibility(View.VISIBLE);
+                    llNoItem.setVisibility(View.GONE);
+
+                    for (DataSnapshot dss : snapshot.getChildren()){
+                        CartItem cartItem = dss.getValue(CartItem.class);
+                        String key = dss.getKey();
+                        cartItem.setID(key);
+                        cartAdapter.add(cartItem);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -50,31 +89,21 @@ public class CartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void buyProduct(View view) {
-
-        Intent intent = new Intent(CartActivity.this, MainActivity.class);
-        intent.putExtra("selectedFragment", "navigation_category");
-        startActivity(intent);
-    }
-
     private void addViews() {
-        lvFavoBook=findViewById(R.id.lvFavoBook);
-        dsBook=new ArrayList<>();
-        adapterBook=new BookAdapterTest(CartActivity.this, R.layout.item_cart, dsBook);
-        lvFavoBook.setAdapter(adapterBook);
-
-        //giaLapBook();
+        lvCart = findViewById(R.id.lvCart);
+        cartAdapter = new CartAdapter(CartActivity.this, R.layout.item_cart);
+        lvCart.setAdapter(cartAdapter);
+        llNoItem = findViewById(R.id.llNoItem);
+        llHaveItem = findViewById(R.id.llHaveItem);
     }
-
-//    private void giaLapBook() {
-//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-//        dsBook.add(new Book("Tại sao lại phải code android","100.000đ", "120.000đ", R.drawable.bot_ic));
-//
-//        adapterBook.notifyDataSetChanged();
-//    }
 
     public void buyProductActivity(View view) {
         Intent intent = new Intent(CartActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void processShopNow(View view) {
+        Intent intent = new Intent(CartActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

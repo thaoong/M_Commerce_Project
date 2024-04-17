@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Book implements Serializable {
+    private String Id;
     private String author;
     private int bestSelling;
     private String category;
@@ -27,7 +28,8 @@ public class Book implements Serializable {
         this.bestSelling = bestSelling;
     }
 
-    public Book(String author, String category, String description, ArrayList<String> imageLink, String name, float oldPrice, String publicationDate, float rating, int reviewNum, float unitPrice) {
+    public Book(String Id, String author, String category, String description, ArrayList<String> imageLink, String name, float oldPrice, String publicationDate, float rating, int reviewNum, float unitPrice) {
+        this.Id = Id;
         this.author = author;
         this.category = category;
         this.description = description;
@@ -38,6 +40,14 @@ public class Book implements Serializable {
         this.rating = rating;
         this.reviewNum = reviewNum;
         this.unitPrice = unitPrice;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getAuthor() {

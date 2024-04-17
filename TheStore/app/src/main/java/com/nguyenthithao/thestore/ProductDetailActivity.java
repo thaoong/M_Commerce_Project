@@ -2,22 +2,29 @@ package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.BookAdapter;
 import com.nguyenthithao.adapter.SliderAdapter;
 import com.nguyenthithao.model.Book;
+import com.nguyenthithao.model.CartItem;
 import com.nguyenthithao.model.SliderItems;
 import com.nguyenthithao.thestore.databinding.ActivityProductDetailBinding;
 
@@ -48,6 +56,78 @@ public class ProductDetailActivity extends AppCompatActivity {
         getBookImages();
         getBookDetails();
         getRelatedProducts();
+        addEvents();
+    }
+
+    private void addEvents() {
+        binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(ProductDetailActivity.this, "Please log in to continue shopping", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String bookId = selectedBook.getId();
+                    DatabaseReference cartRef = database.getReference("carts").child(userId).child("products").child(bookId);
+
+                    String productName = selectedBook.getName();
+                    float unitPrice = selectedBook.getUnitPrice();
+                    float oldPrice = selectedBook.getOldPrice();
+                    String productImageUrl = selectedBook.getImageLink().get(0);
+
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductDetailActivity.this);
+                    dialogBuilder.setTitle("Select Quantity");
+                    final EditText input = new EditText(ProductDetailActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    dialogBuilder.setView(input);
+                    dialogBuilder.setPositiveButton("Add to Cart", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int quantity = Integer.parseInt(input.getText().toString());
+                            cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        // Product already exists in the cart, update the quantity
+                                        CartItem cartItem = snapshot.getValue(CartItem.class);
+                                        int currentQuantity = cartItem.getQuantity();
+                                        int updatedQuantity = currentQuantity + quantity;
+                                        cartItem.setQuantity(updatedQuantity);
+                                        cartRef.setValue(cartItem);
+                                    } else {
+                                        // Product doesn't exist in the cart, add a new entry
+                                        CartItem cartItem = new CartItem(productName, unitPrice, productImageUrl, oldPrice, quantity);
+                                        cartRef.setValue(cartItem);
+                                    }
+                                    Toast.makeText(ProductDetailActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Handle any database error
+                                }
+                            });
+                        }
+                    });
+
+                    dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
+                }
+            }
+        });
     }
 
     private void getBookImages() {
