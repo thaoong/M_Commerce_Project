@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,7 +51,19 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-
+        chkBuyAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Lặp qua tất cả các mục trong CartAdapter
+                for (int i = 0; i < cartAdapter.getCount(); i++) {
+                    // Đặt trạng thái checkbox của từng mục thành isChecked
+                    cartAdapter.setChecked(i, isChecked);
+                }
+                // Cập nhật giá trị tổng và số lượng đã chọn
+                cartAdapter.updateTotalValue();
+                cartAdapter.updateTextBuyButton();
+            }
+        });
     }
 
     private void getCartByUser() {
@@ -84,7 +97,6 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -130,4 +142,9 @@ public class CartActivity extends AppCompatActivity {
     public void updateSelectedCount(int count) {
         btnBuy.setText("Mua hàng (" +count+ ")");
     }
+
+    public boolean isBuyAllChecked() {
+        return chkBuyAll.isChecked();
+    }
+
 }

@@ -9,18 +9,7 @@ public class CartItem implements Serializable {
     private String imageLink;
     private float oldPrice;
     private int quantity;
-
-    private boolean isSelected;
-
     public CartItem() {
-    }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     public CartItem(String ID, String name, float unitPrice, String imageLink, float oldPrice, int quantity) {

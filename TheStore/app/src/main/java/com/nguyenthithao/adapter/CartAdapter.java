@@ -110,19 +110,30 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
             }
         });
 
-        chkBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selectedItems.put(position, isChecked);
-                updateTextBuyButton();
-                updateTotalValue();
-            }
-        });
-
+        boolean isBuyAllChecked = ((CartActivity) context).isBuyAllChecked();
+        if (isBuyAllChecked) {
+            chkBuy.setOnCheckedChangeListener(null);
+            chkBuy.setChecked(selectedItems.get(position));
+            chkBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setChecked(position, isChecked);
+                }
+            });
+        } else {
+            chkBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    selectedItems.put(position, isChecked);
+                    updateTextBuyButton();
+                    updateTotalValue();
+                }
+            });
+        }
         return cart_item;
     }
 
-    private void updateTextBuyButton() {
+    public void updateTextBuyButton() {
         int count = 0;
         for (int i = 0; i < selectedItems.size(); i++) {
             if (selectedItems.valueAt(i)) {
@@ -132,7 +143,7 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
         ((CartActivity) context).updateSelectedCount(count);
     }
 
-    private void updateTotalValue() {
+    public void updateTotalValue() {
         float totalValue = 0.0f;
         for (int i = 0; i < selectedItems.size(); i++) {
             int position = selectedItems.keyAt(i);
@@ -151,6 +162,11 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products").child(cartItemId).child("quantity");
         myRef.setValue(quantity);
+    }
+
+    public void setChecked(int position, boolean isChecked) {
+        selectedItems.put(position, isChecked);
+        notifyDataSetChanged();
     }
 
     private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
