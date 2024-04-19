@@ -10,14 +10,21 @@ public class CartItem implements Serializable {
     private float oldPrice;
     private int quantity;
 
+    private boolean isSelected;
+
     public CartItem() {
     }
 
-    public CartItem(String ID) {
-        this.ID = ID;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public CartItem(String name, float unitPrice, String imageLink, float oldPrice, int quantity) {
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public CartItem(String ID, String name, float unitPrice, String imageLink, float oldPrice, int quantity) {
+        this.ID = ID;
         this.name = name;
         this.unitPrice = unitPrice;
         this.imageLink = imageLink;

@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +35,9 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     LinearLayout llNoItem;
     LinearLayout llHaveItem;
+    CheckBox chkBuyAll;
+    TextView txtTotal;
+    Button btnBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,12 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         displayActionBar();
         addViews();
+        addEvents();
         getCartByUser();
+    }
+
+    private void addEvents() {
+
     }
 
     private void getCartByUser() {
@@ -64,6 +75,7 @@ public class CartActivity extends AppCompatActivity {
                         cartAdapter.add(cartItem);
                     }
                 }
+                chkBuyAll.setText("Chọn tất cả (" + snapshot.getChildrenCount() + " sản phẩm)");
             }
 
             @Override
@@ -72,6 +84,7 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -95,6 +108,9 @@ public class CartActivity extends AppCompatActivity {
         lvCart.setAdapter(cartAdapter);
         llNoItem = findViewById(R.id.llNoItem);
         llHaveItem = findViewById(R.id.llHaveItem);
+        chkBuyAll = findViewById(R.id.chkBuyAll);
+        txtTotal = findViewById(R.id.txtTotal);
+        btnBuy = findViewById(R.id.btnBuy);
     }
 
     public void buyProductActivity(View view) {
@@ -105,5 +121,13 @@ public class CartActivity extends AppCompatActivity {
     public void processShopNow(View view) {
         Intent intent = new Intent(CartActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void updateTotalValue(String totalValue) {
+        txtTotal.setText(totalValue);
+    }
+
+    public void updateSelectedCount(int count) {
+        btnBuy.setText("Mua hàng (" +count+ ")");
     }
 }

@@ -102,7 +102,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         cartRef.setValue(cartItem);
                                     } else {
                                         // Product doesn't exist in the cart, add a new entry
-                                        CartItem cartItem = new CartItem(productName, unitPrice, productImageUrl, oldPrice, quantity);
+                                        CartItem cartItem = new CartItem(bookId, productName, unitPrice, productImageUrl, oldPrice, quantity);
                                         cartRef.setValue(cartItem);
                                     }
                                     Toast.makeText(ProductDetailActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();

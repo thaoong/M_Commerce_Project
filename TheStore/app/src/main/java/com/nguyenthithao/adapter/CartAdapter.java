@@ -6,18 +6,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.os.AsyncTask;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.nguyenthithao.model.CartItem;
+import com.nguyenthithao.thestore.CartActivity;
 import com.nguyenthithao.thestore.R;
 
 import java.io.IOException;
@@ -30,11 +37,13 @@ import java.util.ArrayList;
 public class CartAdapter extends ArrayAdapter<CartItem> {
     Activity context;
     int resource;
+    private SparseBooleanArray selectedItems;
 
     public CartAdapter(@NonNull Activity context, int resource) {
         super(context, resource);
         this.context = context;
         this.resource = resource;
+        this.selectedItems = new SparseBooleanArray();
     }
 
     @NonNull
@@ -64,7 +73,84 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
         }
         quantity.setText(cartItem.getQuantity()+"");
         new ImageLoadTask(imgBook).execute(cartItem.getImageLink());
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products");
+                myRef.child(cartItem.getID()).removeValue();
+                Toast.makeText(context, "Delete product successfully", Toast.LENGTH_SHORT).show();
+                context.recreate();
+            }
+        });
+
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = cartItem.getQuantity();
+                if (quantity > 1) {
+                    quantity--;
+                    cartItem.setQuantity(quantity);
+                    updateCartItemQuantity(cartItem.getID(), quantity);
+                    context.recreate();
+                }
+            }
+        });
+
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = cartItem.getQuantity();
+                quantity++;
+                cartItem.setQuantity(quantity);
+                updateCartItemQuantity(cartItem.getID(), quantity);
+                context.recreate();
+            }
+        });
+
+        chkBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selectedItems.put(position, isChecked);
+                updateTextBuyButton();
+                updateTotalValue();
+            }
+        });
+
         return cart_item;
+    }
+
+    private void updateTextBuyButton() {
+        int count = 0;
+        for (int i = 0; i < selectedItems.size(); i++) {
+            if (selectedItems.valueAt(i)) {
+                count++;
+            }
+        }
+        ((CartActivity) context).updateSelectedCount(count);
+    }
+
+    private void updateTotalValue() {
+        float totalValue = 0.0f;
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int position = selectedItems.keyAt(i);
+            if (selectedItems.valueAt(i)) {
+                CartItem cartItem = getItem(position);
+                totalValue += cartItem.getUnitPrice() * cartItem.getQuantity();
+            }
+        }
+        String totalValueString = formatCurrency(totalValue) +"đ";
+        // Gửi giá trị tổng về CartActivity
+        ((CartActivity) context).updateTotalValue(totalValueString);
+    }
+
+    private void updateCartItemQuantity(String cartItemId, int quantity) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products").child(cartItemId).child("quantity");
+        myRef.setValue(quantity);
     }
 
     private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
