@@ -17,6 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nguyenthithao.model.User;
 import com.nguyenthithao.thestore.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -68,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         loadCredentials();
+
     }
     private boolean isLoggedIn() {
         return sharedPreferences.getBoolean("isLoggedIn", false);
@@ -113,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Google sign in...");
+        progressDialog.setMessage("Log in...");
     }
 
     private void validateAndSignIn() {
@@ -139,8 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         if (task.isSuccessful()) {
-                            editor.putBoolean("isLoggedIn", true);
-                            editor.apply();
+                            saveLoginInfo(userEmail, userPassword);
+
                             Toast.makeText(LoginActivity.this, "Login successful" , Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -150,6 +154,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void saveLoginInfo(String email, String password) {
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.putBoolean("isLoggedIn", true);
+        editor.apply();
     }
 
     private void saveCredentials(boolean isChecked) {
@@ -163,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
     }
-//
+    //
 //    @Override
 //    protected void onStart() {
 //        super.onStart();
@@ -175,31 +186,39 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 //
     private void signInWithGoogle() {
-        Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
-        if (task.isSuccessful()) {
-            GoogleSignInAccount account = task.getResult();
-            firebaseAuthWithGoogle(account.getIdToken());
-        } else {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+//        Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
+//        if (task.isSuccessful()) {
+//            GoogleSignInAccount account = task.getResult();
+//            firebaseAuthWithGoogle(account.getIdToken());
+//        } else {
+//            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//            startActivityForResult(signInIntent, RC_SIGN_IN);
+//        }
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // After signing out, initiate the sign-in process again
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == RC_SIGN_IN) {
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            try {
-//                GoogleSignInAccount account = task.getResult(ApiException.class);
-//                firebaseAuthWithGoogle(account.getIdToken());
-//            } catch (ApiException e) {
-//                Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-//
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -208,6 +227,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // Lưu thông tin người dùng vào Realtime Database
+                            saveUserDataToDatabase(user);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
@@ -216,6 +237,34 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void saveUserDataToDatabase(FirebaseUser user) {
+        if (user != null) {
+            String userId = user.getUid();
+            String userEmail = user.getEmail();
+            String userName = user.getDisplayName();
+            // Tạo một đối tượng User từ thông tin người dùng
+            User userData = new User(userName, userEmail, "", "", "", ""); // Password và ngày sinh trống vì không có trong thông tin của Google
+
+            // Thêm dữ liệu vào Realtime Database
+            databaseReference.child(userId).setValue(userData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Thành công
+                            Toast.makeText(LoginActivity.this, "User data saved to database", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Thất bại
+                            Toast.makeText(LoginActivity.this, "Failed to save user data to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
 
     private void loadCredentials() {
         String savedEmail = sharedPreferences.getString("email", "");

@@ -1,6 +1,7 @@
 package com.nguyenthithao.thestore;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -53,6 +55,7 @@ public class ProfileFragment extends Fragment {
         showUserData();
         checkLoginStatus();
         return view;
+
     }
 
     private void checkLoginStatus() {
@@ -252,19 +255,39 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
-        FirebaseAuth.getInstance().signOut();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirebaseAuth.getInstance().signOut();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", getActivity().MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("email");
-        editor.remove("password");
-        editor.remove("isLoggedIn");
-        editor.apply();
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", getActivity().MODE_PRIVATE);
+                        boolean rememberMe = sharedPreferences.getBoolean("rememberMe", false);
+                        if (!rememberMe) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("email");
+                            editor.remove("password");
+                            editor.remove("isLoggedIn");
+                            editor.apply();
+                        }
 
-        Toast.makeText(getActivity(), "Log out successful", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+                        Toast.makeText(getActivity(), "Log out successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.brown_text));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.brown_text));
     }
 
     public void openSupport() {

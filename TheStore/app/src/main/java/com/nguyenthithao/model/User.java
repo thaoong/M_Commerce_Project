@@ -1,13 +1,18 @@
 package com.nguyenthithao.model;
 
 public class User {
-    private String name, email, password, dob, phone;
+    private String name, email, password,
+            date_of_birth
+            , phone;
 
-    public User(String name, String email, String password, String dob, String phone) {
+    public User(String name, String email, String password, String
+            date_of_birth
+            , String phone) {
     }
 
     public User(String name, String email, String password, String phone) {
     }
+
 
     public String getName() {
         return name;
@@ -33,12 +38,12 @@ public class User {
         this.password = password;
     }
 
-    public String getDob() {
-        return dob;
+    public String getDate_of_birth() {
+        return date_of_birth;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 
     public String getPhone() {
@@ -50,11 +55,11 @@ public class User {
     }
     
 
-    public User(String name, String email, String password, String dob, String phone, String userName) {
+    public User(String name, String email, String password, String date_of_birth, String phone, String userName) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.dob = dob;
+        this.date_of_birth = date_of_birth;
         this.phone = phone;
 
     }
