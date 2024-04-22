@@ -3,14 +3,10 @@ package com.nguyenthithao.thestore;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -19,13 +15,10 @@ import android.widget.TextView;
 
 import com.nguyenthithao.adapter.MyReviewAdapterTest;
 import com.nguyenthithao.adapter.OrderDetailAdapterTest;
-import com.nguyenthithao.adapter.OrderHistoryAdapterTest;
 import com.nguyenthithao.model.MyReviewTest;
 import com.nguyenthithao.model.OrderDetailTest;
-import com.nguyenthithao.thestore.databinding.ActivityMyReviewBinding;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MyReviewActivity extends AppCompatActivity {
     //ActivityMyReviewBinding binding;
@@ -53,7 +46,7 @@ public class MyReviewActivity extends AppCompatActivity {
         lvOrderDetail.setNestedScrollingEnabled(false);
 
         dsOrderDetail=new ArrayList<>();
-        adapterOrderDetail = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_order_detail, dsOrderDetail);
+        adapterOrderDetail = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_order_book, dsOrderDetail);
         lvOrderDetail.setAdapter(adapterOrderDetail);
 
         lvRated=findViewById(R.id.lvRated);

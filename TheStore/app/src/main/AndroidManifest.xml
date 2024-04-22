@@ -42,6 +42,9 @@
             android:name=".DeliveryAddressActivity"
             android:exported="false" />
         <activity
+            android:name=".PrePaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity

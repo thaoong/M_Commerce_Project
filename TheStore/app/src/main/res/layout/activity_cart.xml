@@ -61,7 +61,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:buttonTint="@color/brown_text"
-            android:text="Chọn tất cả (2 sản phẩm)"
+            android:text="Chọn tất cả"
             android:textColor="@color/brown_text"
             android:textSize="16sp"
             android:textStyle="bold" />

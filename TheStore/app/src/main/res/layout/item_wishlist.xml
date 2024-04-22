@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/txtFakePrice"
+                    android:id="@+id/txtOldPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"

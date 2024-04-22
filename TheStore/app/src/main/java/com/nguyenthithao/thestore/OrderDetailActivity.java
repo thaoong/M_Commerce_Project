@@ -4,17 +4,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.ListView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.nguyenthithao.adapter.OrderDetailAdapterTest;
-import com.nguyenthithao.adapter.OrderHistoryAdapterTest;
 import com.nguyenthithao.model.OrderDetailTest;
-import com.nguyenthithao.model.OrderHistory;
 
 import java.util.ArrayList;
 
@@ -34,7 +28,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private void addViews() {
         lvOrderDetail=findViewById(R.id.lvOrderDetail);
         dsOrderDetail=new ArrayList<>();
-        adapterOrderDetail=new OrderDetailAdapterTest(OrderDetailActivity.this, R.layout.item_order_detail, dsOrderDetail);
+        adapterOrderDetail=new OrderDetailAdapterTest(OrderDetailActivity.this, R.layout.item_order_book, dsOrderDetail);
         lvOrderDetail.setAdapter(adapterOrderDetail);
 
         giaLapOrderDetail();

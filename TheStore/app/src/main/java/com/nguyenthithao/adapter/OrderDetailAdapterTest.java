@@ -30,7 +30,7 @@ public class OrderDetailAdapterTest extends ArrayAdapter<OrderDetailTest> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View row = inflater.inflate(this.resource, null);
-        TextView txtName = row.findViewById(R.id.txtName);
+        TextView txtName = row.findViewById(R.id.txtBookName);
         TextView txtUnitPrice = row.findViewById(R.id.txtUnitPrice);
         TextView txtBookQuantity = row.findViewById(R.id.txtBookQuantity);
 

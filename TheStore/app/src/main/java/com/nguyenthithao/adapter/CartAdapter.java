@@ -114,6 +114,7 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
         if (isBuyAllChecked) {
             chkBuy.setOnCheckedChangeListener(null);
             chkBuy.setChecked(selectedItems.get(position));
+            getSelectedItem();
             chkBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -127,6 +128,7 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
                     selectedItems.put(position, isChecked);
                     updateTextBuyButton();
                     updateTotalValue();
+                    getSelectedItem();
                 }
             });
         }
@@ -141,6 +143,18 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
             }
         }
         ((CartActivity) context).updateSelectedCount(count);
+    }
+
+    public void getSelectedItem() {
+        ArrayList<CartItem> selectedCartItems = new ArrayList<>();
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int position = selectedItems.keyAt(i);
+            if (selectedItems.valueAt(i)) {
+                CartItem cartItem = getItem(position);
+                selectedCartItems.add(cartItem); // Add selected item to the list
+            }
+        }
+        ((CartActivity) context).updateSelectedItems(selectedCartItems); // Pass selected items to CartActivity
     }
 
     public void updateTotalValue() {
@@ -166,8 +180,31 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
 
     public void setChecked(int position, boolean isChecked) {
         selectedItems.put(position, isChecked);
+        if (onBuyClickListener != null) {
+            ArrayList<CartItem> selectedItemsList = getSelectedItems();
+            onBuyClickListener.onBuyClick(selectedItemsList);
+        }
         notifyDataSetChanged();
     }
+
+    public ArrayList<CartItem> getSelectedItems() {
+        ArrayList<CartItem> selectedItemsList = new ArrayList<>();
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int position = selectedItems.keyAt(i);
+            if (selectedItems.valueAt(i)) {
+                CartItem cartItem = getItem(position);
+                selectedItemsList.add(cartItem);
+            }
+        }
+        return selectedItemsList;
+    }
+
+    public interface OnBuyClickListener {
+        void onBuyClick(ArrayList<CartItem> selectedItems);
+    }
+
+    private OnBuyClickListener onBuyClickListener;
+
 
     private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
         private ImageView imageView;

@@ -39,6 +39,7 @@ public class CartActivity extends AppCompatActivity {
     CheckBox chkBuyAll;
     TextView txtTotal;
     Button btnBuy;
+    private ArrayList<CartItem> selectedCartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,11 +126,6 @@ public class CartActivity extends AppCompatActivity {
         btnBuy = findViewById(R.id.btnBuy);
     }
 
-    public void buyProductActivity(View view) {
-        Intent intent = new Intent(CartActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     public void processShopNow(View view) {
         Intent intent = new Intent(CartActivity.this, MainActivity.class);
         startActivity(intent);
@@ -147,4 +143,17 @@ public class CartActivity extends AppCompatActivity {
         return chkBuyAll.isChecked();
     }
 
+    public void buyProductActivity(View view) {
+        if (selectedCartItems != null && !selectedCartItems.isEmpty()) {
+            Intent intent = new Intent(this, PrePaymentActivity.class);
+            intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
+            startActivity(intent);
+        } else {
+            // Handle case where no items are selected
+        }
+    }
+
+    public void updateSelectedItems(ArrayList<CartItem> selectedCartItems) {
+        this.selectedCartItems = selectedCartItems;
+    }
 }
