@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void performSearch(String query) {
         Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-        intent.putExtra("QUERY", query);
+        intent.putExtra("QUERY", binding.edtSearch.getText().toString());
         startActivity(intent);
     }
 
