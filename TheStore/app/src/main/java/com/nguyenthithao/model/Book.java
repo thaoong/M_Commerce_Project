@@ -42,6 +42,9 @@ public class Book implements Serializable {
         this.unitPrice = unitPrice;
     }
 
+    public Book(String id, String name, String author, String description, ArrayList<String> imageLink) {
+    }
+
     public String getId() {
         return Id;
     }

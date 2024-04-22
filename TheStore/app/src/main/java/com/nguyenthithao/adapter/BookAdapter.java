@@ -25,6 +25,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Viewholder> {
     ArrayList<Book> items;
     Context context;
 
+
     public BookAdapter(ArrayList<Book> items) {
         this.items = items;
     }

@@ -23,6 +23,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +37,7 @@ import com.nguyenthithao.adapter.SliderAdapter;
 import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.CartItem;
 import com.nguyenthithao.model.SliderItems;
+import com.nguyenthithao.model.WishlistBook;
 import com.nguyenthithao.thestore.databinding.ActivityProductDetailBinding;
 
 import java.text.DecimalFormat;
@@ -46,6 +49,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     ActivityProductDetailBinding binding;
     private Book selectedBook;
     private Handler slideHandle = new Handler();
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference wishlistRef;
+    private boolean isInWishlist = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +64,23 @@ public class ProductDetailActivity extends AppCompatActivity {
         getBookDetails();
         getRelatedProducts();
         addEvents();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        // Lấy thông tin sách đã chọn
+        selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+
+        // Kiểm tra sách có trong wishlist hay không
+        checkWishlistStatus();
+
+        // Đăng ký sự kiện click cho btnAddWishlist
+        binding.btnAddWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleWishlist();
+            }
+        });
+
     }
 
     private void addEvents() {
@@ -259,5 +283,94 @@ public class ProductDetailActivity extends AppCompatActivity {
     private String formatCurrency(float value) {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         return decimalFormat.format(value);
+    }
+    private void checkWishlistStatus() {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String bookId = selectedBook.getId();
+            wishlistRef = FirebaseDatabase.getInstance().getReference("wishlists").child(userId).child("books").child(bookId);
+
+            wishlistRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    isInWishlist = snapshot.exists();
+                    updateWishlistIcon();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Xử lý lỗi nếu có
+                }
+            });
+        } else {
+            binding.btnAddWishlist.setEnabled(false);
+        }
+    }
+    private void updateWishlistIcon() {
+        if (isInWishlist) {
+            binding.btnAddWishlist.setImageResource(R.drawable.ic_favorite_24);
+        } else {
+            binding.btnAddWishlist.setImageResource(R.drawable.ic_favorite_border_24);
+        }
+    }
+    private void toggleWishlist() {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            String bookId = selectedBook.getId();
+            DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("wishlists").child(userId).child("books").child(bookId);
+
+            if (isInWishlist) {
+                // Xóa sách khỏi wishlist
+                wishlistRef.removeValue()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                isInWishlist = false;
+                                updateWishlistIcon();
+                                Toast.makeText(ProductDetailActivity.this, "Removed from wishlist", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ProductDetailActivity.this, "Failed to remove from wishlist", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                // Thêm sách vào wishlist
+                selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+                String productName = selectedBook.getName();
+                float unitPrice = selectedBook.getUnitPrice();
+                float oldPrice = selectedBook.getOldPrice();
+                String productImageUrl = selectedBook.getImageLink().get(0);
+                String author = selectedBook.getAuthor();
+                String description = selectedBook.getDescription();
+                String category = selectedBook.getCategory();
+                String publicationDate = selectedBook.getPublicationDate();
+                float rating = selectedBook.getRating();
+                int reviewNum = selectedBook.getReviewNum();
+                int bestSelling = selectedBook.getBestSelling();
+
+                WishlistBook wishlistBook = new WishlistBook(bookId, productName, author, description, productImageUrl, category, publicationDate, rating, reviewNum, unitPrice, oldPrice, bestSelling);
+
+                wishlistRef.setValue(wishlistBook)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                isInWishlist = true;
+                                updateWishlistIcon();
+                                Toast.makeText(ProductDetailActivity.this, "Added to wishlist", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ProductDetailActivity.this, "Failed to add to wishlist", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        } else {
+            Toast.makeText(ProductDetailActivity.this, "Please log in to use wishlist", Toast.LENGTH_SHORT).show();
+        }
     }
 }

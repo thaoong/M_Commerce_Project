@@ -57,18 +57,16 @@ public class SupportActivity extends AppCompatActivity implements OnMapReadyCall
                 }
 
                 if (!dataSnapshot.getChildren().iterator().hasNext()) {
-                    // Không có marker nào
                     return;
                 }
 
                 LatLngBounds bounds = builder.build();
-                int padding = 100; // Khoảng đệm (theo đơn vị điểm ảnh)
+                int padding = 100;
                 gMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
             }
         });
     }

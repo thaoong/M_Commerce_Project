@@ -28,6 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nguyenthithao.thestore.databinding.FragmentProfileBinding;
 
+
 public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -247,6 +248,17 @@ public class ProfileFragment extends Fragment {
                 openSupport();
             }
         });
+        binding.btnViewWhistlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWishlist();
+            }
+        });
+    }
+
+    private void openWishlist() {
+        Intent intent = new Intent(getActivity(), WishlistActivity.class);
+        startActivity(intent);
     }
 
     private void login() {

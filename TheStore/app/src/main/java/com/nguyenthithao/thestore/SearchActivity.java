@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -58,6 +59,10 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        // Xử lý tìm kiếm
+        Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+        intent.putExtra("QUERY", query);
+        startActivity(intent);
     }
+
+
 }
