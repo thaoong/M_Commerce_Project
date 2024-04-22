@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crud Operation</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CRUD CATEGORIES</title>
+    <link rel="stylesheet" href="style_category.css">
 </head>
 <body>
     <div class="wrapper">
         <table id="crud">
-            <caption>Users</caption>
+            <caption>Categories</caption>
             <thead>
                 <tr>
                     <td>id</td>
@@ -21,9 +21,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>abdoelaziz</td>
-                    <td>14548544854</td>
-                    <td>aaa@gmail.com</td>
+                    <td>category1</td>
+                    <td>https://salt.tikicdn.com/cache/750x750/ts/product/c7/3e/19/ea9d24fb422f00111d747acdaf4e2a37.jpg.webp</td>
+                    <td>Kinh dị</td>
                     <td>
                         <button class="edit">Edit</button>
                         <button class="delete">Delete</button>
@@ -31,22 +31,22 @@
                 </tr>
             </tbody>
         </table>
-        <button class="add-user">Add User</button>
+        <button class="add-user">Add Category</button>
     </div>
     <div class="popup add">
         <form action="">
-            <input type="text" placeholder="name" name="name">
-            <input type="tel" placeholder="phone" name="phone">
-            <input type="email" placeholder="email" name="email">
+            <input type="id" placeholder="id" name="id">
+            <input type="imageLink" placeholder="imageLink" name="imageLink">
+            <input type="name" placeholder="name" name="name">
             <input type="submit" value="submit" >
         </form>
     </div>
 
     <div class="popup update">
         <form action="">
-            <input type="text" placeholder="name" name="name">
-            <input type="tel" placeholder="phone" name="phone">
-            <input type="email" placeholder="email" name="email">
+            <input type="id" placeholder="id" name="id">
+            <input type="imageLink" placeholder="imageLink" name="imageLink">
+            <input type="name" placeholder="name" name="name">
             <input type="submit" value="submit" >
         </form>
     </div>
