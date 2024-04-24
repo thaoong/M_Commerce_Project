@@ -1,5 +1,6 @@
 package com.nguyenthithao.thestore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.model.Address;
 import com.nguyenthithao.thestore.databinding.ActivityAddAddressBinding;
 
@@ -27,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddAddressActivity extends AppCompatActivity {
     ActivityAddAddressBinding binding;
@@ -34,6 +39,8 @@ public class AddAddressActivity extends AppCompatActivity {
     public static final String DATABASE_NAME = "diachivietnam.db";
     public static final String DB_PATH_SUFFIX = "/databases/";
     public static SQLiteDatabase database = null;
+    List<Address> addressList = new ArrayList<>();
+    private Address defaultAddress; // Variable to store the default address
 
     DatabaseReference addressRef;
     FirebaseAuth mAuth;
@@ -86,6 +93,7 @@ public class AddAddressActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String userId = mAuth.getCurrentUser().getUid();
         addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child("addaddresses");
+        loadAddresses(); // Load user's addresses
         loadProvince();
         loadDistrict();
         loadWard();
@@ -113,7 +121,18 @@ public class AddAddressActivity extends AppCompatActivity {
         if (!name.isEmpty() && !phone.isEmpty() && !province.isEmpty() && !district.isEmpty() && !ward.isEmpty() && !street.isEmpty()) {
             Address address = new Address(name, phone, province, district, ward, street, isDefault);
 
+            // If setting this address as default, remove default flag from other addresses
+            if (isDefault) {
+                for (Address existingAddress : addressList) {
+                    existingAddress.setDefault(false);
+                    // Update existing address in the database
+                    addressRef.child(existingAddress.getAddressId()).setValue(existingAddress);
+                }
+                defaultAddress = address; // Update default address
+            }
+
             String addressId = addressRef.push().getKey();
+            address.setAddressId(addressId);
             addressRef.child(addressId).setValue(address);
 
             Toast.makeText(AddAddressActivity.this, "Address saved successfully", Toast.LENGTH_SHORT).show();
@@ -213,5 +232,30 @@ public class AddAddressActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadAddresses() {
+        addressRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                addressList.clear();
+                for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
+                    Address address = addressSnapshot.getValue(Address.class);
+                    if (address != null) {
+                        address.setAddressId(addressSnapshot.getKey());
+                        addressList.add(address);
+                        if (address.isDefault()) {
+                            defaultAddress = address; // Store the default address
+                        }
+                    }
+                }
+                // Update UI here
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddAddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -3,6 +3,7 @@ package com.nguyenthithao.model;
 public class Address {
     private String name, phone, province, district, ward, street;
     private boolean isDefault;
+    private String addressId;
 
     public String getName() {
         return name;
@@ -60,7 +61,13 @@ public class Address {
         isDefault = aDefault;
     }
 
+    public String getAddressId() {
+        return addressId;
+    }
 
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
 
     public Address(String name, String phone, String province, String district, String ward, String street, boolean isDefault) {
         this.name = name;
@@ -70,6 +77,7 @@ public class Address {
         this.ward = ward;
         this.street = street;
         this.isDefault = isDefault;
+        this.addressId = addressId;
     }
 
     public Address() {

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nguyenthithao.adapter.AddressAdapter;
 import com.nguyenthithao.model.Address;
 import com.nguyenthithao.thestore.databinding.ActivityAddressBinding;
 
@@ -32,7 +32,7 @@ public class AddressActivity extends AppCompatActivity {
     ActivityAddressBinding binding;
     ListView lvAddress;
     List<Address> addressList;
-    ArrayAdapter<String> adapter;
+    AddressAdapter adapter;
     private static final int REQUEST_CODE_ADD_ADDRESS = 101;
     private DatabaseReference addressRef;
     private FirebaseAuth mAuth;
@@ -46,7 +46,7 @@ public class AddressActivity extends AppCompatActivity {
 
         lvAddress = binding.lvAddress;
         addressList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        adapter = new AddressAdapter(this, R.layout.item_address, addressList);
         lvAddress.setAdapter(adapter);
 
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +55,6 @@ public class AddressActivity extends AppCompatActivity {
             String userId = user.getUid();
             addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child("addaddresses");
 
-            // Sử dụng Query để lấy tất cả các địa chỉ
             Query query = addressRef.orderByKey();
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -67,7 +66,7 @@ public class AddressActivity extends AppCompatActivity {
                             addressList.add(address);
                         }
                     }
-                    updateListView();
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -98,27 +97,11 @@ public class AddressActivity extends AppCompatActivity {
         }
     }
 
-    private void updateListView() {
-        List<String> addressStrings = new ArrayList<>();
-        for (Address address : addressList) {
-            String addressString = address.getName() + "\n" +
-                    address.getPhone() + "\n" +
-                    address.getStreet() + ", " +
-                    address.getWard() + ", " +
-                    address.getDistrict() + ", " +
-                    address.getProvince();
-            addressStrings.add(addressString);
-        }
-        adapter.clear();
-        adapter.addAll(addressStrings);
-        adapter.notifyDataSetChanged();
-    }
-
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Sổ địa chỉ</font>"));
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>My Addresses</font>"));
     }
 
     @Override
