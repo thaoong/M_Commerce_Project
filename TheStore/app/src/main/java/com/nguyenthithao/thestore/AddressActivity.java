@@ -1,5 +1,6 @@
 package com.nguyenthithao.thestore;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.model.Address;
 import com.nguyenthithao.thestore.databinding.ActivityAddressBinding;
 
@@ -24,6 +34,8 @@ public class AddressActivity extends AppCompatActivity {
     List<Address> addressList;
     ArrayAdapter<String> adapter;
     private static final int REQUEST_CODE_ADD_ADDRESS = 101;
+    private DatabaseReference addressRef;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +49,35 @@ public class AddressActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
         lvAddress.setAdapter(adapter);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child("addaddresses");
+
+            // Sử dụng Query để lấy tất cả các địa chỉ
+            Query query = addressRef.orderByKey();
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    addressList.clear();
+                    for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
+                        Address address = addressSnapshot.getValue(Address.class);
+                        if (address != null) {
+                            addressList.add(address);
+                        }
+                    }
+                    updateListView();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(AddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddressActivity.this, AddAddressActivity.class);
@@ -50,11 +90,10 @@ public class AddressActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_ADDRESS && resultCode == RESULT_OK && data != null) {
-
             Address address = (Address) data.getSerializableExtra("address");
             if (address != null) {
-                addressList.add(address);
-                updateListView();
+                String addressId = addressRef.push().getKey();
+                addressRef.child(addressId).setValue(address);
             }
         }
     }
@@ -89,10 +128,5 @@ public class AddressActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void processAddNewAddress(View view) {
-        Intent intent = new Intent(AddressActivity.this, AddAddressActivity.class);
-        startActivity(intent);
     }
 }

@@ -102,7 +102,6 @@ public class ProfileFragment extends Fragment {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                // Cập nhật lại thông tin người dùng
                 showUserData();
             }
         }
@@ -261,6 +260,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openWishlist();
+            }
+        });
+
+        binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
