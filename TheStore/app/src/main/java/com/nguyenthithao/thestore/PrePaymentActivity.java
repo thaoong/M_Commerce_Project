@@ -1,5 +1,6 @@
 package com.nguyenthithao.thestore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,14 +9,24 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.OrderBookAdapter;
 import com.nguyenthithao.model.CartItem;
 import com.nguyenthithao.model.OrderBook;
+import com.nguyenthithao.model.Voucher;
 import com.nguyenthithao.thestore.databinding.ActivityPrePaymentBinding;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class PrePaymentActivity extends AppCompatActivity {
     ActivityPrePaymentBinding binding;
@@ -69,6 +80,48 @@ public class PrePaymentActivity extends AppCompatActivity {
         binding.lvBook.setAdapter(orderBookAdapter);
     }
 
+    private void checkVoucher() {
+        String voucherCode = binding.edtVoucher.getText().toString();
+        DatabaseReference vouchersRef = FirebaseDatabase.getInstance().getReference("vouchers");
+        vouchersRef.child(voucherCode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Voucher voucher = dataSnapshot.getValue(Voucher.class);
+                    if (voucher != null) {
+                        float voucherCondition = voucher.getCondition();
+                        String voucherExpiration = voucher.getExpiration();
+
+                        // Get the current date
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        String currentDate = sdf.format(new Date());
+
+                        // Check if prePrice is greater than the voucher condition and current date is before the voucher expiration
+                        if (prePrice > voucherCondition && isCurrentDateBeforeVoucherExpiration(currentDate, voucherExpiration)) {
+                            discount = voucher.getAmount();
+                            binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
+                            total = prePrice + shippingFee - discount;
+                            binding.txtTotal.setText(formatCurrency(total) + "đ");
+                            Toast.makeText(PrePaymentActivity.this, "Applied voucher", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                }
+
+                // Voucher is not applicable or does not exist
+                discount = 0;
+                binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
+                total = prePrice + shippingFee - discount;
+                binding.txtTotal.setText(formatCurrency(total) + "đ");
+                Toast.makeText(PrePaymentActivity.this, "Voucher invalid", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
     private void addEvent() {
         binding.btnChangePaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +134,14 @@ public class PrePaymentActivity extends AppCompatActivity {
         shippingFee = 30000;
         binding.txtShippingFee.setText(formatCurrency(shippingFee)+"đ");
 
-        discount = 10000;
-        binding.txtDiscount.setText("-"+formatCurrency(discount)+"đ");
+        binding.btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkVoucher();
+            }
+        });
 
+        binding.txtDiscount.setText("-"+formatCurrency(discount)+"đ");
         total = prePrice + shippingFee - discount;
         binding.txtTotal.setText(formatCurrency(total) + "đ");
 
@@ -120,5 +178,17 @@ public class PrePaymentActivity extends AppCompatActivity {
     private String formatCurrency(float value) {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         return decimalFormat.format(value);
+    }
+
+    private boolean isCurrentDateBeforeVoucherExpiration(String currentDate, String voucherExpiration) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date current = sdf.parse(currentDate);
+            Date expiration = sdf.parse(voucherExpiration);
+            return current.before(expiration);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -23,6 +23,7 @@ import com.nguyenthithao.thestore.databinding.ActivityPaymentMethodBinding;
 public class PaymentMethodActivity extends AppCompatActivity {
     ActivityPaymentMethodBinding binding;
     PaymentMethodAdapter paymentMethodAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,43 +3,43 @@ package com.nguyenthithao.model;
 import java.io.Serializable;
 
 public class Voucher implements Serializable {
-    private String promotion;
-    private String condition;
-    private String voucherID;
+    private float amount;
+    private String code;
+    private float condition;
     private String expiration;
 
     public Voucher() {
     }
 
-    public Voucher(String promotion, String condition, String voucherID, String expiration) {
-        this.promotion = promotion;
+    public Voucher(float amount, String code, float condition, String expiration) {
+        this.amount = amount;
+        this.code = code;
         this.condition = condition;
-        this.voucherID = voucherID;
         this.expiration = expiration;
     }
 
-    public String getPromotion() {
-        return promotion;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setPromotion(String promotion) {
-        this.promotion = promotion;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
-    public String getCondition() {
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public float getCondition() {
         return condition;
     }
 
-    public void setCondition(String condition) {
+    public void setCondition(float condition) {
         this.condition = condition;
-    }
-
-    public String getVoucherID() {
-        return voucherID;
-    }
-
-    public void setVoucherID(String voucherID) {
-        this.voucherID = voucherID;
     }
 
     public String getExpiration() {

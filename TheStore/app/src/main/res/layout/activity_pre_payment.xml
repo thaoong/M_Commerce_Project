@@ -161,7 +161,7 @@
             app:srcCompat="@drawable/ic_voucher" />
 
         <EditText
-            android:id="@+id/edtName"
+            android:id="@+id/edtVoucher"
             style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
             android:layout_width="238dp"
             android:layout_height="wrap_content"
