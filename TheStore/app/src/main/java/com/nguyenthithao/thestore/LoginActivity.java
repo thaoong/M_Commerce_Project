@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     DatabaseReference databaseReference;
     private static final int RC_SIGN_IN = 101;
-
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -116,6 +115,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        binding.txtForgotPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Log in...");
     }
@@ -174,17 +180,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
     }
-    //
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
-//    }
-//
+
     private void signInWithGoogle() {
 //        Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
 //        if (task.isSuccessful()) {
@@ -197,7 +193,6 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                // After signing out, initiate the sign-in process again
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
@@ -243,23 +238,19 @@ public class LoginActivity extends AppCompatActivity {
             String userId = user.getUid();
             String userEmail = user.getEmail();
             String userName = user.getDisplayName();
-            // Tạo một đối tượng User từ thông tin người dùng
-            User userData = new User(userName, userEmail, "", "", "", ""); // Password và ngày sinh trống vì không có trong thông tin của Google
+            User userData = new User(userName, userEmail, "", "", "", "");
 
-            // Thêm dữ liệu vào Realtime Database
             databaseReference.child(userId).setValue(userData)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            // Thành công
-                            Toast.makeText(LoginActivity.this, "User data saved to database", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Thất bại
-                            Toast.makeText(LoginActivity.this, "Failed to save user data to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }

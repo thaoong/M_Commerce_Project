@@ -135,15 +135,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:paddingRight="5dp"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/txtWard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/strPhone"
-                        android:textColor="@color/brown_text"
-                        android:textSize="16sp" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/txtWard"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/strPhone"-->
+<!--                        android:textColor="@color/brown_text"-->
+<!--                        android:textSize="16sp" />-->
 
                     <TextView
                         android:id="@+id/txtPhone"
@@ -186,6 +187,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
+
                 android:background="@drawable/rectangle_background_shape"
                 android:orientation="vertical"
                 android:padding="5dp">

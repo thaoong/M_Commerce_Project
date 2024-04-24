@@ -75,5 +75,6 @@
     <string name="strBrief">Brief</string>
     <string name="strComic">Comic</string>
     <string name="default_web_client_id">318647012345-7jsl5hpfrr5fonkvsg3454pqa1q57u1h.apps.googleusercontent.com</string>
+    <string name="strProvideSms">Provide your account email for which you want to reset your password!</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.nguyenthithao.thestore;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.nguyenthithao.model.Address;
 import com.nguyenthithao.thestore.databinding.ActivityAddAddressBinding;
 
 import java.io.File;
@@ -29,6 +34,9 @@ public class AddAddressActivity extends AppCompatActivity {
     public static final String DATABASE_NAME = "diachivietnam.db";
     public static final String DB_PATH_SUFFIX = "/databases/";
     public static SQLiteDatabase database = null;
+
+    DatabaseReference addressRef;
+    FirebaseAuth mAuth;
 
     private void copyDataBase(){
         try{
@@ -75,10 +83,48 @@ public class AddAddressActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         displayActionBar();
         copyDataBase();
+        addressRef = FirebaseDatabase.getInstance().getReference().child("addresses");
         loadProvince();
         loadDistrict();
         loadWard();
+        addEvents();
     }
+
+    private void addEvents() {
+        binding.btnSaveAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAddress();
+            }
+        });
+    }
+
+    private void saveAddress() {
+        String name = binding.edtName.getText().toString().trim();
+        String phone = binding.edtPhone.getText().toString().trim();
+        String province = binding.edtProvince.getText().toString().trim();
+        String district = binding.edtDistrict.getText().toString().trim();
+        String ward = binding.edtWard.getText().toString().trim();
+        String street = binding.edtStreet.getText().toString().trim();
+        boolean isDefault = binding.chkDefaultAddress.isChecked();
+
+        if (!name.isEmpty() && !phone.isEmpty() && !province.isEmpty() && !district.isEmpty() && !ward.isEmpty() && !street.isEmpty()) {
+            Address address = new Address(name, phone, province, district, ward, street, isDefault);
+
+            String addressId = addressRef.push().getKey();
+            addressRef.child(addressId).setValue(address);
+
+            Toast.makeText(AddAddressActivity.this, "Address saved successfully", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent();
+            intent.putExtra("address", (CharSequence) address);
+            setResult(RESULT_OK, intent);
+            finish();
+        } else {
+            Toast.makeText(AddAddressActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void loadWard() {
         ArrayList<String> wardsArr = new ArrayList<>();

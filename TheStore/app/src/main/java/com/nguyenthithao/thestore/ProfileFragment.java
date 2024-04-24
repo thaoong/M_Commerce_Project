@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
             binding.btnLogout.setVisibility(View.VISIBLE);
             binding.imgProfile.setVisibility(View.VISIBLE);
             binding.txtName.setVisibility(View.VISIBLE);
-            binding.txtPhone.setVisibility(View.VISIBLE);
+            binding.txtPhone.setVisibility(View.GONE);
             binding.txtEmail.setVisibility(View.VISIBLE);
             binding.imgProfile.setOnClickListener(v -> uploadProfileImage());
         } else {

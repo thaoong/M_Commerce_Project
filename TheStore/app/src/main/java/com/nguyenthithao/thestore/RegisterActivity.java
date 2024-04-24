@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.thestore.databinding.ActivityRegisterBinding;
 
 import java.util.HashMap;
@@ -88,48 +91,63 @@ public class RegisterActivity extends AppCompatActivity {
         if (!isAgreed) {
             Toast.makeText(this, "Please agree to terms and conditions", Toast.LENGTH_SHORT).show();
             return;
-        } else {
+        }
 
         progressDialog.setMessage("Please wait while registering...");
         progressDialog.setTitle("Registration");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String userId = user.getUid();
+        databaseReference.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Email has already been registered!", Toast.LENGTH_SHORT).show();
+                } else {
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        String userId = user.getUid();
 
-                            HashMap<String, Object> userMap = new HashMap<>();
-                            userMap.put("name", name);
-                            userMap.put("email", email);
-                            userMap.put("password", password);
-                            userMap.put("phone", phone);
+                                        HashMap<String, Object> userMap = new HashMap<>();
+                                        userMap.put("name", name);
+                                        userMap.put("email", email);
+                                        userMap.put("password", password);
+                                        userMap.put("phone", phone);
 
-                            databaseReference.child("users").child(userId).setValue(userMap)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                // Gửi dữ liệu thành công, chuyển đến màn hình chính
-                                                progressDialog.dismiss();
-                                                Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                                                sendUser2NextActivity();
-                                            } else {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(RegisterActivity.this, "Registration failed " , Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                        } else {
-                            progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "Registration failed " , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });}
+                                        databaseReference.child("users").child(userId).setValue(userMap)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                                            sendUser2NextActivity();
+                                                        } else {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(RegisterActivity.this, "Registration failed ", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    } else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(RegisterActivity.this, "Registration failed ", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressDialog.dismiss();
+                Toast.makeText(RegisterActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void sendUser2NextActivity() {

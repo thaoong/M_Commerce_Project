@@ -1,9 +1,12 @@
 package com.nguyenthithao.model;
 
+import android.location.Address;
+
+import java.util.List;
+
 public class User {
-    private String name, email, password,
-            date_of_birth
-            , phone;
+    private String name, email, password, date_of_birth, phone;
+    private List<Address> addresses;
 
     public User(String name, String email, String password, String
             date_of_birth
@@ -53,6 +56,14 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
     
 
     public User(String name, String email, String password, String date_of_birth, String phone, String userName) {
@@ -61,7 +72,7 @@ public class User {
         this.password = password;
         this.date_of_birth = date_of_birth;
         this.phone = phone;
-
+        this.addresses = addresses;
     }
 
     public User() {
