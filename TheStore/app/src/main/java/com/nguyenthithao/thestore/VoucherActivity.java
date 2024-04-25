@@ -26,44 +26,41 @@ import com.nguyenthithao.adapter.VoucherAdapter;
 import com.nguyenthithao.model.OrderHistory;
 import com.nguyenthithao.model.PaymentMethod;
 import com.nguyenthithao.model.Voucher;
+import com.nguyenthithao.thestore.databinding.ActivityVoucherBinding;
 
 import java.util.ArrayList;
 
 public class VoucherActivity extends AppCompatActivity {
-    ListView lvVoucher;
-    ArrayList<Voucher> dsVoucher;
-    VoucherAdapter adapterVoucher;
+    ActivityVoucherBinding binding;
+    VoucherAdapter voucherAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voucher);
+        //setContentView(R.layout.activity_voucher);
+        binding = ActivityVoucherBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         displayActionBar();
-        addViews();
-        //addEvents();
+//        addViews();
+        voucherAdapter = new VoucherAdapter(VoucherActivity.this, R.layout.item_voucher);
+        binding.lvVoucher.setAdapter(voucherAdapter);
+        getVoucher();
+        addEvents();
     }
 
-//    private void addEvents() {
-//        lvVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Voucher voucher = adapterVoucher.getItem(position);
-//                if (voucher != null) {
-//                    Intent returnIntent = new Intent();
-//                    returnIntent.putExtra("SELECTED_VOUCHER", voucher.getCode());
-//                    setResult(RESULT_OK, returnIntent);
-//                    finish();
-//                }
-//            }
-//        });
-//    }
-
-    private void addViews() {
-        lvVoucher=findViewById(R.id.lvVoucher);
-        dsVoucher=new ArrayList<>();
-        adapterVoucher=new VoucherAdapter(VoucherActivity.this, R.layout.item_voucher);
-        lvVoucher.setAdapter(adapterVoucher);
-        getVoucher();
+    private void addEvents() {
+        binding.lvVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Voucher voucher = voucherAdapter.getItem(position);
+                if (voucher != null) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("SELECTED_VOUCHER_CODE", voucher.getCode());
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        });
     }
 
     private void getVoucher() {
@@ -72,12 +69,11 @@ public class VoucherActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                adapterVoucher.clear();
                 for (DataSnapshot dss : snapshot.getChildren()){
                     Voucher voucher = dss.getValue(Voucher.class);
                     String key = dss.getKey();
                     voucher.setCode(key);
-                    adapterVoucher.add(voucher);
+                    voucherAdapter.add(voucher);
                 }
             }
 
@@ -87,7 +83,6 @@ public class VoucherActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();

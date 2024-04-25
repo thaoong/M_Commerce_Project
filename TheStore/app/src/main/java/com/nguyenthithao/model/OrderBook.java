@@ -3,6 +3,7 @@ package com.nguyenthithao.model;
 import java.io.Serializable;
 
 public class OrderBook implements Serializable {
+    private String Id;
     private String name;
     private float unitPrice;
     private String imageLink;
@@ -12,12 +13,21 @@ public class OrderBook implements Serializable {
     public OrderBook() {
     }
 
-    public OrderBook(String name, float unitPrice, String imageLink, float oldPrice, int quantity) {
+    public OrderBook(String Id, String name, float unitPrice, String imageLink, float oldPrice, int quantity) {
+        this.Id = Id;
         this.name = name;
         this.unitPrice = unitPrice;
         this.imageLink = imageLink;
         this.oldPrice = oldPrice;
         this.quantity = quantity;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getName() {

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +31,20 @@ import java.util.Locale;
 
 public class PrePaymentActivity extends AppCompatActivity {
     ActivityPrePaymentBinding binding;
-    Intent intent, intent1, intent2;
+    Intent intent;
     private OrderBookAdapter orderBookAdapter;
     ArrayList<OrderBook> orderBooks;
+    private String name;
+    private String phone;
+    private String street;
+    private String ward;
+    private String district;
+    private String province;
     public float prePrice;
     private float shippingFee;
     private float discount;
     private float total;
-    private String selectedPaymentMethod;
+    private String paymentMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +53,40 @@ public class PrePaymentActivity extends AppCompatActivity {
         binding = ActivityPrePaymentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayActionBar();
+        getAddress();
         getSelectedBookFromCart();
         calculatePrePrice();
         addEvent();
+    }
+
+    private void getAddress() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = firebaseDatabase.getReference("addresses").child(userId);
+        myRef.orderByChild("default").equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    name = snapshot.child("name").getValue(String.class);
+                    binding.txtCustomerName.setText(name);
+
+                    phone = snapshot.child("phone").getValue(String.class);
+                    binding.txtPhone.setText(phone);
+
+                    street = snapshot.child("street").getValue(String.class);
+                    binding.txtStreet.setText(street);
+
+                    ward = snapshot.child("ward").getValue(String.class);
+                    district = snapshot.child("district").getValue(String.class);
+                    province = snapshot.child("province").getValue(String.class);
+                    binding.txtAddress.setText(ward + ", " + district + ", " + province);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void calculatePrePrice() {
@@ -69,6 +107,7 @@ public class PrePaymentActivity extends AppCompatActivity {
         assert selectedItems != null;
         for (CartItem item : selectedItems) {
             OrderBook orderBook = new OrderBook();
+            orderBook.setId(item.getID());
             orderBook.setImageLink(item.getImageLink());
             orderBook.setName(item.getName());
             orderBook.setUnitPrice(item.getUnitPrice());
@@ -131,6 +170,13 @@ public class PrePaymentActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnChooseVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrePaymentActivity.this, VoucherActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
         shippingFee = 30000;
         binding.txtShippingFee.setText(formatCurrency(shippingFee)+"đ");
 
@@ -144,18 +190,23 @@ public class PrePaymentActivity extends AppCompatActivity {
         binding.txtDiscount.setText("-"+formatCurrency(discount)+"đ");
         total = prePrice + shippingFee - discount;
         binding.txtTotal.setText(formatCurrency(total) + "đ");
-
-        intent1 = getIntent();
-        selectedPaymentMethod = intent1.getStringExtra("SELECTED_PAYMENT_METHOD");
-        binding.txtPaymentMethod.setText(selectedPaymentMethod);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            selectedPaymentMethod = data.getStringExtra("SELECTED_PAYMENT_METHOD");
-            binding.txtPaymentMethod.setText(selectedPaymentMethod);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                if (data != null) {
+                    paymentMethod = data.getStringExtra("SELECTED_PAYMENT_METHOD");
+                    binding.txtPaymentMethod.setText(paymentMethod);
+                }
+            } else if (requestCode == 2) {
+                if (data != null) {
+                    String selectedVoucherCode = data.getStringExtra("SELECTED_VOUCHER_CODE");
+                    binding.edtVoucher.setText(selectedVoucherCode);
+                }
+            }
         }
     }
 

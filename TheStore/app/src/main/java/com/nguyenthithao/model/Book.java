@@ -12,14 +12,10 @@ public class Book implements Serializable {
     private ArrayList<String> imageLink;
     private String name;
     private float oldPrice;
-
     private String publicationDate;
-
     private float rating;
     private int reviewNum;
     private float unitPrice;
-    private int numberInCart;
-
 
     public Book() {
     }
@@ -141,11 +137,4 @@ public class Book implements Serializable {
         this.bestSelling = bestSelling;
     }
 
-    public int getNumberInCart() {
-        return numberInCart;
-    }
-
-    public void setNumberInCart(int numberInCart) {
-        this.numberInCart = numberInCart;
-    }
 }

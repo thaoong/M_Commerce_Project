@@ -91,13 +91,6 @@
             android:textColor="@color/brown_text"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerProvince"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
@@ -133,13 +126,6 @@
             android:textColor="@color/brown_text"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerDistrict"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
@@ -175,13 +161,6 @@
             android:textColor="@color/brown_text"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerWard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
