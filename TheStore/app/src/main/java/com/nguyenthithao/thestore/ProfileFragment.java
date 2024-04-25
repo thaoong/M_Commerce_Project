@@ -265,10 +265,14 @@ public class ProfileFragment extends Fragment {
 
         binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v) { openChagePassword();
             }
         });
+    }
+
+    private void openChagePassword() {
+        Intent intent = new Intent(getActivity(), ConfirmPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void openWishlist() {

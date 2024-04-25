@@ -8,14 +8,16 @@ public class User {
     private String name, email, password, date_of_birth, phone;
     private List<Address> addresses;
 
-    public User(String name, String email, String password, String
-            date_of_birth
-            , String phone) {
+    // Constructor
+    public User(String name, String email, String password, String date_of_birth, String phone, String s) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.date_of_birth = date_of_birth;
+        this.phone = phone;
     }
 
-    public User(String name, String email, String password, String phone) {
-    }
-
+    // Getter và Setter cho các thuộc tính
 
     public String getName() {
         return name;
@@ -64,17 +66,9 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
-    
 
-    public User(String name, String email, String password, String date_of_birth, String phone, String userName) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.date_of_birth = date_of_birth;
-        this.phone = phone;
-        this.addresses = addresses;
-    }
-
-    public User() {
+    // Phương thức kiểm tra mật khẩu
+    public boolean checkPassword(String enteredPassword) {
+        return this.password.equals(enteredPassword);
     }
 }

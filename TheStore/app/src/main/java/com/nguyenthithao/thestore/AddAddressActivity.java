@@ -92,7 +92,7 @@ public class AddAddressActivity extends AppCompatActivity {
         copyDataBase();
         mAuth = FirebaseAuth.getInstance();
         String userId = mAuth.getCurrentUser().getUid();
-        addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child("addaddresses");
+        addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId);
         loadAddresses(); // Load user's addresses
         loadProvince();
         loadDistrict();

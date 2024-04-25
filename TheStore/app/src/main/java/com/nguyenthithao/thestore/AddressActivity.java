@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class AddressActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             String userId = user.getUid();
-            addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child("addaddresses");
+            addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId);
 
             Query query = addressRef.orderByKey();
             query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -83,6 +84,21 @@ public class AddressActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_ADD_ADDRESS);
             }
         });
+
+        lvAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Address selectedAddress = addressList.get(position);
+
+                // Tạo Intent để chuyển đến màn hình chỉnh sửa
+                Intent intent = new Intent(AddressActivity.this, EditAddressActivity.class);
+                // Truyền địa chỉ được chọn qua Intent
+                intent.putExtra("address", (CharSequence) selectedAddress);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

@@ -2,13 +2,19 @@ package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding.edtPassword.setOnTouchListener(new PasswordTouchListener());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
         addEvents();
@@ -162,6 +169,41 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private class PasswordTouchListener implements View.OnTouchListener {
+        private final Drawable drawableVisible = ContextCompat.getDrawable(LoginActivity.this, R.drawable.ic_visibility);
+        private final Drawable drawableInvisible = ContextCompat.getDrawable(LoginActivity.this, R.drawable.ic_visibility_off);
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            final int drawableBounds = binding.edtPassword.getCompoundPaddingEnd();
+            final int edittextBounds = binding.edtPassword.getRight();
+            final int touchPosition = (int) event.getX();
+
+            if (touchPosition >= edittextBounds - drawableBounds && event.getAction() == MotionEvent.ACTION_UP) {
+                EditText editText = (EditText) v;
+                if (editText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                    editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    editText.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            ContextCompat.getDrawable(LoginActivity.this, R.drawable.ic_security),
+                            null,
+                            drawableVisible,
+                            null
+                    );
+                } else {
+                    editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    editText.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            ContextCompat.getDrawable(LoginActivity.this, R.drawable.ic_security),
+                            null,
+                            drawableInvisible,
+                            null
+                    );
+                }
+                return true;
+            }
+            return false;
+        }
+    }
+
     private void saveLoginInfo(String email, String password) {
         editor.putString("email", email);
         editor.putString("password", password);
@@ -181,15 +223,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void signInWithGoogle() {
-//        Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
-//        if (task.isSuccessful()) {
-//            GoogleSignInAccount account = task.getResult();
-//            firebaseAuthWithGoogle(account.getIdToken());
-//        } else {
-//            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//            startActivityForResult(signInIntent, RC_SIGN_IN);
-//        }
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
