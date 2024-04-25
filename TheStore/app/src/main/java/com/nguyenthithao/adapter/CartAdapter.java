@@ -79,7 +79,7 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
             public void onClick(View v) {
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products");
+                DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId);
                 myRef.child(cartItem.getID()).removeValue();
                 Toast.makeText(context, "Delete product successfully", Toast.LENGTH_SHORT).show();
                 context.recreate();
@@ -174,7 +174,7 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
     private void updateCartItemQuantity(String cartItemId, int quantity) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products").child(cartItemId).child("quantity");
+        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child(cartItemId).child("quantity");
         myRef.setValue(quantity);
     }
 

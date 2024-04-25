@@ -16,11 +16,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +57,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference wishlistRef;
     private boolean isInWishlist = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +103,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String bookId = selectedBook.getId();
-                    DatabaseReference cartRef = database.getReference("carts").child(userId).child("products").child(bookId);
+                    DatabaseReference cartRef = database.getReference("carts").child(userId).child(bookId);
 
                     String productName = selectedBook.getName();
                     float unitPrice = selectedBook.getUnitPrice();
@@ -106,14 +111,45 @@ public class ProductDetailActivity extends AppCompatActivity {
                     String productImageUrl = selectedBook.getImageLink().get(0);
 
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductDetailActivity.this);
-                    dialogBuilder.setTitle("Select Quantity");
-                    final EditText input = new EditText(ProductDetailActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    dialogBuilder.setView(input);
-                    dialogBuilder.setPositiveButton("Add to Cart", new DialogInterface.OnClickListener() {
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_cart_choose_quanntity, null);
+                    dialogBuilder.setView(dialogView);
+
+                    TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
+                    ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
+                    EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
+                    ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
+                    Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
+
+                    tvDialogTitle.setText("Select Quantity");
+                    final int[] currentQuantity = {1};
+                    edtQuantity.setText(String.valueOf(currentQuantity[0]));
+
+                    btnDecrease.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            int quantity = Integer.parseInt(input.getText().toString());
+                        public void onClick(View v) {
+                            if (currentQuantity[0] > 0) {
+                                currentQuantity[0]--;
+                                edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                            }
+                        }
+                    });
+
+                    btnIncrease.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            currentQuantity[0]++;
+                            edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                        }
+                    });
+
+                    final AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
+
+                    btnAddToCart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int quantity = Integer.parseInt(edtQuantity.getText().toString());
                             cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -130,6 +166,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         cartRef.setValue(cartItem);
                                     }
                                     Toast.makeText(ProductDetailActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
                                 }
 
                                 @Override
@@ -139,16 +176,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                             });
                         }
                     });
-
-                    dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    AlertDialog dialog = dialogBuilder.create();
-                    dialog.show();
                 }
             }
         });

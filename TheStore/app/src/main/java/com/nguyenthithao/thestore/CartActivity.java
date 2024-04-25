@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nguyenthithao.adapter.BookAdapterTest;
 import com.nguyenthithao.adapter.CartAdapter;
-import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.CartItem;
 
 import java.util.ArrayList;
@@ -70,7 +66,7 @@ public class CartActivity extends AppCompatActivity {
     private void getCartByUser() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId).child("products");
+        DatabaseReference myRef = firebaseDatabase.getReference("carts").child(userId);
         cartAdapter.clear();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

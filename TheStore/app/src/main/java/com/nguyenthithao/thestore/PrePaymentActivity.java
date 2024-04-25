@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.OrderBookAdapter;
 import com.nguyenthithao.model.CartItem;
+import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
+import com.nguyenthithao.model.OrderHistory;
 import com.nguyenthithao.model.Voucher;
 import com.nguyenthithao.thestore.databinding.ActivityPrePaymentBinding;
 
@@ -119,6 +125,62 @@ public class PrePaymentActivity extends AppCompatActivity {
         binding.lvBook.setAdapter(orderBookAdapter);
     }
 
+    private void addEvent() {
+        binding.btnChangePaymentMethod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrePaymentActivity.this, PaymentMethodActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        binding.btnChooseVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrePaymentActivity.this, VoucherActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+        shippingFee = 30000;
+        binding.txtShippingFee.setText(formatCurrency(shippingFee)+"đ");
+
+        binding.btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkVoucher();
+            }
+        });
+
+        binding.txtDiscount.setText("-"+formatCurrency(discount)+"đ");
+        total = prePrice + shippingFee - discount;
+        binding.txtTotal.setText(formatCurrency(total) + "đ");
+
+        binding.btnBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processOrder();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                if (data != null) {
+                    paymentMethod = data.getStringExtra("SELECTED_PAYMENT_METHOD");
+                    binding.txtPaymentMethod.setText(paymentMethod);
+                }
+            } else if (requestCode == 2) {
+                if (data != null) {
+                    String selectedVoucherCode = data.getStringExtra("SELECTED_VOUCHER_CODE");
+                    binding.edtVoucher.setText(selectedVoucherCode);
+                }
+            }
+        }
+    }
+
     private void checkVoucher() {
         String voucherCode = binding.edtVoucher.getText().toString();
         DatabaseReference vouchersRef = FirebaseDatabase.getInstance().getReference("vouchers");
@@ -161,52 +223,93 @@ public class PrePaymentActivity extends AppCompatActivity {
         });
     }
 
-    private void addEvent() {
-        binding.btnChangePaymentMethod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PrePaymentActivity.this, PaymentMethodActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
+    private void processOrder() {
+        if (paymentMethod == null || paymentMethod.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Order order = new Order();
+        order.setOrderBooks(orderBooks);
+        order.setName(name);
+        order.setPhone(phone);
+        order.setStreet(street);
+        order.setWard(ward);
+        order.setDistrict(district);
+        order.setProvince(province);
+        order.setPrePrice(prePrice);
+        order.setShippingFee(shippingFee);
+        order.setDiscount(discount);
+        order.setTotal(total);
+        order.setPaymentMethod(paymentMethod);
+        order.setStatus("Chờ xác nhận");
 
-        binding.btnChooseVoucher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PrePaymentActivity.this, VoucherActivity.class);
-                startActivityForResult(intent, 2);
-            }
-        });
-        shippingFee = 30000;
-        binding.txtShippingFee.setText(formatCurrency(shippingFee)+"đ");
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String orderDate = dateFormat.format(currentDate);
+        order.setOrderDate(orderDate);
 
-        binding.btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkVoucher();
-            }
-        });
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders").child(userId);
+        String orderId = ordersRef.push().getKey(); // Tạo một khóa duy nhất cho đơn hàng
+        ordersRef.child(orderId).setValue(order)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        deleteSelectedItemsFromCart();
+                        Dialog dialog = new Dialog(PrePaymentActivity.this);
+                        dialog.setContentView(R.layout.dialog_order_successfuly);
+                        dialog.setCancelable(false);
+                        dialog.show();
 
-        binding.txtDiscount.setText("-"+formatCurrency(discount)+"đ");
-        total = prePrice + shippingFee - discount;
-        binding.txtTotal.setText(formatCurrency(total) + "đ");
+                        Button btnContinueShopping = dialog.findViewById(R.id.btnContinueShopping);
+                        Button btnViewOrder = dialog.findViewById(R.id.btnViewOrder);
+                        btnContinueShopping.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(PrePaymentActivity.this, CartActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        btnViewOrder.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(PrePaymentActivity.this, OrderHistoryActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PrePaymentActivity.this, "Đã xảy ra lỗi. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                if (data != null) {
-                    paymentMethod = data.getStringExtra("SELECTED_PAYMENT_METHOD");
-                    binding.txtPaymentMethod.setText(paymentMethod);
-                }
-            } else if (requestCode == 2) {
-                if (data != null) {
-                    String selectedVoucherCode = data.getStringExtra("SELECTED_VOUCHER_CODE");
-                    binding.edtVoucher.setText(selectedVoucherCode);
-                }
-            }
+    private void deleteSelectedItemsFromCart() {
+        intent = getIntent();
+        ArrayList<CartItem> selectedItems = intent.getParcelableArrayListExtra("selectedItems");
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("carts").child(userId);
+        for (CartItem item : selectedItems) {
+            String cartItemId = item.getID();
+            cartRef.child(cartItemId).removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Xóa thành công
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Xóa thất bại
+                        }
+                    });
         }
     }
 
