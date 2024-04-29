@@ -1,6 +1,8 @@
 package com.nguyenthithao.model;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
     private String name, phone, province, district, ward, street;
     private boolean isDefault;
     private String addressId;

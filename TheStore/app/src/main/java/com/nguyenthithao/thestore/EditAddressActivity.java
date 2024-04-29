@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -37,32 +38,45 @@ public class EditAddressActivity extends AppCompatActivity {
         binding = ActivityEditAddressBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         displayActionBar();
+        getAddress();
         addEvents();
 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+    }
 
+    private void getAddress() {
+        Intent intent = getIntent();
+        Address address = (Address) intent.getSerializableExtra("SELECTED_ADDRESS");
 
+        if (address != null) {
+            binding.edtName.setText(address.getName());
+            binding.edtPhone.setText(address.getPhone());
+            binding.edtProvince.setText(address.getProvince());
+            binding.edtDistrict.setText(address.getDistrict());
+            binding.edtWard.setText(address.getWard());
+            binding.edtStreet.setText(address.getStreet());
+        }
     }
 
     private void addEvents() {
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                if (currentUser == null) {
-                    // Người dùng không tồn tại, xử lý tùy ý
-                } else {
-                    // Hiển thị thông tin địa chỉ của người dùng (nếu cần)
-                    // Ví dụ: binding.txtAddress.setText(currentUser.getAddresses());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý khi có lỗi xảy ra khi đọc dữ liệu từ cơ sở dữ liệu
-            }
-        });
+//        userRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                currentUser = dataSnapshot.getValue(User.class);
+//                if (currentUser == null) {
+//                    // Người dùng không tồn tại, xử lý tùy ý
+//                } else {
+//                    // Hiển thị thông tin địa chỉ của người dùng (nếu cần)
+//                    // Ví dụ: binding.txtAddress.setText(currentUser.getAddresses());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Xử lý khi có lỗi xảy ra khi đọc dữ liệu từ cơ sở dữ liệu
+//            }
+//        });
 
         binding.btnSaveAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +106,9 @@ public class EditAddressActivity extends AppCompatActivity {
     private void saveAddress() {
         String name = binding.edtName.getText().toString().trim();
         String phone = binding.edtPhone.getText().toString().trim();
-        String province = binding.txtProvince.getText().toString().trim();
-        String district = binding.txtDistrict.getText().toString().trim();
-        String ward = binding.txtWard.getText().toString().trim();
+        String province = binding.edtProvince.getText().toString().trim();
+        String district = binding.edtDistrict.getText().toString().trim();
+        String ward = binding.edtWard.getText().toString().trim();
         String street = binding.edtStreet.getText().toString().trim();
         boolean isDefault = binding.chkDefaultAddress.isChecked();
 
@@ -102,7 +116,7 @@ public class EditAddressActivity extends AppCompatActivity {
             // Create a new Address object
             com.nguyenthithao.model.Address address = new com.nguyenthithao.model.Address(name, phone, province, district, ward, street, isDefault);
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addresses").push();
+            DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).push();
             addressRef.setValue(address)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

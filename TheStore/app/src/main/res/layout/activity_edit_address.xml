@@ -76,25 +76,23 @@
         android:background="@drawable/rectangle_background_shape"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtProvince"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/edtProvince"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:paddingLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rectangle_background_shape"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/brown_text"
-            android:textSize="16sp" />
+            android:textSize="16sp" /> />
 
-        <Spinner
-            android:id="@+id/spinnerProvince"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
@@ -114,25 +112,23 @@
         android:background="@drawable/rectangle_background_shape"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtDistrict"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/edtDistrict"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:paddingLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rectangle_background_shape"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/brown_text"
-            android:textSize="16sp" />
+            android:textSize="16sp" /> />
 
-        <Spinner
-            android:id="@+id/spinnerDistrict"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
@@ -152,25 +148,23 @@
         android:background="@drawable/rectangle_background_shape"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtWard"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/edtWard"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:paddingLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rectangle_background_shape"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/brown_text"
-            android:textSize="16sp" />
+            android:textSize="16sp" /> />
 
-        <Spinner
-            android:id="@+id/spinnerWard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <TextView
