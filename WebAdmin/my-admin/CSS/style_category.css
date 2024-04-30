@@ -6,7 +6,7 @@
 }
 body
 {
-    font-family: cursive;
+    font-family:Georgia, 'Times New Roman', Times, serif;
 }
 .wrapper
 {
@@ -51,7 +51,7 @@ body
     padding: 5px 7px;
     border:none;
     background: transparent;
-    font-family: cursive;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     font-size: .9rem;
     color: #fff;
     border-radius: 3px;
@@ -77,7 +77,7 @@ button.add-category{
     padding: 5px 7px;
     border:none;
     background: transparent;
-    font-family: cursive;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     font-size: .9rem;
     color: #fff;
     border-radius: 3px;
@@ -126,7 +126,7 @@ button.add-category{
     margin: 15px 0;
     padding: 12px 15px;
     font-size: 1.1rem;
-    font-family: cursive;
+    font-family:Georgia, 'Times New Roman', Times, serif;
    
 }
 .popup form input[type = "submit"]
