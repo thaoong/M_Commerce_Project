@@ -103,36 +103,42 @@ public class EditAddressActivity extends AppCompatActivity {
         String district = binding.edtDistrict.getText().toString().trim();
         String ward = binding.edtWard.getText().toString().trim();
         String street = binding.edtStreet.getText().toString().trim();
-        boolean isDefault = binding.chkDefaultAddress.isChecked(); // Lấy trạng thái mặc định từ checkbox
+        boolean isDefault = binding.chkDefaultAddress.isChecked();
 
-        // Kiểm tra các trường nhập liệu có hợp lệ không
+        // Ensure all fields are filled
         if (!name.isEmpty() && !phone.isEmpty() && !province.isEmpty() && !district.isEmpty() && !ward.isEmpty() && !street.isEmpty()) {
-            // Lấy địa chỉ cần chỉnh sửa từ intent
             Intent intent = getIntent();
             Address address = (Address) intent.getSerializableExtra("SELECTED_ADDRESS");
             if (address != null) {
-                // Cập nhật thông tin của địa chỉ
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child(address.getAddressId());
+
+                // Check if the user is setting this address as default
+                if (isDefault) {
+                    // Set all other addresses as non-default
+                    clearOtherDefaultAddresses(userId, address.getAddressId());
+                }
+
+                // Update the address information
                 address.setName(name);
                 address.setPhone(phone);
                 address.setProvince(province);
                 address.setDistrict(district);
                 address.setWard(ward);
                 address.setStreet(street);
-                address.setDefault(isDefault); // Cập nhật trạng thái mặc định mới
+                address.setDefault(isDefault);
 
-                // Lưu cập nhật vào cơ sở dữ liệu Firebase
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child(address.getAddressId());
-                addressRef.removeValue()
+                // Save the updated address
+                addressRef.setValue(address)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(EditAddressActivity.this, "Address deleted successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditAddressActivity.this, "Address saved successfully", Toast.LENGTH_SHORT).show();
                                     setResult(RESULT_OK);
                                     finish();
                                 } else {
-                                    Toast.makeText(EditAddressActivity.this, "Failed to delete address: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditAddressActivity.this, "Failed to save address: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -142,7 +148,28 @@ public class EditAddressActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void clearOtherDefaultAddresses(String userId, String currentAddressId) {
+        DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId);
+        addressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Address address = snapshot.getValue(Address.class);
+                    if (address != null && !snapshot.getKey().equals(currentAddressId) && address.isDefault()) {
+                        // Clear other default addresses
+                        address.setDefault(false);
+                        snapshot.getRef().setValue(address);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
     }
 
     private void deleteAddress() {
