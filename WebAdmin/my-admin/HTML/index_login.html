@@ -1,20 +1,20 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style-login.css">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../CSS/style_login.css">
     </head>
     <body>
         <div class="login-page">
             <div class="form">
-                <form class="login-form" (ngSubmit)="onSubmit()">
+                <form class="login-form" id="loginForm">
                     <h2>ĐĂNG NHẬP</h2>
-                    <input type="text" name="username" placeholder="Tên đăng nhập *" [(ngModel)]="username" required />
-                    <input type="password" name="password" placeholder="Mật khẩu *" [(ngModel)]="password" required />
+                    <input type="text" id="username" placeholder="Tên đăng nhập *" required />
+                    <input type="password" id="password" placeholder="Mật khẩu *" required />
                     <button type="submit">ĐĂNG NHẬP</button>
-                    <!-- <div class="error-msg" *ngIf="error">{{ error }}</div> -->
                 </form>
             </div>
         </div>
-        
-        
+        <script src="../JS/main_login.js"></script>
     </body>
 </html>
