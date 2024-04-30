@@ -85,6 +85,19 @@ public class AddressActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_ADD_ADDRESS);
             }
         });
+
+        lvAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Address address = adapter.getItem(position);
+                if (address != null) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("SELECTED_ADDRESS", address);
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        });
     }
 
     @Override

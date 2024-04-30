@@ -78,13 +78,14 @@
 
     </LinearLayout>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btnEditAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_arrow_forward_ios_24" />
 </RelativeLayout>

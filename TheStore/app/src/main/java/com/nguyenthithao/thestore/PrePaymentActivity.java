@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.OrderBookAdapter;
+import com.nguyenthithao.model.Address;
 import com.nguyenthithao.model.CartItem;
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
@@ -126,6 +127,14 @@ public class PrePaymentActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
+        binding.btnChangeAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrePaymentActivity.this, AddressActivity.class);
+                startActivityForResult(intent, 3);
+            }
+        });
+
         binding.btnChangePaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +185,23 @@ public class PrePaymentActivity extends AppCompatActivity {
                 if (data != null) {
                     String selectedVoucherCode = data.getStringExtra("SELECTED_VOUCHER_CODE");
                     binding.edtVoucher.setText(selectedVoucherCode);
+                }
+            } else if (requestCode == 3) {
+                if (data != null) {
+                    Address selectedAddress = (Address) data.getSerializableExtra("SELECTED_ADDRESS");
+                    name = selectedAddress.getName();
+                    binding.txtCustomerName.setText(name);
+
+                    phone = selectedAddress.getPhone();
+                    binding.txtPhone.setText(phone);
+
+                    street = selectedAddress.getStreet();
+                    binding.txtStreet.setText(street);
+
+                    ward = selectedAddress.getWard();
+                    district = selectedAddress.getDistrict();
+                    province = selectedAddress.getProvince();
+                    binding.txtAddress.setText(ward + ", " + district + ", " + province);
                 }
             }
         }

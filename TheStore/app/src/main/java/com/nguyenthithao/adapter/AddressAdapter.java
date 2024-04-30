@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,7 +45,7 @@ public class AddressAdapter extends ArrayAdapter<Address> {
         TextView txtStreet = convertView.findViewById(R.id.txtStreet);
         TextView txtAddress = convertView.findViewById(R.id.txtAddress);
         TextView txtDefault = convertView.findViewById(R.id.textView47);
-        ImageButton btnEditAddress = convertView.findViewById(R.id.btnEditAddress);
+        ImageView btnEditAddress = convertView.findViewById(R.id.btnEditAddress);
 
         btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
