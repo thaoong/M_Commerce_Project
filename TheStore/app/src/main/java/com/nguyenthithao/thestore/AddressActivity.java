@@ -35,6 +35,7 @@ public class AddressActivity extends AppCompatActivity {
     List<Address> addressList;
     AddressAdapter adapter;
     private static final int REQUEST_CODE_ADD_ADDRESS = 101;
+    private static final int REQUEST_CODE_EDIT_ADDRESS = 102;
     private DatabaseReference addressRef;
     private FirebaseAuth mAuth;
 
@@ -84,21 +85,6 @@ public class AddressActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_ADD_ADDRESS);
             }
         });
-
-        lvAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Address selectedAddress = addressList.get(position);
-
-                // Tạo Intent để chuyển đến màn hình chỉnh sửa
-                Intent intent = new Intent(AddressActivity.this, EditAddressActivity.class);
-                // Truyền địa chỉ được chọn qua Intent
-                intent.putExtra("address", (CharSequence) selectedAddress);
-                startActivity(intent);
-            }
-        });
-
-
     }
 
     @Override
@@ -110,6 +96,11 @@ public class AddressActivity extends AppCompatActivity {
                 String addressId = addressRef.push().getKey();
                 addressRef.child(addressId).setValue(address);
             }
+        }
+
+        if (requestCode == REQUEST_CODE_EDIT_ADDRESS && resultCode == RESULT_OK) {
+            // Cập nhật danh sách địa chỉ sau khi xóa
+            loadAddressList();
         }
     }
 
@@ -127,5 +118,27 @@ public class AddressActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadAddressList() {
+        Query query = addressRef.orderByKey();
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                addressList.clear();
+                for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
+                    Address address = addressSnapshot.getValue(Address.class);
+                    if (address != null) {
+                        addressList.add(address);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

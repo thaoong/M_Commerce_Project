@@ -2,8 +2,10 @@ package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -30,7 +32,7 @@ public class EditAddressActivity extends AppCompatActivity {
     ActivityEditAddressBinding binding;
     DatabaseReference userRef;
     User currentUser;
-
+    private boolean hidden;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,32 +58,23 @@ public class EditAddressActivity extends AppCompatActivity {
             binding.edtDistrict.setText(address.getDistrict());
             binding.edtWard.setText(address.getWard());
             binding.edtStreet.setText(address.getStreet());
+            binding.chkDefaultAddress.setChecked(address.isDefault());
         }
     }
 
     private void addEvents() {
-//        userRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                currentUser = dataSnapshot.getValue(User.class);
-//                if (currentUser == null) {
-//                    // Người dùng không tồn tại, xử lý tùy ý
-//                } else {
-//                    // Hiển thị thông tin địa chỉ của người dùng (nếu cần)
-//                    // Ví dụ: binding.txtAddress.setText(currentUser.getAddresses());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                // Xử lý khi có lỗi xảy ra khi đọc dữ liệu từ cơ sở dữ liệu
-//            }
-//        });
 
         binding.btnSaveAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveAddress();
+            }
+        });
+
+        binding.btnDeleteAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAddress();
             }
         });
     }
@@ -110,29 +103,93 @@ public class EditAddressActivity extends AppCompatActivity {
         String district = binding.edtDistrict.getText().toString().trim();
         String ward = binding.edtWard.getText().toString().trim();
         String street = binding.edtStreet.getText().toString().trim();
-        boolean isDefault = binding.chkDefaultAddress.isChecked();
+        boolean isDefault = binding.chkDefaultAddress.isChecked(); // Lấy trạng thái mặc định từ checkbox
 
+        // Kiểm tra các trường nhập liệu có hợp lệ không
         if (!name.isEmpty() && !phone.isEmpty() && !province.isEmpty() && !district.isEmpty() && !ward.isEmpty() && !street.isEmpty()) {
-            // Create a new Address object
-            com.nguyenthithao.model.Address address = new com.nguyenthithao.model.Address(name, phone, province, district, ward, street, isDefault);
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).push();
-            addressRef.setValue(address)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(EditAddressActivity.this, "Address saved successfully", Toast.LENGTH_SHORT).show();
-//                                startActivity(EditAddressActivity.this, AddressActivity.class);
-                            } else {
-                                Toast.makeText(EditAddressActivity.this, "Failed to save address: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            // Lấy địa chỉ cần chỉnh sửa từ intent
+            Intent intent = getIntent();
+            Address address = (Address) intent.getSerializableExtra("SELECTED_ADDRESS");
+            if (address != null) {
+                // Cập nhật thông tin của địa chỉ
+                address.setName(name);
+                address.setPhone(phone);
+                address.setProvince(province);
+                address.setDistrict(district);
+                address.setWard(ward);
+                address.setStreet(street);
+                address.setDefault(isDefault); // Cập nhật trạng thái mặc định mới
+
+                // Lưu cập nhật vào cơ sở dữ liệu Firebase
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child(address.getAddressId());
+                addressRef.removeValue()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(EditAddressActivity.this, "Address deleted successfully", Toast.LENGTH_SHORT).show();
+                                    setResult(RESULT_OK);
+                                    finish();
+                                } else {
+                                    Toast.makeText(EditAddressActivity.this, "Failed to delete address: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+            } else {
+                Toast.makeText(this, "Failed to retrieve address information", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
         }
+
     }
 
+    private void deleteAddress() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditAddressActivity.this);
+        builder.setTitle("Delete Address");
+        builder.setMessage("Are you sure you want to delete this address?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAddressFromDatabase();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.brown_text));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.brown_text));
+            }
+        });
+        dialog.show();
+    }
+
+    private void deleteAddressFromDatabase() {
+        Intent intent = getIntent();
+        Address address = (Address) intent.getSerializableExtra("SELECTED_ADDRESS");
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference().child("addresses").child(userId).child(address.getAddressId());
+        addressRef.removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditAddressActivity.this, "Address deleted successfully", Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_OK);
+                            finish();
+                        } else {
+                            Toast.makeText(EditAddressActivity.this, "Failed to delete address: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }

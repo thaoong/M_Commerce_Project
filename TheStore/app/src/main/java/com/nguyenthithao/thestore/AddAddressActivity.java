@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddAddressActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE_EDIT_ADDRESS = 102;
     ActivityAddAddressBinding binding;
     List<Address> addressList = new ArrayList<>();
     private Address defaultAddress; // Variable to store the default address
@@ -128,7 +129,7 @@ public class AddAddressActivity extends AppCompatActivity {
                         address.setAddressId(addressSnapshot.getKey());
                         addressList.add(address);
                         if (address.isDefault()) {
-                            defaultAddress = address; // Store the default address
+                            defaultAddress = address;
                         }
                     }
                 }
@@ -141,4 +142,6 @@ public class AddAddressActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
