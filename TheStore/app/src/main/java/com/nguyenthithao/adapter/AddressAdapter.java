@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nguyenthithao.model.Address;
+import com.nguyenthithao.thestore.AddAddressActivity;
 import com.nguyenthithao.thestore.EditAddressActivity;
 import com.nguyenthithao.thestore.R;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class AddressAdapter extends ArrayAdapter<Address> {
     private Activity mContext;
     private int mResource;
-
+    private static final int REQUEST_CODE_EDIT_ADDRESS = 102;
     public AddressAdapter(@NonNull Activity context, int resource, @NonNull List<Address> objects) {
         super(context, resource, objects);
         mContext = context;
@@ -50,7 +51,7 @@ public class AddressAdapter extends ArrayAdapter<Address> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, EditAddressActivity.class);
                 intent.putExtra("SELECTED_ADDRESS", address);
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent, AddAddressActivity.REQUEST_CODE_EDIT_ADDRESS);
             }
         });
 

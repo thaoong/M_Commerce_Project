@@ -6,6 +6,7 @@ public class Address implements Serializable {
     private String name, phone, province, district, ward, street;
     private boolean isDefault;
     private String addressId;
+    private boolean hidden;
 
     public String getName() {
         return name;
@@ -70,6 +71,14 @@ public class Address implements Serializable {
     public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
 
     public Address(String name, String phone, String province, String district, String ward, String street, boolean isDefault) {
         this.name = name;
@@ -80,6 +89,7 @@ public class Address implements Serializable {
         this.street = street;
         this.isDefault = isDefault;
         this.addressId = addressId;
+        this.hidden = hidden;
     }
 
     public Address() {
