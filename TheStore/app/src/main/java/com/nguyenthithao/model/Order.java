@@ -20,12 +20,12 @@ public class Order implements Serializable {
     private String status;
     private String orderDate;
     private String receivedDate;
-    private String note;
+    private String userID;
 
     public Order() {
     }
 
-    public Order(String id, ArrayList<OrderBook> orderBooks, String name, String phone, String street, String ward, String district, String province, float prePrice, float shippingFee, float discount, float total, String paymentMethod, String status, String orderDate, String receivedDate, String note) {
+    public Order(String id, ArrayList<OrderBook> orderBooks, String name, String phone, String street, String ward, String district, String province, float prePrice, float shippingFee, float discount, float total, String paymentMethod, String status, String orderDate, String receivedDate, String userID) {
         Id = id;
         this.orderBooks = orderBooks;
         this.name = name;
@@ -42,7 +42,7 @@ public class Order implements Serializable {
         this.status = status;
         this.orderDate = orderDate;
         this.receivedDate = receivedDate;
-        this.note = note;
+        this.userID = userID;
     }
 
     public String getId() {
@@ -173,11 +173,11 @@ public class Order implements Serializable {
         this.receivedDate = receivedDate;
     }
 
-    public String getNote() {
-        return note;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

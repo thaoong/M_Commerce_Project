@@ -127,7 +127,7 @@
     cursor: pointer;
   }
   
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .navigate__bar {
       width: 100%;
       height: auto;
@@ -144,4 +144,4 @@
       flex: 0 0 calc(50% - 10px);
       margin: 5px;
     }
-  }
+  } */
