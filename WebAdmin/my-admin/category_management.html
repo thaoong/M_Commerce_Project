@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,31 +14,33 @@
             <thead>
                 <tr>
                     <td><b>ID</b></td>
-                    <td><b>IMAGELINK</b></td>
                     <td><b>NAME</b></td>
+                    <td><b>IMAGELINK</b></td>
                     <td><b>ACTIONS</b></td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button class="edit">Edit</button>
-                        <button class="delete">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
-        <button class="add-category">Add Category</button>
+        <button class="add-category" onclick="showAddPopup()">Add Category</button>
     </div>
-    <div class="popup">
-        <form action="">
-            <input type="id" placeholder="id" name="id">
-            <input type="imageLink" placeholder="imageLink" name="imageLink">
-            <input type="name" placeholder="name" name="name">
-            <input type="submit" value="submit" >
+
+    <div id="updatePopup" class="popup">
+        <form>
+            <input type="text" id="newName" placeholder="Name">
+            <input type="text" id="newId" placeholder="ID">
+            <input type="text" id="newImageLink" placeholder="Image Link">
+            <button type="button" id="saveChanges">Save Changes</button>
+            <button type="button" id="cancelUpdate">Cancel</button>
+        </form>
+    </div>
+
+    <div id="addPopup" class="popup">
+        <form>
+            <input type="text" id="addName" placeholder="Name">
+            <input type="text" id="addId" placeholder="ID">
+            <input type="text" id="addImageLink" placeholder="Image Link">
+            <button type="button" id="addCategory">Add Category</button>
+            <button type="button" id="cancelAdd">Cancel</button>
         </form>
     </div>
 
@@ -47,7 +48,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getDatabase, ref, child, get, set, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-       
+
         const firebaseConfig = {
           apiKey: "AIzaSyALP0s0RbtbJ2glwArGQ1s_yQ9kwhGicpI",
           authDomain: "thestore-55f0f.firebaseapp.com",
@@ -58,13 +59,14 @@
           appId: "1:318647012345:web:fc1ceaf122b8376eaa8b28",
           measurementId: "G-1XNCYRDHHN"
         };
-      
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
         const categoryRef = ref(db, 'categories/');
-        onValue(categoryRef, (snapshot) => {
-            const data = snapshot.val();
-            // console.log(data);
+        console.log()
+
+        // Function to display data
+        function displayData(data) {
             var htmlData = '';
             for (var key in data) {
                 var category = data[key];
@@ -73,19 +75,106 @@
                 var imageLink = category.imageLink;
                 htmlData += `
                     <tr>
-                        <td><b>${name}</b></td>
                         <td>${id}</td>
+                        <td><b>${name}</b></td>
                         <td>${imageLink}</td>
                         <td>
-                            <button onclick="">Update</button>
-                            <button onclick="">Delete</button>
+                            <button onclick="showUpdatePopup('${key}', '${name}', '${id}', '${imageLink}')">Update</button>
+                            <button onclick="deleteCategory('${key}')">Delete</button>
                         </td>
                     </tr>
                 `;
             }
             document.querySelector('tbody').innerHTML = htmlData;
-        });   
-    </script>
+        }
 
+        // Retrieve data and display it
+        onValue(categoryRef, (snapshot) => {
+            const data = snapshot.val();
+            displayData(data);
+        });
+
+        // Function to show update popup
+        function showUpdatePopup(key, name, id, imageLink) {
+            document.getElementById("newName").value = name;
+            document.getElementById("newId").value = id;
+            document.getElementById("newImageLink").value = imageLink;
+            document.getElementById("updatePopup").style.display = "flex";
+
+            var currentKey = key;
+
+            // Save changes
+            document.getElementById("saveChanges").onclick = function () {
+                const newName = document.getElementById("newName").value;
+                const newId = document.getElementById("newId").value;
+                const newImageLink = document.getElementById("newImageLink").value;
+
+                if (newName !== "" && newId !== "" && newImageLink !== "") {
+                    set(ref(db, 'categories/' + currentKey), {
+                        name: newName,
+                        id: newId,
+                        imageLink: newImageLink,
+                    }).then(() => {
+                        document.getElementById("updatePopup").style.display = "none";
+                    }).catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });
+                } else {
+                    alert("Please fill in all fields.");
+                }
+            };
+
+            // Cancel update
+            document.getElementById("cancelUpdate").onclick = function () {
+                document.getElementById("updatePopup").style.display = "none";
+            };
+        }
+
+        // Function to show add popup
+        function showAddPopup() {
+            document.getElementById("addPopup").style.display = "flex";
+
+            // Add category
+            document.getElementById("addCategory").onclick = function () {
+                const name = document.getElementById("addName").value;
+                const id = document.getElementById("addId").value;
+                const imageLink = document.getElementById("addImageLink").value;
+
+                if (name !== "" && id !== "" && imageLink !== "") {
+                    const newCategory = {
+                        name: name,
+                        id: id,
+                        imageLink: imageLink,
+                    };
+                    const newCategoryRef = push(ref(db, 'categories'));
+                    set(newCategoryRef, newCategory).then(() => {
+                        document.getElementById("addPopup").style.display = "flex";
+                    }).catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+                } else {
+                    alert("Please fill in all fields.");
+                }
+            };
+
+            // Cancel add
+            document.getElementById("cancelAdd").onclick = function () {
+                document.getElementById("addPopup").style.display = "none";
+            };
+        }
+
+        // Function to delete category
+        function deleteCategory(key) {
+            if (confirm("Are you sure you want to delete this category?")) {
+                remove(ref(db, 'categories/' + key)).then(() => {
+                    console.log("Document successfully deleted!");
+                }).catch((error) => {
+                    console.error("Error removing document: ", error);
+                });
+            }
+        }
+
+        
+    </script>
 </body>
 </html>
