@@ -31,36 +31,32 @@
                 <img src="assets/admin-avatar.png" class="admin-ava">
             </div> -->
             <div class="page-title">
-                <p>Quản lý đơn hàng</p>
+                <p>Quản lý khách hàng</p>
                 <!-- <div class="page-search">
                     <input type="search" id="search" placeholder="Tìm kiếm..." />
                     <span class="material-symbols-outlined">search</span>
                 </div> -->
             </div>
             <div class="title__main">
-                Tổng số lượng đơn hàng: {{totalOrder(orders)}} đơn hàng
+                Tổng số khách hàng: .. khách hàng
             </div>
             <div class="page-body">
                 <table class="orders">
                     <thead>
                         <th>STT</th>
-                        <th>Mã đơn hàng</th>
+                        <th>Mã khách hàng</th>
                         <th>Tên khách hàng</th>
-                        <th>Ngày tạo</th>
-                        <th>Tổng tiền</th>
-                        <th>Tình trạng</th>
+                        <th>Email</th>
+                        <th>SĐT</th>
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let order of orders; index as i">
-                            <td>{{i+1}}</td>
-                            <td>{{order.OrderID}}</td>
-                            <td>{{order.CustomerName}}</td>
-                            <td>{{order.OrderDate}}</td>
-                            <td>
-                                {{order.TotalPrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})}}đ
-                            </td>
-                            <td>{{order.Status}}</td>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <button id="visual" (click)="viewOrderDetail(order)"
                                     (click)="searchCustomer(order.CustomerID)">
