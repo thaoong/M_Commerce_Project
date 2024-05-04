@@ -60,8 +60,13 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("androidx.core:core-ktx:1.3.2")
+
 
     implementation("com.google.firebase:firebase-storage:20.0.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:17.1.0")
+
 
 }

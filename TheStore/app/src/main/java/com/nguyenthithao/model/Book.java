@@ -16,6 +16,7 @@ public class Book implements Serializable {
     private float rating;
     private int reviewNum;
     private float unitPrice;
+    private boolean isBuy;
 
     public Book() {
     }
@@ -136,5 +137,13 @@ public class Book implements Serializable {
     public void setBestSelling(int bestSelling) {
         this.bestSelling = bestSelling;
     }
+    public boolean isBuy() {
+        return isBuy;
+    }
+
+    public void setBuy(boolean isBuy) {
+        this.isBuy = isBuy;
+    }
+
 
 }

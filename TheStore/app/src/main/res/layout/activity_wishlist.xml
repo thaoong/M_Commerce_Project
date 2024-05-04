@@ -7,30 +7,40 @@
     android:orientation="vertical"
     tools:context=".WishlistActivity">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
     <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_weight="1"
         android:text="Chọn mua tất cả"
         android:textColor="@color/brown_text"
         android:textColorLink="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/lvFavoBook"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
         android:paddingTop="20dp"
-        android:layout_weight="1" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="15dp" />
+
+    <Button
+        android:id="@+id/btnProceedBuy"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/brown_text"
+        android:text="BUY NOW"
+        android:textColor="@color/brown_button"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold" />
 
 </LinearLayout>
