@@ -34,11 +34,11 @@ public class SearchResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_search_result);
         btnBack = findViewById(R.id.btnBack);
 //        btnEmptySearchBar = findViewById(R.id.btnEmptySearchBar);
-        btnSearch = findViewById(R.id.btnSearch);
+//        btnSearch = findViewById(R.id.btnSearch);
 
         rvSearchResult = findViewById(R.id.rvSearchResult);
         bookList = new ArrayList<>();
