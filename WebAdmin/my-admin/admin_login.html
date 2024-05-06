@@ -1,81 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>LOGIN ADMIN</title>
-    <link rel="stylesheet" type="text/css" href="CSS/style_login.css">
-  </head>
-  <body>
-    <div class="login-page">
-      <div class="form">
-        <form id="loginForm" class="login-form" onsubmit="login(event)">
-          <h2>ĐĂNG NHẬP</h2>
-          <input type="text" id="admin" name="admin" placeholder="Tên đăng nhập *" required />
-          <input type="password" id="password" name="password" placeholder="Mật khẩu *" required />
-          <button type="submit">ĐĂNG NHẬP</button>
-          <div class="error-msg" id="error-msg"></div>
-        </form>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>LOGIN ADMIN</title>
+  <link rel="stylesheet" type="text/css" href="CSS/style_login.css">
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="form">
+      <form id="loginForm" class="login-form">
+        <h2>ĐĂNG NHẬP</h2>
+        <input type="text" id="username" name="username" placeholder="Tên đăng nhập *" required />
+        <input type="password" id="password" name="password" placeholder="Mật khẩu *" required />
+        <button type="submit">ĐĂNG NHẬP</button>
+        <div class="error-msg" id="error-msg"></div>
+      </form>
     </div>
+  </div>
 
-    <script type="module">  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+  <script type="module" src="JS/login.js"></script>
+</body>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyALP0s0RbtbJ2glwArGQ1s_yQ9kwhGicpI",
-        authDomain: "thestore-55f0f.firebaseapp.com",
-        databaseURL: "https://thestore-55f0f-default-rtdb.firebaseio.com",
-        projectId: "thestore-55f0f",
-        storageBucket: "thestore-55f0f.appspot.com",
-        messagingSenderId: "318647012345",
-        appId: "1:318647012345:web:fc1ceaf122b8376eaa8b28",
-        measurementId: "G-1XNCYRDHHN",
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth();
-      const db = getDatabase();
-      const adminRef = ref(db, "admin/");
-
-      // Lắng nghe sự thay đổi dữ liệu và cập nhật giá trị của ô input
-      onValue(adminRef, (snapshot) => {
-        const data = snapshot.val();
-        for (const key in data) {
-          const admin = data[key];
-          const username = admin.username;
-          const password = admin.password;
-          // Cập nhật giá trị của ô input chỉ khi chúng trống
-          if (!document.getElementById("admin").value) {
-            document.getElementById("admin").value = username;
-          }
-          if (!document.getElementById("password").value) {
-            document.getElementById("password").value = password;
-          }
-        }
-      });
-
-      function login(event) {
-        event.preventDefault();
-
-        const username = document.getElementById("admin").value;
-        const password = document.getElementById("password").value;
-
-        // Kiểm tra đăng nhập
-        signInWithEmailAndPassword(auth, username, password)
-  .then(() => {
-    // Đăng nhập thành công
-    alert("Đăng nhập thành công");
-    // Sau khi đăng nhập thành công, chuyển hướng sang trang home.html
-    window.location.href = "home.html";
-  })
-  .catch((error) => {
-    // Xử lý lỗi đăng nhập
-    const errorMessage = error.message;
-    document.getElementById("error-msg").textContent = errorMessage;
-  });
-      }
-    </script>
-  </body>
 </html>
