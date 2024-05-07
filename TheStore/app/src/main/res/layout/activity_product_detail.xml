@@ -341,7 +341,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnBuyNow"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"

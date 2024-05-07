@@ -47,7 +47,7 @@ public class MyReviewActivity extends AppCompatActivity {
     private void addViews() {
         lvOrderDetail = findViewById(R.id.lvOrderDetail);
         dsOrderDetail = new ArrayList<>();
-        adapterOrderDetail = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_order_book, dsOrderDetail);
+        adapterOrderDetail = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_rating, dsOrderDetail);
         lvOrderDetail.setAdapter(adapterOrderDetail);
 
         tabHost = findViewById(R.id.tabHost);

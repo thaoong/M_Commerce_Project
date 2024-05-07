@@ -85,100 +85,117 @@ public class ProductDetailActivity extends AppCompatActivity {
                 toggleWishlist();
             }
         });
-
     }
 
     private void addEvents() {
         binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser == null) {
-                    Toast.makeText(ProductDetailActivity.this, "Please log in to continue shopping", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
+                processAddToCart();
+            }
+        });
+
+        binding.btnBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<CartItem> selectedCartItems = new ArrayList<>();
+                CartItem cartItem = new CartItem(selectedBook.getId(), selectedBook.getName(), selectedBook.getUnitPrice(), selectedBook.getImageLink().get(0), selectedBook.getOldPrice(), 1);
+                selectedCartItems.add(cartItem);
+                if (selectedCartItems!= null &&!selectedCartItems.isEmpty()) {
+                    Intent intent = new Intent(ProductDetailActivity.this, PrePaymentActivity.class);
+                    intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
                     startActivity(intent);
-                } else {
-                    selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String bookId = selectedBook.getId();
-                    DatabaseReference cartRef = database.getReference("carts").child(userId).child(bookId);
-
-                    String productName = selectedBook.getName();
-                    float unitPrice = selectedBook.getUnitPrice();
-                    float oldPrice = selectedBook.getOldPrice();
-                    String productImageUrl = selectedBook.getImageLink().get(0);
-
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductDetailActivity.this);
-                    LayoutInflater inflater = getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.dialog_cart_choose_quanntity, null);
-                    dialogBuilder.setView(dialogView);
-
-                    TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
-                    ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
-                    EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
-                    ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
-                    Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
-
-                    tvDialogTitle.setText("Select Quantity");
-                    final int[] currentQuantity = {1};
-                    edtQuantity.setText(String.valueOf(currentQuantity[0]));
-
-                    btnDecrease.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (currentQuantity[0] > 0) {
-                                currentQuantity[0]--;
-                                edtQuantity.setText(String.valueOf(currentQuantity[0]));
-                            }
-                        }
-                    });
-
-                    btnIncrease.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            currentQuantity[0]++;
-                            edtQuantity.setText(String.valueOf(currentQuantity[0]));
-                        }
-                    });
-
-                    final AlertDialog dialog = dialogBuilder.create();
-                    dialog.show();
-
-                    btnAddToCart.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int quantity = Integer.parseInt(edtQuantity.getText().toString());
-                            cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        // Product already exists in the cart, update the quantity
-                                        CartItem cartItem = snapshot.getValue(CartItem.class);
-                                        int currentQuantity = cartItem.getQuantity();
-                                        int updatedQuantity = currentQuantity + quantity;
-                                        cartItem.setQuantity(updatedQuantity);
-                                        cartRef.setValue(cartItem);
-                                    } else {
-                                        // Product doesn't exist in the cart, add a new entry
-                                        CartItem cartItem = new CartItem(bookId, productName, unitPrice, productImageUrl, oldPrice, quantity);
-                                        cartRef.setValue(cartItem);
-                                    }
-                                    Toast.makeText(ProductDetailActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    // Handle any database error
-                                }
-                            });
-                        }
-                    });
                 }
             }
         });
+    }
+
+    private void processAddToCart() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(ProductDetailActivity.this, "Please log in to continue shopping", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String bookId = selectedBook.getId();
+            DatabaseReference cartRef = database.getReference("carts").child(userId).child(bookId);
+
+            String productName = selectedBook.getName();
+            float unitPrice = selectedBook.getUnitPrice();
+            float oldPrice = selectedBook.getOldPrice();
+            String productImageUrl = selectedBook.getImageLink().get(0);
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductDetailActivity.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_cart_choose_quanntity, null);
+            dialogBuilder.setView(dialogView);
+
+            TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
+            ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
+            EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
+            ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
+            Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
+
+            tvDialogTitle.setText("Select Quantity");
+            final int[] currentQuantity = {1};
+            edtQuantity.setText(String.valueOf(currentQuantity[0]));
+
+            btnDecrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentQuantity[0] > 0) {
+                        currentQuantity[0]--;
+                        edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                    }
+                }
+            });
+
+            btnIncrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentQuantity[0]++;
+                    edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                }
+            });
+
+            final AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+
+            btnAddToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int quantity = Integer.parseInt(edtQuantity.getText().toString());
+                    cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // Product already exists in the cart, update the quantity
+                                CartItem cartItem = snapshot.getValue(CartItem.class);
+                                int currentQuantity = cartItem.getQuantity();
+                                int updatedQuantity = currentQuantity + quantity;
+                                cartItem.setQuantity(updatedQuantity);
+                                cartRef.setValue(cartItem);
+                            } else {
+                                // Product doesn't exist in the cart, add a new entry
+                                CartItem cartItem = new CartItem(bookId, productName, unitPrice, productImageUrl, oldPrice, quantity);
+                                cartRef.setValue(cartItem);
+                            }
+                            Toast.makeText(ProductDetailActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle any database error
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void getBookImages() {
