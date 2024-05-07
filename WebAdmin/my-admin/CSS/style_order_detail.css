@@ -7,7 +7,6 @@
     flex-direction: row;
     width: 100%;
     height: max-content;
-    background: #F6F8FB;
 }
 .main-left{
     width: 15%;
@@ -17,7 +16,7 @@
     width: 85%;
     height: 100vh;
     display: flex;
-    padding: 0 38px;
+    padding: 10px 38px;
     flex-direction: column;
 }
 .admin-info{
@@ -47,23 +46,23 @@
     margin: 0 10px;
     text-align: center;
 }
+
 .page-title{
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 10px;
+    line-height: 5px;
 }
+
 .page-title p{
     font-weight: bold;
     font-size: 35px !important;
-    margin: 0;
     padding: 0;
-    color: #2D982A;
+    color: #5C3507;
 }
 .page-search{
     border-radius: 25px;
-    border: 1px solid #2D982A;
+    border: 1px solid #5C3507;
     padding: 0px 10px;
     display: flex;
     flex-direction: row;
@@ -78,85 +77,39 @@
   'wght' 400,
   'GRAD' 0,
   'opsz' 20;
-  color: #2D982A;
+  color: #5C3507;
 }
 /* --------------------------- */
-.page-body{
-    background-color: #FFFF;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-
-}
-.page-title{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    line-height: 5px;
-}
-.page-title-main{
-    font-size: 25px;
-}
-.page-body-title{
-    margin-top: 50px;
-    margin-left: 60px;
-    font-weight: bold;
-    font-size: 35px;
-}
-.page-body-search {
-  display: flex;
-  align-items: center;
-  height: 30px;
-  width: 220px;
-  margin-right: 80px;
-  border: 1px solid #ccc;
-  border-radius: 100px;
-  background-color: #fff;
-  padding: 2px 4px;
-}
-.page-body-search span {
-  color: #ccc;
-}
-#search{
-    outline: none;
-    border: none;
-    padding: 4px;
-    width: 100%;
-}
 .page-body-header{
     height: 100px;
-    height: 100px;
     display: flex;
-    justify-content: center;
+    margin-bottom: 10px;
 }
 .order_info{
     display: flex;
     position: absolute;
     height: 95px;
-
 }
 .order_info--detail{
     display: block;
-    padding:8px 30px
+    padding: 8px 30px
 }
 .order_info--detail p{
     text-align: center;
-    font-weight: bold;
-
 }
 .title{
-    font-size: 20px;
-    color: #2D982A;
-    font-weight: bold;
+    font-size: 17px;
+    font-weight: 600;
 }
-#ord_id{
-    font-weight: bold;
+
+.data {
+    font-size: 18px;
+    color: #5C3507; 
+    font-weight: 600;
 }
 
 .page-body-content{
     display: flex;
-    height: 450px;
     margin-left: 10px;
 }
 .page-body-table{
@@ -167,14 +120,19 @@
     table-layout: auto;
     width: 100%;
     text-align: center;
-    border-spacing: 0px;    
+    border-spacing: 0px;
 }
 .table_title{
     width: 100%;
     height: 35px;
-    background-color: #d5eed8;
+    background-color: #EFEBE7;
+    color: #5C3507;
+    font-weight: bold;
     border-radius: 20px;
-    padding: 10px;
+}
+.table_title th, td {
+    max-width: 300px;
+    padding: 5px;
 }
 .table_data td{
     border-bottom: 1px solid #ddd;
@@ -208,11 +166,11 @@ td.total{
     height: 30px;
 }
 #approve{
-    background-color: #2D982A;
+    background-color: #5C3507;
     color:#fff
 }
 #deli{
-    background-color: #2D982A;
+    background-color: #5C3507;
     color:#fff
 }
 #cancel{
@@ -224,13 +182,13 @@ td.total{
     margin: 0 20px;
 }
 .order-info{
-    border: 1px solid #000000;
+    border: 1px solid #5C3507;
     border-radius: 10px;
-    align-items: center;
     padding-left: 10px
 }
 .order-info-title{
     font-weight: bold;
+    color: #5C3507;
 }
 #note{
     font-style: italic;

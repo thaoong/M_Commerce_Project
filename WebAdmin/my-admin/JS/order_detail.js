@@ -56,8 +56,8 @@ get(child(dbRef, `orders/${key}`)).then((snapshot) => {
                 td2.appendChild(img);
                 td3.innerHTML = bookName;
                 td4.innerHTML = quantity;
-                td5.innerHTML = unitPrice;
-                td6.innerHTML = quantity * unitPrice;
+                td5.innerHTML = unitPrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
+                td6.innerHTML = (quantity * unitPrice).toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
 
                 trow.appendChild(td1);
                 trow.appendChild(td2);
@@ -69,13 +69,13 @@ get(child(dbRef, `orders/${key}`)).then((snapshot) => {
             }
         })
 
-        document.getElementById("pre_price").innerHTML = order.prePrice
-        document.getElementById("shipping_fee").innerHTML = order.shippingFee
-        document.getElementById("discount").innerHTML = order.discount
-        document.getElementById("total").innerHTML = order.total
+        document.getElementById("pre_price").innerHTML = order.prePrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
+        document.getElementById("shipping_fee").innerHTML = order.shippingFee.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
+        document.getElementById("discount").innerHTML = order.discount.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
+        document.getElementById("total").innerHTML = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
         document.getElementById("customer_name").innerHTML = "Khách hàng: " + order.name
         document.getElementById("phone_number").innerHTML = "SĐT: " + order.phone
-        document.getElementById("address").innerHTML = order.street + ", " + order.ward + ", ", order.district + ", ", order.province
+        document.getElementById("address").innerHTML = "Địa chỉ: " + order.street + ", " + order.ward + ", " + order.district + ", " + order.province
 
         // console.log(snapshot.val());
     } else {

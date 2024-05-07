@@ -14,30 +14,27 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const orderRef = ref(db, "orders/");
+const voucherRef = ref(db, "vouchers/");
 const dataContainer = document.querySelector("tbody")
 
-onValue(orderRef, (snapshot) => {
+onValue(voucherRef, (snapshot) => {
   const data = snapshot.val();
   var htmlData = "";
   var i = 0;
-  var totalOrder = Object.keys(data).length;
-  document.getElementById("totalOrder").innerHTML = "Tổng số lượng đơn hàng: " + totalOrder + " đơn hàng"
   for (var key in data) {
-    var order = data[key];
-    var name = order.name;
-    var orderDate = order.orderDate;
-    var total = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-    var status = order.status;
+    var voucher = data[key];
+    var code = voucher.code;
+    var amount = voucher.amount.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
+    var expiration = voucher.expiration
+    var condition = voucher.condition.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
 
     htmlData += `
       <tr>
         <td>${++i}</td>
-        <td>${key}</td>
-        <td>${name}</td>
-        <td>${orderDate}</td>
-        <td>${total}</td>
-        <td>${status}</td>
+        <td>${code}</td>
+        <td>${amount}</td>
+        <td>${condition}</td>
+        <td>${expiration}</td>
         <td>
           <button id="visual" onclick="viewOrderDetail('${key}')">
             <span class="material-icons-outlined">visibility</span>

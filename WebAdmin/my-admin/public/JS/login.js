@@ -13,26 +13,21 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// const auth = getAuth();
 const db = getDatabase();
 const adminRef = ref(db, "admin/");
 document.getElementById("loginForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Ngăn chặn việc tải lại trang
+    event.preventDefault(); 
 
-    // Lấy giá trị từ trường "admin" và "password"
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    // Lắng nghe sự thay đổi dữ liệu và cập nhật giá trị của ô input
     onValue(adminRef, (snapshot) => {
         const data = snapshot.val();
         for (const key in data) {
             const admin = data[key];
             console.log(admin)
             if (admin.username === username && admin.password === password) {
-                // Xác thực thành công, chuyển hướng đến trang mới
                 window.location.href = "navigate_bar.html";
             } else {
-                // Xác thực không thành công, hiển thị thông báo lỗi
                 document.getElementById("error-msg").textContent = "Username or password is incorrect!";
             }
         }

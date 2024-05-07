@@ -14,32 +14,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const orderRef = ref(db, "orders/");
+const userRef = ref(db, "users/");
 const dataContainer = document.querySelector("tbody")
 
-onValue(orderRef, (snapshot) => {
+onValue(userRef, (snapshot) => {
   const data = snapshot.val();
   var htmlData = "";
   var i = 0;
-  var totalOrder = Object.keys(data).length;
-  document.getElementById("totalOrder").innerHTML = "Tổng số lượng đơn hàng: " + totalOrder + " đơn hàng"
+  var totalUser = Object.keys(data).length;
+  document.getElementById("totalUser").innerHTML = "Tổng số lượng khách hàng: " + totalUser + " khách hàng"
   for (var key in data) {
-    var order = data[key];
-    var name = order.name;
-    var orderDate = order.orderDate;
-    var total = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-    var status = order.status;
+    var user = data[key];
+    var name = user.name;
+    var email = user.email;
+    var phone = user.phone;
 
     htmlData += `
       <tr>
         <td>${++i}</td>
         <td>${key}</td>
         <td>${name}</td>
-        <td>${orderDate}</td>
-        <td>${total}</td>
-        <td>${status}</td>
+        <td>${email}</td>
+        <td>${phone}</td>
         <td>
-          <button id="visual" onclick="viewOrderDetail('${key}')">
+          <button id="visual" onclick="viewCustomerDetail('${key}')">
             <span class="material-icons-outlined">visibility</span>
           </button>
         </td>
