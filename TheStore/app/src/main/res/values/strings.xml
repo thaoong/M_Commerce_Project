@@ -12,7 +12,7 @@
     <string name="strOrderHistory">Order history</string>
     <string name="strWishlist">Wishlist</string>
     <string name="strVoucher">Voucher wallet</string>
-    <string name="strMyReview">My Review</string>
+    <string name="strMyReview">My Rating</string>
     <string name="strChangePassword">Change password</string>
     <string name="strSupport">Support</string>
     <string name="strAddNewAddress">Add a new address</string>

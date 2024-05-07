@@ -68,5 +68,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:17.1.0")
 
+    implementation("com.squareup.picasso:picasso:2.71828")
+
 
 }

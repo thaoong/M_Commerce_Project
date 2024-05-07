@@ -31,16 +31,16 @@ public class OrderDetailActivity extends AppCompatActivity {
         adapterOrderDetail=new OrderDetailAdapterTest(OrderDetailActivity.this, R.layout.item_order_book, dsOrderDetail);
         lvOrderDetail.setAdapter(adapterOrderDetail);
 
-        giaLapOrderDetail();
+//        giaLapOrderDetail();
     }
 
-    private void giaLapOrderDetail() {
-        dsOrderDetail.add(new OrderDetailTest("Hoàng tử bé", "112.000đ", 2));
-        dsOrderDetail.add(new OrderDetailTest("Doraemon", "117.000đ", 3));
-        dsOrderDetail.add(new OrderDetailTest("Hoàng tử lớn", "12.000đ", 1));
-
-        adapterOrderDetail.notifyDataSetChanged();
-    }
+//    private void giaLapOrderDetail() {
+//        dsOrderDetail.add(new OrderDetailTest("Hoàng tử bé", "112.000đ", 2));
+//        dsOrderDetail.add(new OrderDetailTest("Doraemon", "117.000đ", 3));
+//        dsOrderDetail.add(new OrderDetailTest("Hoàng tử lớn", "12.000đ", 1));
+//
+//        adapterOrderDetail.notifyDataSetChanged();
+//    }
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();

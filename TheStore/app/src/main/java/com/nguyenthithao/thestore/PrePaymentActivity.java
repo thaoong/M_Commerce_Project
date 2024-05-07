@@ -278,7 +278,7 @@ public class PrePaymentActivity extends AppCompatActivity {
         order.setUserID(userId);
 
         DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
-        String orderId = ordersRef.push().getKey(); // Tạo một khóa duy nhất cho đơn hàng
+        String orderId = ordersRef.push().getKey();
         ordersRef.child(orderId).setValue(order)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

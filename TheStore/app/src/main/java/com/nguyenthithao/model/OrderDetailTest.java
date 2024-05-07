@@ -4,17 +4,11 @@ import java.io.Serializable;
 
 public class OrderDetailTest implements Serializable {
     private String name;
-    private String price;
-    private float quantity;
-
-    public OrderDetailTest() {
-    }
-
-    public OrderDetailTest(String name, String price, float quantity) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
+    private String imageLink;
+    private float unitPrice;
+    private float oldPrice;
+    private int quantity;
+    private String id;
 
     public String getName() {
         return name;
@@ -24,19 +18,55 @@ public class OrderDetailTest implements Serializable {
         this.name = name;
     }
 
-    public String getPrice() {
-        return price;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
-    public float getQuantity() {
+    public float getPrice() {
+        return unitPrice;
+    }
+
+    public void setPrice(float price) {
+        unitPrice = price;
+    }
+
+    public float getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(float oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public OrderDetailTest(String name, String imageLink, float price, float oldPrice, int quantity, String id) {
+        this.name = name;
+        this.imageLink = imageLink;
+        unitPrice = price;
+        this.oldPrice = oldPrice;
+        this.quantity = quantity;
+        this.id = id;
+    }
+
+    public OrderDetailTest() {
     }
 }
