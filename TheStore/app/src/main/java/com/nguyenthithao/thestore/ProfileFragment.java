@@ -31,7 +31,6 @@ import com.nguyenthithao.thestore.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
-
     private View view;
     private FragmentProfileBinding binding;
     private FirebaseAuth mAuth;
@@ -56,11 +55,9 @@ public class ProfileFragment extends Fragment {
         showUserData();
         checkLoginStatus();
         return view;
-
     }
 
     private void checkLoginStatus() {
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             isLoggedIn = true;
@@ -143,7 +140,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showUserData() {
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -179,39 +175,67 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
     private void addEvents() {
         binding.btnModifyProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileInfoActivity.class);
-                startActivityForResult(intent, 1);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to modify your profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), ProfileInfoActivity.class);
+                    startActivityForResult(intent, 1);
+                }
             }
         });
 
         binding.btnModifyAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddressActivity.class);
-                startActivity(intent);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your addresses", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), AddressActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
-        binding.btnChangeLanguage.setOnClickListener(new View.OnClickListener() {
+        binding.btnViewRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyReviewActivity.class);
-                startActivity(intent);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your rating", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), MyReviewActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         binding.btnViewWhistlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WishlistActivity.class);
-                startActivity(intent);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your wishlist", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), WishlistActivity.class);
+                    startActivity(intent);
+                }
             }
         });
+
         binding.btnViewVouchers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,11 +251,19 @@ public class ProfileFragment extends Fragment {
                 logout();
             }
         });
+
         binding.btnViewOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
-                startActivity(intent);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your order history", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -256,27 +288,24 @@ public class ProfileFragment extends Fragment {
                 openSupport();
             }
         });
-        binding.btnViewWhistlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openWishlist();
-            }
-        });
 
         binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { openChagePassword();
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to change password", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    openChagePassword();
+                }
             }
         });
     }
 
     private void openChagePassword() {
         Intent intent = new Intent(getActivity(), ConfirmPasswordActivity.class);
-        startActivity(intent);
-    }
-
-    private void openWishlist() {
-        Intent intent = new Intent(getActivity(), WishlistActivity.class);
         startActivity(intent);
     }
 
@@ -302,7 +331,7 @@ public class ProfileFragment extends Fragment {
                             editor.apply();
                         }
 
-                        Toast.makeText(getActivity(), "Log out successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Sign out successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
                         getActivity().finish();

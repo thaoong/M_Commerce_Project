@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
@@ -94,15 +94,19 @@
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/strSaveLogin" />
+            android:layout_weight="1"
+            android:buttonTint="@color/brown_text"
+            android:text="@string/strSaveLogin"
+            android:textColor="@color/brown_text"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtForgotPw"
-            android:layout_width="147dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="80dp"
             android:text="@string/strForgotPw"
-            android:textColor="#FA0000" />
+            android:textColor="#FA0000"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Button

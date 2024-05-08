@@ -12,7 +12,7 @@
     <string name="strOrderHistory">Order history</string>
     <string name="strWishlist">Wishlist</string>
     <string name="strVoucher">Voucher wallet</string>
-    <string name="strMyReview">My Rating</string>
+    <string name="strMyReview">My rating</string>
     <string name="strChangePassword">Change password</string>
     <string name="strSupport">Support</string>
     <string name="strAddNewAddress">Add a new address</string>
@@ -63,7 +63,7 @@
     <string name="strBtnWelcome">Explore Now</string>
     <string name="strTeam">\@2024 DELE.TEAM</string>
     <string name="strNoProduct">There are no items in the shopping cart</string>
-    <string name="strChooseProduct">Choose Product</string>
+    <string name="strChooseProduct">Choose product</string>
     <string name="strProductcatalog">Product catalog</string>
     <string name="strHorrified">Horrified</string>
     <string name="strNovel">Novel</string>
@@ -76,6 +76,6 @@
     <string name="strComic">Comic</string>
     <string name="default_web_client_id">318647012345-7jsl5hpfrr5fonkvsg3454pqa1q57u1h.apps.googleusercontent.com</string>
     <string name="strProvideSms">Provide your account email for which you want to reset your password!</string>
-    <string name="strConfirmPwText">Please input your current password to verify.</string>
+    <string name="strConfirmPwText">Please enter your current password to verify</string>
 
 </resources>

@@ -98,16 +98,68 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.btnBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<CartItem> selectedCartItems = new ArrayList<>();
-                CartItem cartItem = new CartItem(selectedBook.getId(), selectedBook.getName(), selectedBook.getUnitPrice(), selectedBook.getImageLink().get(0), selectedBook.getOldPrice(), 1);
-                selectedCartItems.add(cartItem);
-                if (selectedCartItems!= null &&!selectedCartItems.isEmpty()) {
-                    Intent intent = new Intent(ProductDetailActivity.this, PrePaymentActivity.class);
-                    intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
-                    startActivity(intent);
-                }
+                processBuyNow();
             }
         });
+    }
+
+    private void processBuyNow() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(ProductDetailActivity.this, "Please log in to continue shopping", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductDetailActivity.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_cart_choose_quanntity, null);
+            dialogBuilder.setView(dialogView);
+
+            ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
+            EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
+            ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
+            Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
+            btnAddToCart.setText("Buy now");
+            final int[] currentQuantity = {1};
+            edtQuantity.setText(String.valueOf(currentQuantity[0]));
+
+            btnDecrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentQuantity[0] > 0) {
+                        currentQuantity[0]--;
+                        edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                    }
+                }
+            });
+
+            btnIncrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentQuantity[0]++;
+                    edtQuantity.setText(String.valueOf(currentQuantity[0]));
+                }
+            });
+
+            final AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+
+            btnAddToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int quantity = Integer.parseInt(edtQuantity.getText().toString());
+                    ArrayList<CartItem> selectedCartItems = new ArrayList<>();
+                    CartItem cartItem = new CartItem(selectedBook.getId(), selectedBook.getName(), selectedBook.getUnitPrice(), selectedBook.getImageLink().get(0), selectedBook.getOldPrice(), quantity);
+                    selectedCartItems.add(cartItem);
+                    if (selectedCartItems != null && !selectedCartItems.isEmpty()) {
+                        Intent intent = new Intent(ProductDetailActivity.this, PrePaymentActivity.class);
+                        intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                }
+            });
+        }
     }
 
     private void processAddToCart() {
@@ -134,13 +186,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             View dialogView = inflater.inflate(R.layout.dialog_cart_choose_quanntity, null);
             dialogBuilder.setView(dialogView);
 
-            TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
             ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
             EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
             ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
             Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
 
-            tvDialogTitle.setText("Select Quantity");
             final int[] currentQuantity = {1};
             edtQuantity.setText(String.valueOf(currentQuantity[0]));
 

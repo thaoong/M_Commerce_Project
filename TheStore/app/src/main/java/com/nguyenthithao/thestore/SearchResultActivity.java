@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,27 +28,27 @@ import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView rvSearchResult;
+    private TextView txtSearchResults;
+    private LinearLayout llNoSearchResult;
     private BookAdapter bookAdapter;
     private ArrayList<Book> bookList;
     private String query;
-    ImageButton btnSearch;
-    private ImageView btnBack, btnEmptySearchBar;
+    private ImageView btnBack;
     private EditText edtSearch;
+
+    @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_search_result);
         btnBack = findViewById(R.id.btnBack);
-//        btnEmptySearchBar = findViewById(R.id.btnEmptySearchBar);
-//        btnSearch = findViewById(R.id.btnSearch);
-
+        llNoSearchResult = findViewById(R.id.llNoSearchResult);
+        txtSearchResults = findViewById(R.id.txtSearchResults);
         rvSearchResult = findViewById(R.id.rvSearchResult);
         bookList = new ArrayList<>();
         bookAdapter = new BookAdapter(bookList);
-
         edtSearch = findViewById(R.id.edt_Search);
-
         rvSearchResult.setLayoutManager(new GridLayoutManager(this,2));
         rvSearchResult.setAdapter(bookAdapter);
         query = getIntent().getStringExtra("QUERY");
@@ -65,12 +68,9 @@ public class SearchResultActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void searchBooks(String query) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference booksRef = firebaseDatabase.getReference("books");
-
         booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,17 +81,13 @@ public class SearchResultActivity extends AppCompatActivity {
                         bookList.add(book);
                     }
                 }
-
-//                if (bookList.isEmpty()) {
-//                    // No results, display search_result_2 layout
-//                    setContentView(R.layout.search_result_2);
-//                } else {
-//                    // Results found, display activity_search_result layout
-//                    setContentView(R.layout.activity_search_result);
-//                    rvSearchResult.setAdapter(bookAdapter);
-                    bookAdapter.notifyDataSetChanged();
+                if (bookList.isEmpty()) {
+                    llNoSearchResult.setVisibility(View.VISIBLE);
+                    txtSearchResults.setVisibility(View.GONE);
+                    rvSearchResult.setVisibility(View.GONE);
                 }
-
+                bookAdapter.notifyDataSetChanged();
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -105,12 +101,5 @@ public class SearchResultActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-//        btnEmptySearchBar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                edtSearch.setText("");
-//            }
-//        });
     }
-
-    }
+}

@@ -76,4 +76,6 @@
     <string name="strBrief">Truyện ngắn</string>
     <string name="strComic">Truyện tranh</string>
     <string name="default_web_client_id">318647012345-7jsl5hpfrr5fonkvsg3454pqa1q57u1h.apps.googleusercontent.com</string>
+    <string name="strProvideSms">Cung cấp tài khoản email mà bạn muốn đặt lại mật khẩu!</string>
+    <string name="strConfirmPwText">Nhập mật khẩu hiện tại để xác minh</string>
 </resources>

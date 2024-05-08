@@ -64,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#00FFFFFF"
-                    app:srcCompat="?attr/actionModeShareDrawable" />
+                    android:src="@drawable/ic_share_24" />
 
                 <ImageButton
                     android:id="@+id/btnAddWishlist"
@@ -326,28 +326,32 @@
     <LinearLayout
         android:id="@+id/linearBottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
-        <Button
+        <TextView
             android:id="@+id/btnAddToCart"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="@color/brown_button"
-            android:text="Add to cart"
+            android:background="@color/brown_button"
+            android:textSize="14sp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="ADD TO CART"
             android:textColor="@color/brown_text"
             android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/btnBuyNow"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="@color/brown_text"
-            android:text="Buy now"
+            android:background="@color/brown_text"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="BUY NOW"
             android:textColor="@color/brown_button"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 

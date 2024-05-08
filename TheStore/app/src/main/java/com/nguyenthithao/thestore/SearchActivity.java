@@ -78,12 +78,6 @@ public class SearchActivity extends AppCompatActivity {
                 clearRecentSearches();
             }
         });
-//        binding.textViewCate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
         binding.edtSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -133,8 +127,7 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     }
                     if (!items.isEmpty()) {
-                        binding.rvRecommend.setLayoutManager(new LinearLayoutManager(SearchActivity.this,
-                                LinearLayoutManager.HORIZONTAL, false));
+                        binding.rvRecommend.setLayoutManager(new GridLayoutManager(SearchActivity.this, 3));
                         binding.rvRecommend.setAdapter(new BookRecommendAdapter(items));
                     }
                     binding.progressBarRec.setVisibility(View.GONE);
@@ -161,7 +154,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void clearRecentSearchesFromFirebase() {
         String userId = currentUser.getUid();
-        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("recentSearches");
+        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("recentSearches").child(userId);
         recentSearchesRef.removeValue();
     }
 
@@ -260,7 +253,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void saveRecentSearchesToFirebase() {
         String userId = currentUser.getUid();
-        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("recentSearches");
+        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("recentSearches").child(userId);
         recentSearchesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -286,7 +279,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadRecentSearchesFromFirebase() {
         String userId = currentUser.getUid();
-        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("recentSearches");
+        DatabaseReference recentSearchesRef = FirebaseDatabase.getInstance().getReference("recentSearches").child(userId);
         recentSearchesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -344,7 +337,5 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 }
