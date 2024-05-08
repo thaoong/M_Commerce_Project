@@ -2,6 +2,7 @@ package com.nguyenthithao.thestore;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -25,17 +26,17 @@ import com.nguyenthithao.model.OrderBook;
 
 import java.util.ArrayList;
 
-public class OrderDetailActivity extends AppCompatActivity {
+public class OrderDetail2Activity extends AppCompatActivity {
 
     ListView lvOrderDetail;
     TextView txtOrderID, txtOrderStatus, txtDate, txtDateReceive, txtBookQuantity, txtTotalPrice, txtCustomerName, txtCustomerPhone, txtCustomerAddress, txtPaymentMethod, txtTemporary, txtShippingFee, txtDiscount, txtTotalMoney;
-    Button btnDeleteOrder;
+    Button btnBuyAgain;
     Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_detail);
+        setContentView(R.layout.activity_order_detail2);
         displayActionBar();
         addViews();
 
@@ -43,13 +44,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         txtOrderID.setText(orderKey); // Set the orderKey to txtOrderID
 
-        btnDeleteOrder = findViewById(R.id.btnDeleteorder);
-        btnDeleteOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteOrder(orderKey);
-            }
-        });
+
 
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderKey);
         orderRef.addValueEventListener(new ValueEventListener() {
@@ -73,16 +68,16 @@ public class OrderDetailActivity extends AppCompatActivity {
                     txtTotalMoney.setText(formatPrice(orderData.getTotal()));
 
                     ArrayList<OrderBook> orderBooks = orderData.getOrderBooks();
-                    OrderBookAdapter adapter = new OrderBookAdapter(OrderDetailActivity.this, R.layout.item_order_book, orderBooks);
+                    OrderBookAdapter adapter = new OrderBookAdapter(OrderDetail2Activity.this, R.layout.item_order_book, orderBooks);
                     lvOrderDetail.setAdapter(adapter);
                 } else {
-                    Toast.makeText(OrderDetailActivity.this, "No order data available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderDetail2Activity.this, "No order data available", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(OrderDetailActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderDetail2Activity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -110,27 +105,19 @@ public class OrderDetailActivity extends AppCompatActivity {
         txtShippingFee = findViewById(R.id.txtShippingFee);
         txtDiscount = findViewById(R.id.txtDiscount);
         txtTotalMoney = findViewById(R.id.txtTotalMoney);
-        btnDeleteOrder = findViewById(R.id.btnDeleteorder);
+        btnBuyAgain = findViewById(R.id.btnBuyAgain);
+        btnBuyAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetail2Activity.this, PrePaymentActivity.class);
+                intent.putExtra("orderData", order);
+                startActivity(intent);
+            }
+        });
     }
 
     private String formatPrice(double price) {
         return String.format("%,.0f đ", price);
     }
 
-    private void deleteOrder(String orderKey) {
-        new AlertDialog.Builder(this)
-                .setTitle("Cancel Order")
-                .setMessage("Are you sure you want to cancel this order?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderKey);
-                        orderRef.child("status").setValue("Đã hủy");
-                        Toast.makeText(OrderDetailActivity.this, "Order cancelled successfully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
     }
-}

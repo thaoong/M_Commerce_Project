@@ -53,6 +53,7 @@ public class PrePaymentActivity extends AppCompatActivity {
     private float total;
     private String paymentMethod;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

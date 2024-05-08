@@ -425,11 +425,11 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnDeleteorder"
+                android:id="@+id/btnBuyAgain"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/brown_text"
-                android:text="Cancel order"
+                android:text="Buy Again"
                 android:textColor="@color/brown_button"
                 android:layout_gravity="right"
                 android:layout_marginBottom="10dp"
