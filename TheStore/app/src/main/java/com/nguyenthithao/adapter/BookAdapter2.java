@@ -16,30 +16,30 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.nguyenthithao.model.Book;
 import com.nguyenthithao.thestore.ProductDetailActivity;
-import com.nguyenthithao.thestore.databinding.ItemCatebookBinding;
+import com.nguyenthithao.thestore.databinding.ItemBookBinding;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Viewholder> {
+public class BookAdapter2 extends RecyclerView.Adapter<BookAdapter2.Viewholder> {
     ArrayList<Book> items;
     Context context;
 
-    public BookAdapter(ArrayList<Book> items) {
+    public BookAdapter2(ArrayList<Book> items) {
         this.items = items;
     }
 
     @NonNull
     @Override
-    public BookAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BookAdapter2.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        ItemCatebookBinding binding = ItemCatebookBinding.inflate(LayoutInflater.from(context), parent, false);
+        ItemBookBinding binding = ItemBookBinding.inflate(LayoutInflater.from(context), parent, false);
         return new Viewholder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
-        holder.binding.txtName.setText(items.get(position).getName());
+    public void onBindViewHolder(@NonNull BookAdapter2.Viewholder holder, @SuppressLint("RecyclerView") int position) {
+        holder.binding.txtBookName.setText(items.get(position).getName());
 
         float unitPrice = items.get(position).getUnitPrice();
         String formattedUnitPrice = formatCurrency(unitPrice);
@@ -80,8 +80,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.Viewholder> {
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        ItemCatebookBinding binding;
-        public Viewholder(ItemCatebookBinding binding) {
+        ItemBookBinding binding;
+        public Viewholder(ItemBookBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

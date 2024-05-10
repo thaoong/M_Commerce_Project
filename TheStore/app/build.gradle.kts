@@ -53,6 +53,7 @@ dependencies {
     implementation("androidx.activity:activity:1.8.0")
     implementation("androidx.core:core:1.13.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.google.ai.client.generativeai:common:0.4.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -72,6 +73,11 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:17.1.0")
 
     implementation("com.squareup.picasso:picasso:2.71828")
-
+    // add the dependency for the Google AI client SDK for Android
+    implementation("com.google.ai.client.generativeai:generativeai:0.3.0")
+    // Required for one-shot operations (to use `ListenableFuture` from Guava Android)
+    implementation("com.google.guava:guava:31.0.1-android")
+    // Required for streaming operations (to use `Publisher` from Reactive Streams)
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
 
 }

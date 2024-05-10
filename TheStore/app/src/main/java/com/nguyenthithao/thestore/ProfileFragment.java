@@ -289,6 +289,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.btnOpenChatbot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChatbotActivity.class);
+                startActivity(intent);
+            }
+        });
+
         binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,13 +306,13 @@ public class ProfileFragment extends Fragment {
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
-                    openChagePassword();
+                    openChangePassword();
                 }
             }
         });
     }
 
-    private void openChagePassword() {
+    private void openChangePassword() {
         Intent intent = new Intent(getActivity(), ConfirmPasswordActivity.class);
         startActivity(intent);
     }

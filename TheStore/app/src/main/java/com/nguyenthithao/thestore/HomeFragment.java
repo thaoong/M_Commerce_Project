@@ -1,14 +1,17 @@
 package com.nguyenthithao.thestore;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +42,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class HomeFragment extends Fragment {
-    private Handler slideHandler = new Handler();
-    private static final long SLIDER_DELAY = 3000;
-
+    private int duration = 1800;
     private View view;
     FragmentHomeBinding binding;
 
@@ -57,11 +58,46 @@ public class HomeFragment extends Fragment {
         loadBanner();
         loadCategory();
         loadFlashSale();
+        processCountDownFlashSale();
         loadBestSelling();
         loadAuthor();
         loadNewArrivals();
         loadForYou();
+        addEvents();
         return view;
+    }
+
+    private void addEvents() {
+        binding.txtSeeMoreFlashSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FlashSaleActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void processCountDownFlashSale() {
+        CountDownTimer countDownTimer = new CountDownTimer(duration*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long hours = (millisUntilFinished / (1000 * 60 * 60)) % 24;
+                long minutes = (millisUntilFinished / (1000 * 60)) % 60;
+                long seconds = (millisUntilFinished / 1000) % 60;
+
+                binding.txtCountDownHour.setText(String.format("%02d", hours));
+                binding.txtCountDownMinute.setText(String.format("%02d", minutes));
+                binding.txtCountDownSecond.setText(String.format("%02d", seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                binding.txtCountDownHour.setText("00");
+                binding.txtCountDownMinute.setText("00");
+                binding.txtCountDownSecond.setText("00");
+            }
+        };
+        countDownTimer.start();
     }
 
     private void loadForYou() {
@@ -289,66 +325,4 @@ public class HomeFragment extends Fragment {
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
         binding.viewpagerSlider.setPageTransformer(compositePageTransformer);
     }
-
-//        private void banner() {
-//        List<SliderItems> sliderItems = new ArrayList<>();
-//        sliderItems.add(new SliderItems(R.drawable.slider2));
-//        sliderItems.add(new SliderItems(R.drawable.slider3));
-//        sliderItems.add(new SliderItems(R.drawable.slider1));
-//        binding.viewpagerSlider.setAdapter(new SliderAdapter(sliderItems,binding.viewpagerSlider));
-//        binding.viewpagerSlider.setClipToPadding(false);
-//        binding.viewpagerSlider.setOffscreenPageLimit(3);
-//        binding.viewpagerSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_ALWAYS);
-//
-//
-//        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-//        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-//        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-//            @Override
-//            public void transformPage(@NonNull View page, float position) {
-//                float r=1-Math.abs(position);
-//                page.setScaleY(0.85f + (float)(r * 0.15f));
-//
-//            }
-//        });
-//        binding.viewpagerSlider.setPageTransformer(compositePageTransformer);
-//        binding.viewpagerSlider.setCurrentItem(1);
-//        binding.viewpagerSlider.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                super.onPageSelected(position);
-//                slideHandler.removeCallbacks(sliderRunnable);
-//
-//            }
-//
-//        });
-//        slideHandler.postDelayed(sliderRunnable, SLIDER_DELAY);
-//    }
-//    private Runnable sliderRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            int currentItem = binding.viewpagerSlider.getCurrentItem();
-//            int itemCount = binding.viewpagerSlider.getAdapter().getItemCount();
-//
-//            if (currentItem < itemCount - 1) {
-//                binding.viewpagerSlider.setCurrentItem(currentItem + 1, true);
-//            } else {
-//                binding.viewpagerSlider.setCurrentItem(0, true);
-//            }
-//
-//            slideHandler.postDelayed(this, SLIDER_DELAY);
-//        }
-//    };
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        slideHandler.removeCallbacks(sliderRunnable);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        slideHandler.postDelayed(sliderRunnable,2000);
-//    }
 }

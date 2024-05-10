@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -118,8 +119,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
             EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
             ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
-            Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
-            btnAddToCart.setText("Buy now");
+            Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
             final int[] currentQuantity = {1};
             edtQuantity.setText(String.valueOf(currentQuantity[0]));
 
@@ -144,7 +144,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             final AlertDialog dialog = dialogBuilder.create();
             dialog.show();
 
-            btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int quantity = Integer.parseInt(edtQuantity.getText().toString());
@@ -189,7 +189,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             ImageView btnDecrease = dialogView.findViewById(R.id.btnDecrease);
             EditText edtQuantity = dialogView.findViewById(R.id.edtQuantity);
             ImageView btnIncrease = dialogView.findViewById(R.id.btnIncrease);
-            Button btnAddToCart = dialogView.findViewById(R.id.btnAddToCart);
+            Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
 
             final int[] currentQuantity = {1};
             edtQuantity.setText(String.valueOf(currentQuantity[0]));
@@ -215,7 +215,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             final AlertDialog dialog = dialogBuilder.create();
             dialog.show();
 
-            btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int quantity = Integer.parseInt(edtQuantity.getText().toString());

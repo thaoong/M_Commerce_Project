@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn = false;
 //    public static ViewPager viewPager;
 //    private BottomNavigationView bottomNavigationView;
-
+    int count_exit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,5 +142,19 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        count_exit++;
+        if (count_exit==1)
+        {
+            Toast.makeText(this, "Press back button again to exit app", Toast.LENGTH_SHORT).show();
+        }
+        else if (count_exit>=2) {
+            finish();
+            count_exit=0;
+        }
     }
 }

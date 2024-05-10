@@ -39,7 +39,6 @@ public class WishlistActivity extends AppCompatActivity {
     CheckBox checkBoxAll;
     Button btnProceedBuy;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
