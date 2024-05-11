@@ -26,7 +26,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             const admin = data[key];
             console.log(admin)
             if (admin.username === username && admin.password === password) {
-                window.location.href = "navigate_bar.html";
+                window.location.href = "home.html";
             } else {
                 document.getElementById("error-msg").textContent = "Username or password is incorrect!";
             }

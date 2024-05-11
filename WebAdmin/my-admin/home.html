@@ -5,12 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 	<!-- My CSS -->
-	<link rel="stylesheet" href="CSS/style_order.css">
-	<title>Order management</title>
+	<link rel="stylesheet" href="CSS/style_home.css">
+
+	<title>Home</title>
 </head>
 <body>
+
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
@@ -19,13 +20,13 @@
 			<span class="text">The Twinkle</span>
 		</a>
 		<ul class="side-menu top">
-			<li>
+			<li class="active">
 				<a href="home.html">
 					<i class='bx bxs-home' ></i>
 					<span class="text">Home</span>
 				</a>
 			</li>
-			<li class="active">
+			<li>
 				<a href="order_management.html">
 					<i class='bx bxs-shopping-bag-alt' ></i>
 					<span class="text">Order management</span>
@@ -93,39 +94,99 @@
 		<!-- MAIN -->
 		<main>
 			<div class="left">
-				<p>Order management</p>
-                <div class="subtitle" id="totalOrder"></div>
+				<p>Dashboard</>
 			</div>
+			
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check' ></i>
+					<span class="text">
+						<h3>1020</h3>
+						<p>New Order</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-group' ></i>
+					<span class="text">
+						<h3>2834</h3>
+						<p>Visitors</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-dollar-circle' ></i>
+					<span class="text">
+						<h3>$2543</h3>
+						<p>Total Sales</p>
+					</span>
+				</li>
+			</ul>
+
 
 			<div class="table-data">
 				<div class="order">
+					<div class="head">
+						<h3>Recent Orders</h3>
+						<i class='bx bx-search' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
 					<table>
-                        <thead>
-                            <th>STT</th>
-                            <th>Mã đơn hàng</th>
-                            <th>Tên khách hàng</th>
-                            <th>Ngày tạo</th>
-                            <th>Tổng tiền</th>
-                            <th>Tình trạng</th>
-                            <th></th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+						<thead>
+							<tr>
+								<th>User</th>
+								<th>Date Order</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2021</td>
+								<td><span class="status completed">Completed</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2021</td>
+								<td><span class="status pending">Pending</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2021</td>
+								<td><span class="status process">Process</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2021</td>
+								<td><span class="status pending">Pending</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2021</td>
+								<td><span class="status completed">Completed</span></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
-	
+
 	<script src="JS/script.js"></script>
-    <script>
-        function viewOrderDetail(key) {
-            window.location.href = "order_detail.html?key=" + key;
-            // console.log(key)
-        }  
-    </script>
-   
-    <script type="module" src="JS/order.js"></script>
 </body>
 </html>
