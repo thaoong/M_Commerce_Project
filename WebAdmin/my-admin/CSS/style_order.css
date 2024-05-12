@@ -343,21 +343,17 @@ body {
 }
 #content main .table-data .order table th {
 	padding-bottom: 10px;
-	font-size: 15px;
-	text-align: left;
+	font-size: 16px;
+	text-align: center;
     color: var(--brown);
 	border-bottom: 1px solid var(--dark-grey);
 }
 #content main .table-data .order table td {
 	padding: 7px 0;
     font-size: 15px;
+	text-align: center;
 }
-#content main .table-data .order table tr td:first-child {
-	display: flex;
-	align-items: center;
-	grid-gap: 12px;
-	padding-left: 6px;
-}
+
 #content main .table-data .order table tbody tr:hover {
 	background: #EFEBE7;
     cursor: pointer;

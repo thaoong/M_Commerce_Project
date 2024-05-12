@@ -36,7 +36,7 @@ onValue(voucherRef, (snapshot) => {
         <td>${condition}</td>
         <td>${expiration}</td>
         <td>
-          <button id="visual" onclick="viewOrderDetail('${key}')">
+          <button id="visual" onclick="editVoucher('${key}')">
             <span class="material-icons-outlined">visibility</span>
           </button>
         </td>

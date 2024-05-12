@@ -1,41 +1,99 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,500,0,0" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="./CSS/style_add_category.css" />
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+	<link rel="stylesheet" href="./CSS/style_voucher_add.css">
+	<link rel="icon" href="./assets/images/ic_logo.png">
+	<title>Add category</title>
 </head>
-
 <body>
-    <div class="main">
-        <div class="main-left">
-            <!--Navigation bar-->
-            <div id="nav-placeholder">
-            </div>
-            <script>
-                $(function () {
-                    $("#nav-placeholder").load("navigate_bar.html");
-                });
-            </script>
-        </div>
-        <div class="main-right">
-            <!-- Cố định admin page -->
-            <!-- <div class="admin-info">
-                <span class="material-symbols-outlined">notifications</span>
-                <span class="admin-name">Admin</span>
-                <img src="assets/admin-avatar.png" class="admin-ava">
-            </div> -->
 
-            <div class="page-title">
-                <p>Danh mục sản phẩm</p>
-                <!-- <div class="page-search">
-                    <input type="search" id="search" placeholder="Tìm kiếm..." />
-                    <span class="material-symbols-outlined">search</span>
-                </div> -->
-            </div>
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="home.html" class="brand">
+			<i class='bx bxs-smile'></i>
+			<span class="text">The Twinkle</span>
+		</a>
+		<ul class="side-menu top">
+			<li>
+				<a href="home.html">
+					<i class='bx bxs-home' ></i>
+					<span class="text">Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="order_management.html">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">Order management</span>
+				</a>
+			</li>
+			<li class="active">
+				<a href="category_management.html">
+					<i class='bx bxs-category' ></i>
+					<span class="text">Category management</span>
+				</a>
+			</li>
+			<li>
+				<a href="book_management.html">
+					<i class='bx bxs-book' ></i>
+					<span class="text">Book management</span>
+				</a>
+			</li>
+			<li>
+				<a href="customer_management.html">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Customer management</span>
+				</a>
+			</li>
+			<li>
+				<a href="voucher_manangement.html">
+					<i class='bx bxs-discount' ></i>
+					<span class="text">Voucher management</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">8</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="assets/images/ic_logo.png">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="left">
+				<p>Category management</p>
+			</div>
 
             <div class="page__content">
                 <div class="content-button">
@@ -55,8 +113,9 @@
                     </label>
                 </div>
             </div>
-        </div>
-    </div>
+        </main>
+		<!-- MAIN -->
+	</section>
     <script>
         function goBack() {
             window.history.back();

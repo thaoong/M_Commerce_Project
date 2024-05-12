@@ -296,25 +296,11 @@ body {
 	max-height: calc(100vh - 56px);
 	overflow-y: auto;
 }
-#content main .head-title {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	grid-gap: 16px;
-	flex-wrap: wrap;
-}
 #content main .left p {
 	font-size: 35px;
 	font-weight: bold;
 	color: #5C3507;
 }
-
-#content main .left .subtitle {
-	font-size: 20px;
-	color: #5C3507;
-	margin-top: 5px;
-}
-
 
 #content main .box-info {
 	display: grid;
@@ -399,27 +385,17 @@ body {
 }
 #content main .table-data .order table th {
 	padding-bottom: 12px;
-	font-size: 13px;
-	text-align: left;
+	font-size: 15px;
 	border-bottom: 1px solid var(--grey);
 }
 #content main .table-data .order table td {
 	padding: 16px 0;
+	font-size: 15px;
+	text-align: center;
 }
-#content main .table-data .order table tr td:first-child {
-	display: flex;
-	align-items: center;
-	grid-gap: 12px;
-	padding-left: 6px;
-}
-#content main .table-data .order table td img {
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
-	object-fit: cover;
-}
+
 #content main .table-data .order table tbody tr:hover {
-	background: var(--grey);
+	background: #eee;
 }
 #content main .table-data .order table tr td .status {
 	font-size: 10px;
@@ -438,14 +414,10 @@ body {
 	background: var(--orange);
 }
 #visual {
-	border: none;
+    border: none;
     cursor: pointer;
     background-color: transparent;
     color: #5C3507;
-}
-#visual bx {
-	width: 50px;
-	height: 50px;
 }
 /* MAIN */
 /* CONTENT */
@@ -503,9 +475,6 @@ body {
 		min-width: 420px;
 	}
 	#content main .table-data .order table {
-		min-width: 420px;
-	}
-	#content main .table-data .todo .todo-list {
 		min-width: 420px;
 	}
 }

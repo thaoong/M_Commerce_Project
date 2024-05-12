@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-	<!-- My CSS -->
-	<link rel="stylesheet" href="CSS/style_order_detail.css">
-	<title>Order management</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+	<link rel="stylesheet" href="./CSS/style_order_detail.css">
+	<link rel="icon" href="./assets/images/ic_logo.png">
+	<title>Order detail</title>
 </head>
+
 <body>
 
 	<!-- SIDEBAR -->
@@ -21,37 +22,37 @@
 		<ul class="side-menu top">
 			<li>
 				<a href="home.html">
-					<i class='bx bxs-home' ></i>
+					<i class='bx bxs-home'></i>
 					<span class="text">Home</span>
 				</a>
 			</li>
 			<li class="active">
 				<a href="order_management.html">
-					<i class='bx bxs-shopping-bag-alt' ></i>
+					<i class='bx bxs-shopping-bag-alt'></i>
 					<span class="text">Order management</span>
 				</a>
 			</li>
 			<li>
 				<a href="category_management.html">
-					<i class='bx bxs-category' ></i>
+					<i class='bx bxs-category'></i>
 					<span class="text">Category management</span>
 				</a>
 			</li>
 			<li>
 				<a href="book_management.html">
-					<i class='bx bxs-book' ></i>
+					<i class='bx bxs-book'></i>
 					<span class="text">Book management</span>
 				</a>
 			</li>
 			<li>
 				<a href="customer_management.html">
-					<i class='bx bxs-group' ></i>
+					<i class='bx bxs-group'></i>
 					<span class="text">Customer management</span>
 				</a>
 			</li>
 			<li>
 				<a href="voucher_manangement.html">
-					<i class='bx bxs-discount' ></i>
+					<i class='bx bxs-discount'></i>
 					<span class="text">Voucher management</span>
 				</a>
 			</li>
@@ -59,7 +60,7 @@
 		<ul class="side-menu">
 			<li>
 				<a href="#" class="logout">
-					<i class='bx bxs-log-out-circle' ></i>
+					<i class='bx bxs-log-out-circle'></i>
 					<span class="text">Logout</span>
 				</a>
 			</li>
@@ -71,17 +72,17 @@
 	<section id="content">
 		<!-- NAVBAR -->
 		<nav>
-			<i class='bx bx-menu' ></i>
+			<i class='bx bx-menu'></i>
 			<form action="#">
 				<div class="form-input">
 					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+					<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
 				</div>
 			</form>
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
 			<a href="#" class="notification">
-				<i class='bx bxs-bell' ></i>
+				<i class='bx bxs-bell'></i>
 				<span class="num">8</span>
 			</a>
 			<a href="#" class="profile">
@@ -93,99 +94,98 @@
 		<!-- MAIN -->
 		<main>
 			<div class="left">
-				<p>Chi tiết đơn hàng<p>
+				<p>Chi tiết đơn hàng</p>
 			</div>
-
-                <div class="page-body-header">
-                    <div class="order_info">
-                        <div class="order_info--detail">
-                            <p class="title">Mã</p>
-                            <p class="data" id="ord_id"></p>
-                        </div>
-                        <div class="order_info--detail">
-                            <p class="title">Ngày tạo</p>
-                            <p class="data" id="order_date"></p>
-                        </div>
-                        <div class="order_info--detail">
-                            <p class="title">Phương thức thanh toán</p>
-                            <p class="data" id="payment_method"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="page-body-content">
-                    <div class="page-body-table">
-                        <table class="order_table">
-                            <thead class="table_title">
-                                <th>STT</th>
-                                <th>Ảnh</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Đơn giá</th>
-                                <th>Thành tiền</th>
-                            </thead>
-                            <tbody class="table_content">
-                            <tbody id="tbody1"></tbody>
-                            <tr>
-                                <td colspan="5" class="text-end">Tạm tính</td>
-                                <td id="pre_price"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">Phí vận chuyển</td>
-                                <td id="shipping_fee"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">Giảm giá</td>
-                                <td id="discount"></td>
-                            </tr>
-                            <tr class="table_data">
-                                <td colspan="5" class="total text-end">Tổng cộng</td>
-                                <td id="total" style="font-weight: bold; color:#5C3507; font-size:15pt"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="order_action">
-                            <span>
-                                <button id="approve">
-                                    Hoàn thành
-                                </button>
-                            </span>
-                            <span>
-                                <button id="deli">
-                                    Đang vận chuyển
-                                </button>
-                            </span>
-                            <span>
-                                <button id="cancel">
-                                    Hủy đơn
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="page-body-detail">
-                        <div class="order-info">
-                            <div>
-                                <p class="order-info-title">Thông tin người mua</p>
-                                <p id="customer_name"></p>
-                            </div>
-                            <div class="deli-info">
-                                <p class="order-info-title">Thông tin giao hàng</p>
-                                <p id="phone_number"></p>
-                                <p id="address"></p>
-                            </div>
-                            <div class="note-info">
-                                <p class="order-info-title">Ghi chú về đơn hàng</p>
-                                <p id="note">Không có ghi chú</p>
-                            </div>
-                        </div>
-                    </div>
-            </div>
+			<div class="page-body-main">
+				<div class="page-body-header">
+					<div class="order_info--detail">
+						<p class="title">Mã</p>
+						<p class="data" id="ord_id"></p>
+					</div>
+					<div class="order_info--detail">
+						<p class="title">Ngày tạo</p>
+						<p class="data" id="order_date"></p>
+					</div>
+					<div class="order_info--detail">
+						<p class="title">Phương thức thanh toán</p>
+						<p class="data" id="payment_method"></p>
+					</div>
+				</div>
+				<div class="page-body-content">
+					<div class="page-body-table">
+						<table class="order_table">
+							<thead>
+								<th>STT</th>
+								<th>Ảnh</th>
+								<th>Tên sản phẩm</th>
+								<th>Số lượng</th>
+								<th>Đơn giá</th>
+								<th>Thành tiền</th>
+							</thead>
+							<tbody class="table_content">
+							<tbody id="tbody1"></tbody>
+							<tr>
+								<td colspan="5" class="text-end">Tạm tính</td>
+								<td id="pre_price"></td>
+							</tr>
+							<tr>
+								<td colspan="5" class="text-end">Phí vận chuyển</td>
+								<td id="shipping_fee"></td>
+							</tr>
+							<tr>
+								<td colspan="5" class="text-end">Giảm giá</td>
+								<td id="discount"></td>
+							</tr>
+							<tr class="table_data">
+								<td colspan="5" class="total text-end">Tổng cộng</td>
+								<td id="total" style="font-weight: bold; color:#5C3507; font-size:15pt"></td>
+							</tr>
+							</tbody>
+						</table>
+						<div class="order_action">
+							<span>
+								<button id="approve">
+									Hoàn thành
+								</button>
+							</span>
+							<span>
+								<button id="deli">
+									Đang vận chuyển
+								</button>
+							</span>
+							<span>
+								<button id="cancel">
+									Hủy đơn
+								</button>
+							</span>
+						</div>
+					</div>
+					<div class="page-body-detail">
+						<div class="order-info">
+							<div>
+								<p class="order-info-title">Thông tin người mua</p>
+								<p id="customer_name"></p>
+							</div>
+							<div class="deli-info">
+								<p class="order-info-title">Thông tin giao hàng</p>
+								<p id="phone_number"></p>
+								<p id="address"></p>
+							</div>
+							<div class="note-info">
+								<p class="order-info-title">Ghi chú về đơn hàng</p>
+								<p id="note">Không có ghi chú</p>
+							</div>
+						</div>
+					</div>
+				</div>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
-	
+
 	<script src="JS/script.js"></script>
-  
-    <script type="module" src="JS/order_detail.js"></script>
+
+	<script type="module" src="JS/order_detail.js"></script>
 </body>
+
 </html>

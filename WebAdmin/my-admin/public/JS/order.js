@@ -27,7 +27,7 @@ onValue(orderRef, (snapshot) => {
     var order = data[key];
     var name = order.name;
     var orderDate = order.orderDate;
-    var total = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
+    var total = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
     var status = order.status;
 
     htmlData += `
