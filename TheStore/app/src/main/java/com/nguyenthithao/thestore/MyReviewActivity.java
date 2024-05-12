@@ -1,3 +1,4 @@
+
 package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
@@ -84,7 +85,8 @@ public class MyReviewActivity extends AppCompatActivity {
                                         book.getUnitPrice(),
                                         book.getOldPrice(),
                                         book.getQuantity(),
-                                        book.getId()
+                                        book.getId(),
+                                        order.getOrderDate()
                                 ));
                             }
                         }

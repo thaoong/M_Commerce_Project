@@ -1,39 +1,51 @@
 package com.nguyenthithao.model;
 
-import android.graphics.Bitmap;
+import java.io.Serializable;
 
-public class Rating {
-    int productThumb;
-    String productName;
-    Bitmap ratingPhoto;
+public class Rating implements Serializable {
+    private String userId;
+    private float rating;
+    private String comment;
+    private String imageUrl;
 
-    public Rating(int productThumb, String productName, Bitmap ratingPhoto) {
-        this.productThumb = productThumb;
-        this.productName = productName;
-        this.ratingPhoto = ratingPhoto;
+    public Rating() {
     }
 
-    public int getProductThumb() {
-        return productThumb;
+    public Rating(String userId, float rating, String comment) {
+        this.userId = userId;
+        this.rating = rating;
+        this.comment = comment;
     }
 
-    public void setProductThumb(int productThumb) {
-        this.productThumb = productThumb;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getProductName() {
-        return productName;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public float getRating() {
+        return rating;
     }
 
-    public Bitmap getRatingPhoto() {
-        return ratingPhoto;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public void setRatingPhoto(Bitmap ratingPhoto) {
-        this.ratingPhoto = ratingPhoto;
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

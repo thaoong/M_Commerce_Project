@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb5c8bb8-742c-4227-b9fe-5b0c34156a20" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/model/Address.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/ForgotPasswordActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_forgot_password.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/mipmap-hdpi/ic_forgotpw.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/AddAddressActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/AddAddressActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/AddressActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/AddressActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/EditAddressActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/EditAddressActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_address.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_address.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/adapter/OrderDetailAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/adapter/OrderDetailAdapterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/RatingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nguyenthithao/thestore/RatingActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_rating.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_rating.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

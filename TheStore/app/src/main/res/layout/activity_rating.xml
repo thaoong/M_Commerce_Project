@@ -1,217 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-            <ImageView
-                android:id="@+id/img_Product"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/txt_ProductName"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Product Name"
-                    android:textColor="@color/brown_text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_Product"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/txt_ProductName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Product Name"
+                            android:textColor="@color/brown_text"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Giao hàng thành công:"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/txtDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="12/12/2024"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giao hàng thành công:"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txtDate"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="12/12/2024"
-                        android:textStyle="bold" />
+                        android:text="Product Quality"
+                        android:textColor="@color/brown_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold"  />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:indeterminate="false"
+                            android:numStars="5"
+                            android:progressTint="#ffc106"
+                            android:rating="3"
+                            android:scaleX="0.5"
+                            android:scaleY="0.5"
+                            android:stepSize="1" />
+
+                        <TextView
+                            android:id="@+id/txtRatingDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
+
+
+                <LinearLayout
+                    android:id="@+id/layoutSelectedImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:orientation="horizontal" />
+
+                <EditText
+                    android:id="@+id/edtReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rectangle_background_shape"
+                    android:hint="Share more thoughts on the product to help other buyers."
+                    android:padding="10dp"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_AddPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/brown_button"
+                    android:gravity="center|center_horizontal"
+                    android:text="Thêm hình ảnh"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/aboveButtonLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/btnRating"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Seller Service"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:layout_weight="1"/>
+
+                            <RatingBar
+                                android:id="@+id/ratingBar1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:indeterminate="false"
+                                android:numStars="5"
+                                android:progressTint="#ffc106"
+                                android:rating="3"
+                                android:scaleX="0.5"
+                                android:scaleY="0.5"
+                                android:stepSize="1" />
+
+                            <TextView
+                                android:id="@+id/txtRatingDescription1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_gravity="center_vertical"/>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Delivery Speed"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:layout_weight="1"/>
+
+                            <RatingBar
+                                android:id="@+id/ratingBar2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:indeterminate="false"
+                                android:numStars="5"
+                                android:progressTint="#ffc106"
+                                android:rating="3"
+                                android:scaleX="0.5"
+                                android:scaleY="0.5"
+                                android:stepSize="1" />
+
+                            <TextView
+                                android:id="@+id/txtRatingDescription2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_gravity="center_vertical"/>
+                        </TableRow>
+                    </TableLayout>
+
+                </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/brown_button"
+                android:text="Submit"
+                android:layout_alignParentBottom="true" />
         </LinearLayout>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_marginTop="5dp">
+    </ScrollView>
 
-            <TextView
-                android:layout_width="192dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Chất lượng sản phẩm"
-                android:textColor="@color/brown_text"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@android:style/Widget.DeviceDefault.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="false"
-                android:numStars="5"
-                android:progressTint="#ffc106"
-                android:rating="3"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:stepSize="0.1" />
-
-        </TableRow>
-
-
-        <EditText
-            android:id="@+id/edt_Review"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/rectangle_background_shape"
-            android:hint="Hãy chia sẻ nhận xét của bạn cho sản phẩm này nhé!"
-            android:padding="10dp"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btn_AddPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/brown_button"
-            android:gravity="center|center_horizontal"
-            android:text="Thêm hình ảnh"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/img_AddPhoto"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
-    </LinearLayout>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical">
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dịch vụ bán hàng"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
-            <RatingBar
-                android:id="@+id/ratingBar1"
-                style="@android:style/Widget.DeviceDefault.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="false"
-                android:numStars="5"
-                android:progressTint="#ffc106"
-                android:rating="3"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:stepSize="0.1" />
-
-
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_marginTop="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dịch vụ vận chuyển"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
-            <RatingBar
-                android:id="@+id/ratingBar2"
-                style="@android:style/Widget.DeviceDefault.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="false"
-                android:numStars="5"
-                android:progressTint="#ffc106"
-                android:rating="3"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:stepSize="0.1" />
-
-
-        </TableRow>
-    </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hiển thị tên tài khoản trên đánh giá này"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"/>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_Rating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brown_button"
-        android:text="Đánh giá" />
-</LinearLayout>
+</RelativeLayout>
