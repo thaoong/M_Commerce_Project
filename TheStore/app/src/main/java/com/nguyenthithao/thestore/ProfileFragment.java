@@ -289,14 +289,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.btnOpenChatbot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChatbotActivity.class);
-                startActivity(intent);
-            }
-        });
-
         binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

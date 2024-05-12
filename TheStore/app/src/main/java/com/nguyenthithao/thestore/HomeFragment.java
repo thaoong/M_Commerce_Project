@@ -75,6 +75,27 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        binding.txtSeeMoreBestSelling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), BestSellingActivity.class);
+                startActivity(intent);            }
+        });
+
+        binding.txtSeeMoreNewArrivals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), NewArrivalsActivity.class);
+                startActivity(intent);            }
+        });
+
+        binding.txtSeeMoreForYou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ForYouActivity.class);
+                startActivity(intent);            }
+        });
     }
 
     private void processCountDownFlashSale() {

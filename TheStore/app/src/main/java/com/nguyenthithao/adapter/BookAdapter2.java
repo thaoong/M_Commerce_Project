@@ -1,92 +1,101 @@
 package com.nguyenthithao.adapter;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.nguyenthithao.model.Book;
-import com.nguyenthithao.thestore.ProductDetailActivity;
-import com.nguyenthithao.thestore.databinding.ItemBookBinding;
+import com.nguyenthithao.model.CartItem;
+import com.nguyenthithao.thestore.R;
 
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class BookAdapter2 extends RecyclerView.Adapter<BookAdapter2.Viewholder> {
-    ArrayList<Book> items;
-    Context context;
+public class BookAdapter2 extends ArrayAdapter<Book> {
+    Activity context;
+    int resource;
 
-    public BookAdapter2(ArrayList<Book> items) {
-        this.items = items;
+    public BookAdapter2(@NonNull Activity context, int resource) {
+        super(context, resource);
+        this.context = context;
+        this.resource = resource;
     }
 
     @NonNull
     @Override
-    public BookAdapter2.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        ItemBookBinding binding = ItemBookBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new Viewholder(binding);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View row = inflater.inflate(resource, null);
+        ImageView imgBook = row.findViewById(R.id.imgBook);
+        TextView bookName = row.findViewById(R.id.txtBookName);
+        TextView unitPrice = row.findViewById(R.id.txtUnitPrice);
+        TextView oldPrice = row.findViewById(R.id.txtOldPrice);
+        TextView rating = row.findViewById(R.id.txtRating);
+        TextView reviewNum = row.findViewById(R.id.txtReviewNum);
 
-    @Override
-    public void onBindViewHolder(@NonNull BookAdapter2.Viewholder holder, @SuppressLint("RecyclerView") int position) {
-        holder.binding.txtBookName.setText(items.get(position).getName());
+        Book book = getItem(position);
+        bookName.setText(book.getName());
+        unitPrice.setText(formatCurrency(book.getUnitPrice()) + "đ");
 
-        float unitPrice = items.get(position).getUnitPrice();
-        String formattedUnitPrice = formatCurrency(unitPrice);
-        holder.binding.txtUnitPrice.setText(formattedUnitPrice + "đ");
-
-        float oldPrice = items.get(position).getOldPrice();
-        if (oldPrice != 0) {
-            String formattedOldPrice = formatCurrency(oldPrice);
-            holder.binding.txtOldPrice.setText(formattedOldPrice + "đ");
-            holder.binding.txtOldPrice.setPaintFlags(holder.binding.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        if (book.getOldPrice() != 0) {
+            oldPrice.setText(formatCurrency(book.getOldPrice()) + "đ");
+            oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            holder.binding.txtOldPrice.setText("");
+            oldPrice.setText("");
+        }
+        rating.setText(book.getRating() + "");
+        reviewNum.setText("(" +book.getReviewNum()+")");
+        new ImageLoadTask(imgBook).execute(book.getImageLink().get(0));
+        return row;
+    }
+
+        private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
+        private ImageView imageView;
+
+        public ImageLoadTask(ImageView imageView) {
+            this.imageView = imageView;
         }
 
-        holder.binding.txtRating.setText(items.get(position).getRating()+"");
-        holder.binding.txtReviewNum.setText("("+items.get(position).getReviewNum()+")");
-
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transform(new CenterCrop());
-
-        Glide.with(context)
-                .load(items.get(position).getImageLink().get(0))
-                .apply(requestOptions)
-                .into(holder.binding.imgBook);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("SELECTED_BOOK", items.get(position));
-                context.startActivity(intent);
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String imageUrl = urls[0];
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
-    }
+            return bitmap;
+        }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    public class Viewholder extends RecyclerView.ViewHolder {
-        ItemBookBinding binding;
-        public Viewholder(ItemBookBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            }
         }
     }
-
     private String formatCurrency(float value) {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         return decimalFormat.format(value);

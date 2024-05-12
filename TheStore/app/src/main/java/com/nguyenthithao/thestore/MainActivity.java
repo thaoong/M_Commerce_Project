@@ -24,8 +24,6 @@ import com.nguyenthithao.thestore.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     private boolean isLoggedIn = false;
-//    public static ViewPager viewPager;
-//    private BottomNavigationView bottomNavigationView;
     int count_exit = 0;
 
     @Override
@@ -36,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         displayActionBar();
         createBottomNavigation();
-//        isLoggedIn = checkLoginStatus();
-
 
         if (getIntent().hasExtra("selectedFragment")) {
             String selectedFragment = getIntent().getStringExtra("selectedFragment");
@@ -135,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.mnuSearch) {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.mnuChatBot) {
+            Intent intent = new Intent(MainActivity.this, ChatbotActivity.class);
             startActivity(intent);
         }
         else if (item.getItemId() == android.R.id.home) {

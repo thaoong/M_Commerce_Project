@@ -21,6 +21,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ForYouActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BestSellingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewArrivalsActivity"
+            android:exported="false" />
+        <activity
             android:name=".FlashSaleActivity"
             android:exported="false" />
         <activity
