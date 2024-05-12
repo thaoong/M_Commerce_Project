@@ -121,8 +121,8 @@ public class RatingActivity extends AppCompatActivity {
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 Rating review = new Rating(userId, rating, comment);
-
-                String bookId = "book40";
+                Intent intent = getIntent();
+                String bookId = intent.getStringExtra("bookID");
                 DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference().child("books").child(bookId);
 
                 bookRef.child("reviews").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -131,7 +131,7 @@ public class RatingActivity extends AppCompatActivity {
                         bookRef.child("reviews").push().setValue(review);
                         Toast.makeText(RatingActivity.this, "Rating submitted successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RatingActivity.this, MyReviewActivity.class);
-                        intent.putExtra("bookId", bookId);
+//                        intent.putExtra("bookId", bookId);
                         startActivity(intent);
                         finish();
                     }

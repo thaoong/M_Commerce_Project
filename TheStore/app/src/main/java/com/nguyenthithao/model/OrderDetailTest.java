@@ -8,7 +8,7 @@ public class OrderDetailTest implements Serializable {
     private float unitPrice;
     private float oldPrice;
     private int quantity;
-    private String id;
+    private String Id;
     private String date;
 
 
@@ -53,22 +53,22 @@ public class OrderDetailTest implements Serializable {
     }
 
     public String getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String Id) {
+        this.Id = Id;
     }
     public String getDate(){ return date;}
     public void  setDate(String date){ this.date = date;}
 
-    public OrderDetailTest(String name, String imageLink, float price, float oldPrice, int quantity, String id, String date) {
+    public OrderDetailTest(String name, String imageLink, float price, float oldPrice, int quantity, String Id, String date) {
         this.name = name;
         this.imageLink = imageLink;
         unitPrice = price;
         this.oldPrice = oldPrice;
         this.quantity = quantity;
-        this.id = id;
+        this.Id = Id;
         this.date = date;
     }
 
