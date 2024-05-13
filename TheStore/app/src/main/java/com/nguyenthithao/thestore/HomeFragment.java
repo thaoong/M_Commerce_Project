@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     int totalItems = snapshotList.size();
-                    int itemsToRetrieve = Math.min(totalItems, 7); // Lấy tối đa 7 giá trị
+                    int itemsToRetrieve = Math.min(totalItems, 7);
 
                     Random random = new Random();
                     Set<Integer> randomIndexes = new HashSet<>();

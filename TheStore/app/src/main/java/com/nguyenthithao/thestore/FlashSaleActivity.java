@@ -1,12 +1,15 @@
 package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -34,8 +37,25 @@ public class FlashSaleActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         bookAdapter = new BookAdapter2(FlashSaleActivity.this, R.layout.item_book);
         binding.lvFlashSale.setAdapter(bookAdapter);
+        displayActionBar();
         loadFlashSale();
         addEvents();
+    }
+
+    private void displayActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>FLASH SALE</font>"));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addEvents() {
@@ -54,7 +74,6 @@ public class FlashSaleActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("books");
         binding.progressBarFlashSale.setVisibility(View.VISIBLE);
-        ArrayList<Book> items = new ArrayList<>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

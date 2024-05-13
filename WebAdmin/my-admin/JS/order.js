@@ -22,7 +22,7 @@ onValue(orderRef, (snapshot) => {
   var htmlData = "";
   var i = 0;
   var totalOrder = Object.keys(data).length;
-  document.getElementById("totalOrder").innerHTML = "Tổng số lượng đơn hàng: " + totalOrder + " đơn hàng"
+  document.getElementById("totalOrder").innerHTML = "Total order: " + totalOrder + " orders"
   for (var key in data) {
     var order = data[key];
     var name = order.name;

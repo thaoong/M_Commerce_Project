@@ -252,7 +252,7 @@ public class PrePaymentActivity extends AppCompatActivity {
 
     private void processOrder() {
         if (paymentMethod == null || paymentMethod.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please choose a payment method", Toast.LENGTH_SHORT).show();
             return;
         }
         Order order = new Order();
