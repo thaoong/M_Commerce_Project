@@ -30,116 +30,27 @@ get(child(dbRef, `users/${key}`)).then((snapshot) => {
         document.getElementById("cus_phone").innerHTML = user.phone
         document.getElementById("cus_email").innerHTML = user.email
 
-        // Get books in order
-        const bookRef = ref(db, 'orders/' + key + '/orderBooks');
-        onValue(bookRef, (snapshot) => {
-            const data = snapshot.val();
-            console.log(data)
-            var i = 0;
-            for (var key in data) {
-                var book = data[key];
-                var imageLink = book.imageLink;
-                var bookName = book.name;
-                var quantity = book.quantity;
-                var unitPrice = book.unitPrice;
-
-                var tbody = document.getElementById("tbody1")
-                var trow = document.createElement("tr");
-                var td1 = document.createElement("td");
-                var td2 = document.createElement("td");
-                var td3 = document.createElement("td");
-                var td4 = document.createElement("td");
-                var td5 = document.createElement("td");
-                var td6 = document.createElement("td");
-
-                td1.innerHTML = ++i;
-
-                var img = document.createElement("img");
-                img.src = imageLink;
-                img.width = 100;
-                td2.appendChild(img);
-                td3.innerHTML = bookName;
-                td4.innerHTML = quantity;
-                td5.innerHTML = unitPrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
-                td6.innerHTML = (quantity * unitPrice).toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
-
-                trow.appendChild(td1);
-                trow.appendChild(td2);
-                trow.appendChild(td3);
-                trow.appendChild(td4);
-                trow.appendChild(td5);
-                trow.appendChild(td6);
-                tbody.appendChild(trow)
+        // Get orders of customers 
+        const ordersRef = ref(db, 'orders');
+        onValue(ordersRef, (snapshot) => {
+            const ordersData = snapshot.val();
+            if (ordersData) {
+                const orders = Object.values(ordersData);
+                orders.forEach(order => {
+                    if (order.userID === key) {
+                        const orderBooks = order.orderBooks;
+                        const orderDate = order.orderDate;
+                        const status = order.status;
+                        const name = order.name;
+                        const unitPrice = order.unitPrice;
+                        const quantity = order.quantity;
+                    }
+                });
             }
-        })
-
-        document.getElementById("pre_price").innerHTML = order.prePrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-        document.getElementById("shipping_fee").innerHTML = order.shippingFee.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-        document.getElementById("discount").innerHTML = order.discount.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-        document.getElementById("total").innerHTML = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ"
-        document.getElementById("customer_name").innerHTML = "Khách hàng: " + order.name
-        document.getElementById("phone_number").innerHTML = "SĐT: " + order.phone
-        document.getElementById("address").innerHTML = "Địa chỉ: " + order.street + ", " + order.ward + ", " + order.district + ", " + order.province
-
-        // console.log(snapshot.val());
+        });
     } else {
-        console.log("No data available");
+        console.log("No user data available");
     }
 }).catch((error) => {
     console.error(error);
 });
-
-function deleteOrder() {
-    remove(ref(db, 'orders/' + key))
-    .then(()=>{
-        alert("Delete order successfully")
-        window.history.back();
-    })
-    .catch((error)=>{
-        alert("Unsuccessful")
-        console.log(error)
-    })
-}
-
-function updateDelivery() {
-    const orderStatusRef = ref(db, `orders/${key}/status`);
-    set(orderStatusRef, "Đang vận chuyển")
-        .then(() => {
-            alert("Update order status successfully");
-            window.history.back();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
-
-function cancelOrder() {
-    const orderStatusRef = ref(db, `orders/${key}/status`);
-    set(orderStatusRef, "Đã hủy")
-        .then(() => {
-            alert("Update order status successfully");
-            window.history.back();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
-
-function updateComplete() {
-    const orderStatusRef = ref(db, `orders/${key}/status`);
-    set(orderStatusRef, "Hoàn tất")
-        .then(() => {
-            alert("Update order status successfully");
-            window.history.back();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
-
-let approveBtn = document.getElementById("approve")
-let deliveryBtn = document.getElementById("deli")
-let cancelBtn = document.getElementById("cancel")
-deliveryBtn.addEventListener('click', updateDelivery)
-cancelBtn.addEventListener('click', cancelOrder)
-approveBtn.addEventListener('click', updateComplete)
