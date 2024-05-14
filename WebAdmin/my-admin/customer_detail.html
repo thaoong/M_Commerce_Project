@@ -1,111 +1,153 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta charset="UTF-8" />
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,500,0,0" />
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <link rel="stylesheet" href="./CSS/style_detail.css" />
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<!DOCTYPE html>
+<html lang="en">
 
-    </head>
-    <body>
-        <div class="main">
-            <div class="main-left">
-                <!--Navigation bar-->
-                <div id="nav-placeholder">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="./CSS/style_customer_detail.css">
+    <link rel="icon" href="./assets/images/ic_logo.png">
+    <title>Customer detail</title>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="home.html" class="brand">
+            <i class='bx bxs-smile'></i>
+            <span class="text">The Store</span>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="home.html">
+                    <i class='bx bxs-home'></i>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="order_management.html">
+                    <i class='bx bxs-shopping-bag-alt'></i>
+                    <span class="text">Order management</span>
+                </a>
+            </li>
+            <li>
+                <a href="category_management.html">
+                    <i class='bx bxs-category'></i>
+                    <span class="text">Category management</span>
+                </a>
+            </li>
+            <li>
+                <a href="book_management.html">
+                    <i class='bx bxs-book'></i>
+                    <span class="text">Book management</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="customer_management.html">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Customer management</span>
+                </a>
+            </li>
+            <li>
+                <a href="voucher_manangement.html">
+                    <i class='bx bxs-discount'></i>
+                    <span class="text">Voucher management</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
                 </div>
-                <script>
-                    $(function () {
-                        $("#nav-placeholder").load("navigate_bar.html");
-                    });
-                </script>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            <a href="#" class="profile">
+                <img src="assets/images/ic_logo.png">
+            </a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <div class="left">
+                <p>Customer detail</p>
             </div>
 
-            <div class="main-right">
-                
-                <div class="body"> <!-- Wrap the content in a div with the class "body" -->
-                    <div class="page-title">
-                        <div class="page-title-main">
-                            <p>Thông tin khách hàng</p>
-                        </div>
+            <div class="page-body-main">
+                <p class='page-body-title'>Customer personal info</p>
+                <div class="cus-info">
+                    <div class="cus-image">
+                        <img class="cus-img" id="cus_image" src="">
                     </div>
-                    <div class="page-body">
-                        <div class="page-body-header">
-                            <div class="cus-info">
-                                <div class="cus-info-title">Thông tin cá nhân</div>
-                                <div class="cus-info-content">
-                                    <div class="cus-image">
-                                        <img class="cus-img" id="cus_image">
-                                    </div>
-                                
-                                    <div class = "cus-info-data">
-                                        <table>
-                                            <tr>
-                                                <td>Mã khách hàng:</td>
-                                                <td id="cus_id"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tên khách hàng:</td>
-                                                <td id="cus_name"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Giới tính:</td>
-                                                <td id="cus_gender"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ngày sinh:</td>
-                                                <td id="cus_DOB"></td>
-                                            <tr>
-                                                <td>Số điện thoại:</td>
-                                                <td id="cus_phone"></td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>Email:</td>
-                                                <td id="cus_email"></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                
-                                </div>
-                            </div>
-                            <div class="page-history-order">
-                                <div class="order-title">Lịch sử mua hàng</div>
-                                <div class="box__order" id="order_history">
-                                    <div class="box__history--order">
-                                        <div class="box__history--order--title">
-                                            <h4>
-                                                Đơn hàng ngày
-                                                <span class="completed">{{ item.Status }}</span>
-                                            </h4>
-                                             <button (click)="viewOrderDetail(item)" (click)="searchCustomer(item.CustomerID)">
-                                                Xem chi tiết</button>
-                                        </div>
-                                        <div class="box__history--listproduct">
-                                            <div class="cart__main">
-                                                <div class="cart__main-row">
-                                                    <div class="cart__main-row--product">
-                                                        <div class="cart__main-row--product-img">
-                                                            <img src="{{ cosmetic.Image }}" alt="" />
-                                                        </div>
-                                                        <p class="cart__main-row--product-info">{{ cosmetic.Name }}</p>
-                                                    </div>
-                                                    <p class="cart__main-row--price">{{ cosmetic.Price }} VNĐ</p>
-                                                    <p class="cart__main-row--quantity">{{ cosmetic.quantity }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                    <div class="cus-info-data">
+                        <table>
+                            <tr>
+                                <td class="label">Customer ID:</td>
+                                <td id="cus_id"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Customer name:</td>
+                                <td id="cus_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Gender:</td>
+                                <td id="cus_gender"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Date of birth:</td>
+                                <td id="cus_DOB"></td>
+                            <tr>
+                                <td class="label">Phone number:</td>
+                                <td id="cus_phone"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Email:</td>
+                                <td id="cus_email"></td>
+                            </tr>
+                        </table>
                     </div>
-                </div> <!-- Close the "body" div -->
+                </div>
+
+                <p class='page-body-title'>Order history</p>
+                <div id="order_history" class="order_history"></div>
             </div>
-        </div>
-        <script src="JS/script.js"></script>
-        <script type="module" src="JS/customer_detail.js"></script>
-    </body>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="JS/script.js"></script>
+    <script>
+        function viewOrderDetail(key) {
+            window.location.href = "order_detail.html?key=" + key;
+        }  
+    </script>
+    <script type="module" src="JS/customer_detail.js"></script>
+</body>
 </html>
