@@ -5,9 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-	<link rel="stylesheet" href="./CSS/style_voucher.css">
-    <link rel="icon" href="./assets/images/ic_logo.png">
-    <title>Book management</title>
+	<link rel="stylesheet" href="./CSS/style_voucher_add.css">
+	<link rel="icon" href="./assets/images/ic_logo.png">
+	<title>Add Book</title>
 </head>
 <body>
 
@@ -93,39 +93,43 @@
 		<main>
 			<div class="left">
 				<p>Book management</p>
-                <button id="add" onclick="addBook()">Add Book</button>
 			</div>
-			<div class="table-data">
-				<div class="order">
-					<table>
-            <thead>
-							<th>No.</th>
-							<th>Book ID</th>
-              <th>Book Name</th>
-              <th>Category ID</th>
-							<th>Image</th>
-							<th>Unit Price</th>
-							<th></th>
-						</thead>
-						<tbody></tbody>
-                    </table>
-				</div>
-			</div>
-		</main>
+
+            <div class="page__content">
+                <div class="content-button">
+                    <button style="cursor: pointer;" id="addBook">Save</button>
+                    <button style="cursor: pointer;" onclick="goBack()">Cancel</button>
+                </div>
+                <p>Add Book</p>
+                <div class="content__box">
+                    <label for="myFile">Image:
+                        <input type="file" class="file-input" id="imageUpload">
+                    </label>
+                    <img id="book_image" style="margin-left: 10px;">
+                    <label for="idAdd">Book ID:
+                        <input type="text" class="form-control" id="idAdd">
+                    </label>
+                    <label for="nameAdd">Book Name:
+                        <input type="text" class="form-control" id="nameAdd">
+                    </label>
+					<label for="categoryAdd">Category ID:
+                        <input type="text" class="form-control" id="categoryAdd">
+                    </label>
+					<label for="unitpriceAdd">Unit price:
+                        <input type="text" class="form-control" id="unitpriceAdd">
+                    </label>
+                </div>
+            </div>
+        </main>
 		<!-- MAIN -->
 	</section>
-	<!-- CONTENT -->
-
-    <script src="JS/script.js"></script>
     <script>
-        function viewBookDetail(key) {
-            window.location.href = "book_edit.html?key=" + key;
-            console.log(key)
-        }
-        function addBook() {
-            window.location.href = "book_add.html";
+        function goBack() {
+            window.history.back();
         }
     </script>
-    <script type="module" src="JS/book.js"></script>
-    </body>
+	<script src="JS/script.js"></script>
+    <script type="module" src="JS/book_add.js"></script>
+</body>
+
 </html>
