@@ -21,8 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.PendingOrdersAdapter;
 import com.nguyenthithao.model.Order;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class ShippingOrdersFragment extends Fragment {
     private ListView lvPendingOrders;
@@ -34,8 +39,9 @@ public class ShippingOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pending_orders, container, false);
         lvPendingOrders = view.findViewById(R.id.lvPendingOrders);
-        lvPendingOrders.setOnTouchListener((v, event) -> true);
-
+        lvPendingOrders.setOnTouchListener((v, event) -> {
+            return false;
+        });
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
@@ -51,6 +57,21 @@ public class ShippingOrdersFragment extends Fragment {
                         orderKeys.add(orderSnapshot.getKey()); // Add the order key to the list
                     }
                 }
+
+                // Sort orders by order date from newest to oldest
+                Collections.sort(orders, new Comparator<Order>() {
+                    @Override
+                    public int compare(Order o1, Order o2) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        try {
+                            return sdf.parse(o2.getOrderDate()).compareTo(sdf.parse(o1.getOrderDate()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            return 0;
+                        }
+                    }
+                });
+
                 adapter = new PendingOrdersAdapter(getContext(), orders, orderKeys); // Pass the order keys to the adapter
                 adapter.setOnOrderClickListener(new PendingOrdersAdapter.OnOrderClickListener() {
                     @Override
@@ -84,7 +105,4 @@ public class ShippingOrdersFragment extends Fragment {
         intent.putExtra("orderKey", orderKey);
         startActivity(intent);
     }
-
-
-
 }

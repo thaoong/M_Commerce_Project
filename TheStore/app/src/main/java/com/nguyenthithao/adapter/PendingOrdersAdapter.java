@@ -65,8 +65,9 @@ public class PendingOrdersAdapter extends BaseAdapter {
             holder.rvIteminorder = convertView.findViewById(R.id.rvIteminorder);
             holder.txtProductCount = convertView.findViewById(R.id.txtProductCount);
             holder.txtTotalMoney = convertView.findViewById(R.id.txtTotalMoney);
-            holder.txtOrderKey = convertView.findViewById(R.id.txtOrderKey);
             holder.btnDetails = convertView.findViewById(R.id.btnDetails);
+            holder.txtOrderDate = convertView.findViewById(R.id.txtOrderDate); // Initialize txtOrderDate
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -87,8 +88,7 @@ public class PendingOrdersAdapter extends BaseAdapter {
         String formattedTotalMoney = currencyFormat.format(order.getTotal());
         holder.txtTotalMoney.setText(formattedTotalMoney);
 
-        holder.txtOrderKey.setText(orderKey); // Thiết lập giá trị cho txtOrderKey
-
+        holder.txtOrderDate.setText(order.getOrderDate());
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             final Order order = orders.get(position);
             final String orderKey = orderKeys.get(position);
@@ -108,7 +108,7 @@ public class PendingOrdersAdapter extends BaseAdapter {
         RecyclerView rvIteminorder;
         TextView txtProductCount;
         TextView txtTotalMoney;
-        TextView txtOrderKey;
+        TextView txtOrderDate;
         Button btnDetails;
     }
 }

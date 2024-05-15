@@ -28,6 +28,7 @@ import com.nguyenthithao.model.Voucher;
 import com.nguyenthithao.thestore.databinding.ActivityPrePayment2Binding;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class Prepayment2Activity extends AppCompatActivity {
     private float discount;
     private float total;
     private int shippingFee;
-    public float prePrice;
+    private float prePrice;
 
     private String selectedVoucherCode;
 
@@ -59,7 +60,7 @@ public class Prepayment2Activity extends AppCompatActivity {
         discount = intent.getFloatExtra("discount", 0);
         shippingFee = intent.getIntExtra("shippingFee", 0);
 
-        if (order != null) {
+        if (order!= null) {
             displayOrderInformation();
         } else {
             Toast.makeText(this, "Order is null", Toast.LENGTH_SHORT).show();
@@ -78,6 +79,17 @@ public class Prepayment2Activity extends AppCompatActivity {
         OrderBookAdapter orderBookAdapter = new OrderBookAdapter(this, R.layout.item_order_book, orderBooks);
         binding.lvBook.setAdapter(orderBookAdapter);
 
+        prePrice = calculatePrePrice(orderBooks);
+        shippingFee = 30000; // Set shipping fee to 30,000 VND
+        total = prePrice + shippingFee;
+        binding.txtPrePrice.setText(formatCurrency(prePrice) + "đ");
+        binding.txtShippingFee.setText(formatCurrency(shippingFee) + "đ");
+        binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
+        binding.txtTotal.setText(formatCurrency(total) + "đ");
+        binding.txtPaymentMethod.setText(paymentMethod);
+    }
+
+    private float calculatePrePrice(ArrayList<OrderBook> orderBooks) {
         float prePrice = 0;
         for (OrderBook orderBook : orderBooks) {
             double unitPrice = orderBook.getUnitPrice();
@@ -85,12 +97,7 @@ public class Prepayment2Activity extends AppCompatActivity {
             double itemTotalPrice = unitPrice * quantity;
             prePrice += itemTotalPrice;
         }
-        binding.txtPrePrice.setText(formatCurrency(prePrice) + "đ");
-
-        binding.txtShippingFee.setText(formatCurrency(shippingFee) + "đ");
-        binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
-        binding.txtTotal.setText(formatCurrency(order.getTotal() - discount) + "đ");
-        binding.txtPaymentMethod.setText(paymentMethod);
+        return prePrice;
     }
 
     private void addEvent() {
@@ -132,22 +139,23 @@ public class Prepayment2Activity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                if (data != null) {
+                if (data!= null) {
                     paymentMethod = data.getStringExtra("SELECTED_PAYMENT_METHOD");
                     binding.txtPaymentMethod.setText(paymentMethod);
                 }
             } else if (requestCode == 2) {
-                if (data != null) {
+                if (data!= null) {
                     selectedVoucherCode = data.getStringExtra("SELECTED_VOUCHER_CODE");
                     binding.edtVoucher.setText(selectedVoucherCode);
                 }
             } else if (requestCode == 3) {
-                if (data != null) {
+                if (data!= null) {
                     Address selectedAddress = (Address) data.getSerializableExtra("SELECTED_ADDRESS");
                     binding.txtCustomerName.setText(selectedAddress.getName());
                     binding.txtPhone.setText(selectedAddress.getPhone());
@@ -157,6 +165,7 @@ public class Prepayment2Activity extends AppCompatActivity {
             }
         }
     }
+
     private void processOrder() {
         if (paymentMethod == null || paymentMethod.isEmpty()) {
             Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
@@ -215,7 +224,13 @@ public class Prepayment2Activity extends AppCompatActivity {
     }
 
     private void checkVoucher() {
-        String voucherCode = binding.edtVoucher.getText().toString();
+        String voucherCode = binding.edtVoucher.getText().toString().trim();
+
+        if (voucherCode.isEmpty()) {
+            Toast.makeText(Prepayment2Activity.this, "Invalid voucher", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         DatabaseReference vouchersRef = FirebaseDatabase.getInstance().getReference("vouchers");
         vouchersRef.child(voucherCode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -233,8 +248,8 @@ public class Prepayment2Activity extends AppCompatActivity {
                         // Check if prePrice is greater than the voucher condition and current date is before the voucher expiration
                         if (prePrice > voucherCondition && isCurrentDateBeforeVoucherExpiration(currentDate, voucherExpiration)) {
                             discount = voucher.getAmount();
+                            total = prePrice + shippingFee - discount; // Update total after applying the discount
                             binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
-                            total = prePrice + shippingFee - discount;
                             binding.txtTotal.setText(formatCurrency(total) + "đ");
                             Toast.makeText(Prepayment2Activity.this, "Applied voucher", Toast.LENGTH_SHORT).show();
                             return;
@@ -245,37 +260,39 @@ public class Prepayment2Activity extends AppCompatActivity {
                 // Voucher is not applicable or does not exist
                 discount = 0;
                 binding.txtDiscount.setText("-" + formatCurrency(discount) + "đ");
-                total = prePrice + shippingFee - discount;
+                total = prePrice + shippingFee; // Reset total to its original value if the voucher is not applied
                 binding.txtTotal.setText(formatCurrency(total) + "đ");
                 Toast.makeText(Prepayment2Activity.this, "Voucher invalid", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
             }
         });
     }
 
-    private String formatCurrency(float value) {
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        return decimalFormat.format(value);
-    }
     private boolean isCurrentDateBeforeVoucherExpiration(String currentDate, String voucherExpiration) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
             Date current = sdf.parse(currentDate);
             Date expiration = sdf.parse(voucherExpiration);
             return current.before(expiration);
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
+            return false; // Return false if parsing fails
         }
-        return false;
     }
+
+    private String formatCurrency(float value) {
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        return decimalFormat.format(value);
+    }
+
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Thanh toán</font>"));
     }
-
 }

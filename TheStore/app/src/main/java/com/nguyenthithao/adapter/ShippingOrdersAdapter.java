@@ -19,6 +19,8 @@ import com.nguyenthithao.thestore.Prepayment2Activity;
 import com.nguyenthithao.thestore.R;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,7 +61,8 @@ public class ShippingOrdersAdapter extends BaseAdapter {
             holder.rvIteminorder = convertView.findViewById(R.id.rvIteminorder);
             holder.txtProductCount = convertView.findViewById(R.id.txtProductCount);
             holder.txtTotalMoney = convertView.findViewById(R.id.txtTotalMoney);
-            holder.txtOrderKey = convertView.findViewById(R.id.txtOrderKey); // Thêm dòng này
+//            holder.txtOrderKey = convertView.findViewById(R.id.txtOrderKey);
+            holder.txtOrderDate = convertView.findViewById(R.id.txtOrderDate); // Initialize txtOrderDate
             holder.btnBuyAgain = convertView.findViewById(R.id.btnBuyAgain);
             convertView.setTag(holder);
         } else {
@@ -67,7 +70,7 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         }
 
         Order order = orders.get(position);
-        String orderKey = orderKeys.get(position); // Lấy order key
+        String orderKey = orderKeys.get(position);
 
         List<OrderBook> orderBooks = order.getOrderBooks();
         ProductAdapter productAdapter = new ProductAdapter(context, orderBooks);
@@ -81,7 +84,9 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         String formattedTotalMoney = currencyFormat.format(order.getTotal());
         holder.txtTotalMoney.setText(formattedTotalMoney);
 
-        holder.txtOrderKey.setText(orderKey); // Thiết lập giá trị cho txtOrderKey
+//        holder.txtOrderKey.setText(orderKey);
+
+        holder.txtOrderDate.setText(order.getOrderDate()); // Use order.getOrderDate() here
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +115,8 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         RecyclerView rvIteminorder;
         TextView txtProductCount;
         TextView txtTotalMoney;
-        TextView txtOrderKey; // Thêm biến này
+//        TextView txtOrderKey;
+        TextView txtOrderDate;
         Button btnBuyAgain;
     }
 }

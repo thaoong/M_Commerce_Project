@@ -34,6 +34,9 @@ public class CompletedOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_completed_orders, container, false);
         lvShippingOrders = view.findViewById(R.id.lvShippingOrders);
+        lvShippingOrders.setOnTouchListener((v, event) -> {
+            return false;
+        });
 
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();

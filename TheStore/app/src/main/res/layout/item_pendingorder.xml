@@ -17,6 +17,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_assignment_24"
+            android:paddingTop="3dp"
+            android:paddingRight="8dp">
+        </ImageView>
+
         <TextView
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
@@ -25,10 +33,10 @@
             android:textStyle="bold"
             android:paddingBottom="5dp"
             android:textColor="@color/brown_text"
-            android:text="Order  " />
+            android:text="Order on " />
 
         <TextView
-            android:id="@+id/txtOrderKey"
+            android:id="@+id/txtOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"

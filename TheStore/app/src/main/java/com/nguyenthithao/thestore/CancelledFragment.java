@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -17,12 +18,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nguyenthithao.adapter.PendingOrdersAdapter;
 import com.nguyenthithao.adapter.ShippingOrdersAdapter;
 import com.nguyenthithao.model.Order;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class CancelledFragment extends Fragment {
     private ListView lvShippingOrders;
@@ -34,7 +39,6 @@ public class CancelledFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_completed_orders, container, false);
         lvShippingOrders = view.findViewById(R.id.lvShippingOrders);
-        lvShippingOrders.setOnTouchListener((v, event) -> true);
 
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -46,21 +50,51 @@ public class CancelledFragment extends Fragment {
                 orderKeys = new ArrayList<>();
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Đã hủy")) {
+                    if (order != null && "Đã hủy".equals(order.getStatus())) {
                         orders.add(order);
                         orderKeys.add(orderSnapshot.getKey());
                     }
                 }
+
+                // Sort orders by order date from newest to oldest
+                Collections.sort(orders, new Comparator<Order>() {
+                    @Override
+                    public int compare(Order o1, Order o2) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        try {
+                            return sdf.parse(o2.getOrderDate()).compareTo(sdf.parse(o1.getOrderDate()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            return 0;
+                        }
+                    }
+                });
+
                 adapter = new ShippingOrdersAdapter(getContext(), orders, orderKeys);
                 lvShippingOrders.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Error", "Error retrieving orders");
+                Log.e("Error", "Error retrieving orders", databaseError.toException());
+            }
+        });
+
+        // Set click listener for each order item in the list view
+        lvShippingOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String orderKey = orderKeys.get(position);
+                openOrderDetailActivity(orderKey);
             }
         });
 
         return view;
+    }
+
+    private void openOrderDetailActivity(String orderKey) {
+        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+        intent.putExtra("orderKey", orderKey);
+        startActivity(intent);
     }
 }

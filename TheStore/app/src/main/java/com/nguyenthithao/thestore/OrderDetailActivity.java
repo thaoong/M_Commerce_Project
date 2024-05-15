@@ -2,6 +2,7 @@ package com.nguyenthithao.thestore;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -127,6 +128,12 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderKey);
                 orderRef.child("status").setValue("Đã hủy");
+
+                // Set the result to indicate the order was deleted
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("deletedOrderKey", orderKey);
+                setResult(AppCompatActivity.RESULT_OK, resultIntent);
+
                 Toast.makeText(OrderDetailActivity.this, "Order cancelled successfully", Toast.LENGTH_SHORT).show();
                 finish();
             }
