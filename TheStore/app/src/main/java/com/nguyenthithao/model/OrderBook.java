@@ -4,31 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class OrderBook implements Parcelable {
-    private String Id;
+    private String id;
     private String name;
-    private float unitPrice;
     private String imageLink;
+    private float unitPrice;
     private float oldPrice;
     private int quantity;
+    private boolean isReview; // New field
 
     public OrderBook() {
     }
 
-    public OrderBook(String Id, String name, float unitPrice, String imageLink, float oldPrice, int quantity) {
-        this.Id = Id;
+    public OrderBook(String id, String name, String imageLink, float unitPrice, float oldPrice, int quantity, boolean isReview) {
+        this.id = id;
         this.name = name;
-        this.unitPrice = unitPrice;
         this.imageLink = imageLink;
+        this.unitPrice = unitPrice;
         this.oldPrice = oldPrice;
         this.quantity = quantity;
+        this.isReview = isReview;
     }
 
+    // Getter and Setter methods for all fields, including isReview
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -39,20 +42,20 @@ public class OrderBook implements Parcelable {
         this.name = name;
     }
 
-    public float getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
     public String getImageLink() {
         return imageLink;
     }
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public float getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public float getOldPrice() {
@@ -71,6 +74,14 @@ public class OrderBook implements Parcelable {
         this.quantity = quantity;
     }
 
+    public boolean isReview() {
+        return isReview;
+    }
+
+    public void setReview(boolean review) {
+        isReview = review;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -78,15 +89,26 @@ public class OrderBook implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Id);
+        dest.writeString(id);
         dest.writeString(name);
-        dest.writeFloat(unitPrice);
         dest.writeString(imageLink);
+        dest.writeFloat(unitPrice);
         dest.writeFloat(oldPrice);
         dest.writeInt(quantity);
+        dest.writeByte((byte) (isReview ? 1 : 0)); // Write isReview as a byte
     }
 
-    public static final Parcelable.Creator<OrderBook> CREATOR = new Parcelable.Creator<OrderBook>() {
+    protected OrderBook(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        imageLink = in.readString();
+        unitPrice = in.readFloat();
+        oldPrice = in.readFloat();
+        quantity = in.readInt();
+        isReview = in.readByte() != 0; // Read isReview as a byte
+    }
+
+    public static final Creator<OrderBook> CREATOR = new Creator<OrderBook>() {
         @Override
         public OrderBook createFromParcel(Parcel in) {
             return new OrderBook(in);
@@ -97,13 +119,4 @@ public class OrderBook implements Parcelable {
             return new OrderBook[size];
         }
     };
-
-    protected OrderBook(Parcel in) {
-        Id = in.readString();
-        name = in.readString();
-        unitPrice = in.readFloat();
-        imageLink = in.readString();
-        oldPrice = in.readFloat();
-        quantity = in.readInt();
-    }
 }

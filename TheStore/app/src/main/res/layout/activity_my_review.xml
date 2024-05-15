@@ -34,7 +34,7 @@
                     android:orientation="vertical">
 
                     <ListView
-                        android:id="@+id/lvOrderDetail"
+                        android:id="@+id/lvToRate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
@@ -46,7 +46,7 @@
                     android:orientation="vertical">
 
                     <ListView
-                        android:id="@+id/lvRated"
+                        android:id="@+id/lvReviewed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>

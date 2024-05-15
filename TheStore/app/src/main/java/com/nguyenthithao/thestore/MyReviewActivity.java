@@ -1,4 +1,3 @@
-
 package com.nguyenthithao.thestore;
 
 import androidx.annotation.NonNull;
@@ -10,6 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -32,9 +33,9 @@ import com.nguyenthithao.thestore.R;
 import java.util.ArrayList;
 
 public class MyReviewActivity extends AppCompatActivity {
-    ListView lvOrderDetail;
-    ArrayList<OrderDetailTest> dsOrderDetail;
-    OrderDetailAdapterTest adapterOrderDetail;
+    ListView lvToRate, lvReviewed;
+    ArrayList<OrderDetailTest> dsToRate, dsReviewed;
+    OrderDetailAdapterTest adapterToRate, adapterReviewed;
     TabHost tabHost;
 
     @Override
@@ -46,10 +47,14 @@ public class MyReviewActivity extends AppCompatActivity {
     }
 
     private void addViews() {
-        lvOrderDetail = findViewById(R.id.lvOrderDetail);
-        dsOrderDetail = new ArrayList<>();
-        adapterOrderDetail = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_rating, dsOrderDetail);
-        lvOrderDetail.setAdapter(adapterOrderDetail);
+        lvToRate = findViewById(R.id.lvToRate);
+        lvReviewed = findViewById(R.id.lvReviewed);
+        dsToRate = new ArrayList<>();
+        dsReviewed = new ArrayList<>();
+        adapterToRate = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_rating, dsToRate);
+        adapterReviewed = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_old_rating, dsReviewed);
+        lvToRate.setAdapter(adapterToRate);
+        lvReviewed.setAdapter(adapterReviewed);
 
         tabHost = findViewById(R.id.tabHost);
         tabHost.setup();
@@ -74,29 +79,44 @@ public class MyReviewActivity extends AppCompatActivity {
             databaseReference.orderByChild("userID").equalTo(currentUserId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    dsOrderDetail.clear();
+                    dsToRate.clear();
+                    dsReviewed.clear();
                     for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
                         Order order = orderSnapshot.getValue(Order.class);
                         if (order != null && order.getStatus().equals("Hoàn tất")) {
                             for (OrderBook book : order.getOrderBooks()) {
-                                dsOrderDetail.add(new OrderDetailTest(
-                                        book.getName(),
-                                        book.getImageLink(),
-                                        book.getUnitPrice(),
-                                        book.getOldPrice(),
-                                        book.getQuantity(),
-                                        book.getId(),
-                                        order.getOrderDate()
-                                ));
+                                if (book.isReview()) {
+                                    dsReviewed.add(new OrderDetailTest(
+                                            book.getName(),
+                                            book.getImageLink(),
+                                            book.getUnitPrice(),
+                                            book.getOldPrice(),
+                                            book.getQuantity(),
+                                            book.getId(),
+                                            order.getOrderDate()
+                                    ));
+                                } else {
+                                    dsToRate.add(new OrderDetailTest(
+                                            book.getName(),
+                                            book.getImageLink(),
+                                            book.getUnitPrice(),
+                                            book.getOldPrice(),
+                                            book.getQuantity(),
+                                            book.getId(),
+                                            order.getOrderDate()
+                                    ));
+                                }
                             }
                         }
                     }
-                    adapterOrderDetail.notifyDataSetChanged();
+
+                    adapterToRate.notifyDataSetChanged();
+                    adapterReviewed.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Xử lý lỗi nếu có
+                    // Xử lý lỗi
                 }
             });
         } else {
@@ -104,6 +124,29 @@ public class MyReviewActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        lvToRate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                OrderDetailTest selectedProduct = dsToRate.get(position);
+                String productName = selectedProduct.getName();
+
+                Intent intent = new Intent(MyReviewActivity.this, RatingActivity.class);
+                intent.putExtra("productName", productName);
+                startActivity(intent);
+            }
+        });
+
+        lvReviewed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                OrderDetailTest selectedProduct = dsReviewed.get(position);
+                String productName = selectedProduct.getName();
+
+                Intent intent = new Intent(MyReviewActivity.this, RatingActivity.class);
+                intent.putExtra("productName", productName);
+                startActivity(intent);
+            }
+        });
     }
 
     private void customizeTabs(TabHost tabHost) {
@@ -125,7 +168,7 @@ public class MyReviewActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
         String title = getResources().getString(R.string.strMyReview);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>" + title + "</font>"));
     }
 
     @Override

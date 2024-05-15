@@ -39,13 +39,16 @@ public class OrderDetailAdapterTest extends ArrayAdapter<OrderDetailTest> {
         TextView txtName = row.findViewById(R.id.txtBookName);
         TextView txtUnitPrice = row.findViewById(R.id.txtUnitPrice);
         TextView txtBookQuantity = row.findViewById(R.id.txtBookQuantity);
-        ImageView imageView = row.findViewById(R.id.imageView);
+        ImageView imageView = row.findViewById(R.id.imgProduct); // Change here
         Button btnToRate = row.findViewById(R.id.btnToRate);
 
         OrderDetailTest orderDetailTest = this.objects.get(position);
         txtName.setText(orderDetailTest.getName());
         txtUnitPrice.setText(String.valueOf(orderDetailTest.getPrice()));
         txtBookQuantity.setText(String.valueOf(orderDetailTest.getQuantity()));
+
+        // Load image using Picasso
+        Picasso.get().load(orderDetailTest.getImageLink()).into(imageView);
 
         btnToRate.setOnClickListener(new View.OnClickListener() {
             @Override
