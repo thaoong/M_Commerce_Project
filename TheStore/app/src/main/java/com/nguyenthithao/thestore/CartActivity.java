@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -85,7 +86,9 @@ public class CartActivity extends AppCompatActivity {
                         cartAdapter.add(cartItem);
                     }
                 }
-                chkBuyAll.setText("Chọn tất cả (" + snapshot.getChildrenCount() + " sản phẩm)");
+                String title = getResources().getString(R.string.strSelectAll);
+                String products = getResources().getString(R.string.strProducts);
+                chkBuyAll.setText(title +" (" + snapshot.getChildrenCount() + " " +products+")");
             }
 
             @Override
@@ -99,7 +102,8 @@ public class CartActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Giỏ hàng</font>"));
+        String title = getResources().getString(R.string.strCart);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
     @Override
@@ -132,7 +136,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void updateSelectedCount(int count) {
-        btnBuy.setText("Mua hàng (" +count+ ")");
+        String title = getResources().getString(R.string.strCheckOut);
+        btnBuy.setText(title + " (" +count+ ")");
     }
 
     public boolean isBuyAllChecked() {
@@ -145,7 +150,8 @@ public class CartActivity extends AppCompatActivity {
             intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
             startActivity(intent);
         } else {
-            // Handle case where no items are selected
+            String title = getResources().getString(R.string.strChooseItemInCart);
+            Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
         }
     }
 

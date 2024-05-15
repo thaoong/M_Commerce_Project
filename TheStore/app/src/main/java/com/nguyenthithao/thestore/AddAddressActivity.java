@@ -89,15 +89,16 @@ public class AddAddressActivity extends AppCompatActivity {
             String addressId = addressRef.push().getKey();
             address.setAddressId(addressId);
             addressRef.child(addressId).setValue(address);
-
-            Toast.makeText(AddAddressActivity.this, "Address saved successfully", Toast.LENGTH_SHORT).show();
+            String title = getResources().getString(R.string.strSaveAddressSuccessfully);
+            Toast.makeText(AddAddressActivity.this, title, Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent();
             intent.putExtra("address", (CharSequence) address);
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            Toast.makeText(AddAddressActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            String title = getResources().getString(R.string.strFillAllFields);
+            Toast.makeText(AddAddressActivity.this, title, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -133,15 +134,13 @@ public class AddAddressActivity extends AppCompatActivity {
                         }
                     }
                 }
-                // Update UI here
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddAddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                String title = getResources().getString(R.string.strFailedLoadAddresses);
+                Toast.makeText(AddAddressActivity.this, title, Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }

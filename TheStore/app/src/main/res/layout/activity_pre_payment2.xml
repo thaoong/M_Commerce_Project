@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="Địa chỉ"
+        android:text="@string/strAddress"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="Danh sách sản phẩm"
+        android:text="@string/strListOfProducts"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -130,7 +130,8 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:divider="@android:color/transparent" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"/>
 
     <TextView
         android:id="@+id/textView33"
@@ -138,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
-        android:text="Nhập mã giảm giá"
+        android:text="@string/strEnterVoucherCode"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -170,7 +171,7 @@
                 android:background="@drawable/rectangle_background_shape"
                 android:drawableLeft="@drawable/ic_discount_24"
                 android:drawablePadding="10dp"
-                android:hint="Mã giảm giá hoặc freeship"
+                android:hint="@string/strVoucherHint"
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:paddingTop="8dp"
@@ -198,7 +199,7 @@
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_button"
-            android:text="Apply"
+            android:text="@string/strApply"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -217,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:text="Phương thức thanh toán"
+            android:text="@string/strPaymentMethod"
             android:textColor="@color/brown_text"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -248,7 +249,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
-        android:text="Chi tiết thanh toán"
+        android:text="@string/strPaymentDetail"
         android:textColor="@color/brown_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -275,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Tạm tính"
+                android:text="@string/strPrePrice"
                 android:textColor="@color/brown_text"
                 android:textSize="15sp" />
 
@@ -303,7 +304,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Phí vận chuyển"
+                android:text="@string/strShippingFee"
                 android:textColor="@color/brown_text"
                 android:textSize="15sp" />
 
@@ -331,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Giảm giá"
+                android:text="@string/strDiscount"
                 android:textColor="@color/brown_text"
                 android:textSize="15sp" />
 
@@ -360,7 +361,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Tổng thanh toán"
+                android:text="@string/strTotalPayment"
                 android:textColor="@color/brown_text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -394,7 +395,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:backgroundTint="@color/brown_text"
-            android:text="Buy now"
+            android:text="@string/strBuyNow"
             android:textColor="@color/brown_button"
             android:textSize="16sp"
             android:textStyle="bold" />

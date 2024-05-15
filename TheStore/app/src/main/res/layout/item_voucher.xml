@@ -31,9 +31,10 @@
 
             <TextView
                 android:id="@+id/textView48"
-                android:layout_width="41dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giảm"
+                android:layout_marginRight="3dp"
+                android:text="@string/strDiscount"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -57,9 +58,10 @@
 
             <TextView
                 android:id="@+id/textView36"
-                android:layout_width="85dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đơn hàng từ:"
+                android:layout_marginRight="3dp"
+                android:text="@string/strOrderFrom"
                 android:textColor="@color/brown_text" />
 
             <TextView
@@ -107,7 +109,7 @@
                 android:id="@+id/textView33"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
-                android:text="HSD:"
+                android:text="@string/strEXP"
                 android:textColor="@color/brown_text" />
 
             <TextView

@@ -31,8 +31,6 @@ public class OrderDetail3Activity extends AppCompatActivity {
 
     ListView lvOrderDetail;
     TextView txtOrderID, txtOrderStatus, txtDate, txtDateReceive, txtBookQuantity, txtTotalPrice, txtCustomerName, txtCustomerPhone, txtCustomerAddress, txtPaymentMethod, txtTemporary, txtShippingFee, txtDiscount, txtTotalMoney;
-    Button btnBuyAgain;
-    Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +42,6 @@ public class OrderDetail3Activity extends AppCompatActivity {
         String orderKey = getIntent().getStringExtra("orderKey"); // Get the orderKey from the previous screen
 
         txtOrderID.setText(orderKey); // Set the orderKey to txtOrderID
-
-
 
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderKey);
         orderRef.addValueEventListener(new ValueEventListener() {
@@ -87,7 +83,8 @@ public class OrderDetail3Activity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Chi tiết đơn hàng</font>"));
+        String title = getResources().getString(R.string.strOrderDetail);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
     private void addViews() {
@@ -106,11 +103,10 @@ public class OrderDetail3Activity extends AppCompatActivity {
         txtShippingFee = findViewById(R.id.txtShippingFee);
         txtDiscount = findViewById(R.id.txtDiscount);
         txtTotalMoney = findViewById(R.id.txtTotalMoney);
-
     }
 
     private String formatPrice(double price) {
-        return String.format("%,.0f đ", price);
+        return String.format("%,.0fđ", price);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,5 +116,4 @@ public class OrderDetail3Activity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

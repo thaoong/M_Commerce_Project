@@ -17,7 +17,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:layout_marginLeft="5dp"
-            android:text="Quantity"
+            android:text="@string/strQuantity1"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/brown_text"
             android:textSize="20sp"
@@ -73,10 +73,10 @@
         android:id="@+id/btnConfirm"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@color/brown_button"
-        android:text="Confirm"
+        android:text="@string/strConfirm"
         android:textStyle="bold"
         app:iconTint="@color/brown_text" />
 

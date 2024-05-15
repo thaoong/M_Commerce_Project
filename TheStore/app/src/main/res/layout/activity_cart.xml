@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:text="Không có sản phẩm nào trong giỏ hàng"
+            android:text="@string/strNoProduct"
             android:textAlignment="center"
             android:textColor="@color/brown_text"
             android:textSize="20sp"
@@ -38,13 +38,13 @@
 
         <Button
             android:id="@+id/btnShopNow"
-            android:onClick="processShopNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/brown_button"
-            android:text="Shop now"
+            android:onClick="processShopNow"
+            android:text="@string/strChooseProduct"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -61,7 +61,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:buttonTint="@color/brown_text"
-            android:text="Chọn tất cả"
+            android:text="@string/strSelectAll"
             android:textColor="@color/brown_text"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -98,7 +98,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Tổng cộng"
+                    android:text="@string/strTotal"
                     android:textAlignment="center"
                     android:textColor="@color/brown_text"
                     android:textSize="16sp"
@@ -126,7 +126,7 @@
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/brown_button"
                 android:onClick="buyProductActivity"
-                android:text="Mua hàng (0)"
+                android:text="@string/strCheckOutDefault"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />

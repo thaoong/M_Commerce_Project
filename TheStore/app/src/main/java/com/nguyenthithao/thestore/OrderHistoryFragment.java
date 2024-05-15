@@ -84,7 +84,12 @@ public class OrderHistoryFragment extends Fragment {
     }
 
     private class OrderHistoryPagerAdapter extends FragmentPagerAdapter {
-        private final String[] tabTitles = {"Chờ xác nhận", "Đang giao", "Hoàn tất", "Đã hủy"};
+        String title = getResources().getString(R.string.strPending);
+        String title1 = getResources().getString(R.string.strDelivering);
+        String title2 = getResources().getString(R.string.strCompleted);
+        String title3 = getResources().getString(R.string.strCanceled);
+
+        private final String[] tabTitles = {title, title1, title2, title3};
 
         public OrderHistoryPagerAdapter(FragmentManager fm) {
             super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

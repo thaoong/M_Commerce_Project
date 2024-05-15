@@ -175,7 +175,7 @@
                     android:id="@+id/textView30"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DETAIL INFORMATION"
+                    android:text="@string/strDetailInformation"
                     android:textAlignment="textStart"
                     android:textColor="#5C3507"
                     android:textSize="15sp"
@@ -190,9 +190,9 @@
                     <TextView
                         android:id="@+id/textView40"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="• Author:"
+                        android:text="@string/strAuthor"
                         android:textColor="#5C3507"
                         android:textStyle="bold" />
 
@@ -216,7 +216,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="• Publication date:"
+                        android:text="@string/strPublicationDate"
                         android:textColor="#5C3507"
                         android:textStyle="bold" />
 
@@ -241,7 +241,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="• Category:"
+                        android:text="@string/strCategory1"
                         android:textColor="#5C3507"
                         android:textStyle="bold" />
 
@@ -260,7 +260,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="• Description:"
+                    android:text="@string/strDescription"
                     android:textColor="#5C3507"
                     android:textStyle="bold" />
 
@@ -284,7 +284,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="related products"
+                android:text="@string/strRelatedProducts"
                 android:textAllCaps="true"
                 android:textColor="@color/brown_text"
                 android:textSize="16sp"
@@ -305,7 +305,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="REVIEWS"
+                android:text="@string/strReviews"
                 android:textAllCaps="true"
                 android:textColor="#5C3507"
                 android:textSize="16sp"
@@ -336,10 +336,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/brown_button"
-            android:textSize="14sp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="ADD TO CART"
+            android:text="@string/strADDTOCART"
             android:textColor="@color/brown_text"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -349,7 +349,7 @@
             android:layout_weight="1"
             android:background="@color/brown_text"
             android:gravity="center_horizontal|center_vertical"
-            android:text="BUY NOW"
+            android:text="@string/strBUYNOW"
             android:textColor="@color/brown_button"
             android:textSize="14sp"
             android:textStyle="bold" />

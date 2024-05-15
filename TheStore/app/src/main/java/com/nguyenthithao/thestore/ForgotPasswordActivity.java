@@ -22,9 +22,9 @@ import com.nguyenthithao.thestore.databinding.ActivityProfileInfoBinding;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     ActivityForgotPasswordBinding binding;
-    ProgressBar progressBar;
     FirebaseAuth mAuth;
     String strEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +80,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Forgot Password</font>"));
+        String title = getResources().getString(R.string.strForgotPw);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 }

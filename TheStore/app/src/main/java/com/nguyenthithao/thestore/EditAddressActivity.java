@@ -31,8 +31,6 @@ import java.util.List;
 public class EditAddressActivity extends AppCompatActivity {
     ActivityEditAddressBinding binding;
     DatabaseReference userRef;
-    User currentUser;
-    private boolean hidden;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

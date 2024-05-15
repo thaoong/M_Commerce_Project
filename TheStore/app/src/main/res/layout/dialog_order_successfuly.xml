@@ -18,7 +18,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        android:text="Đơn hàng đã được đặt thành công!"
+        android:text="@string/strOrderSuccessfully"
         android:textColor="@color/brown_text"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -31,7 +31,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:backgroundTint="@color/brown_button"
-        android:text="Tiếp tục mua sắm"
+        android:text="@string/strContinueShopping"
         android:textColor="@color/brown_text"
         android:textSize="20dp"
         android:textStyle="bold" />
@@ -45,7 +45,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/brown_text"
-        android:text="Xem chi tiết đơn hàng"
+        android:text="@string/strViewOrderDetail"
         android:textColor="@color/brown_button"
         android:textSize="20dp"
         android:textStyle="bold" />

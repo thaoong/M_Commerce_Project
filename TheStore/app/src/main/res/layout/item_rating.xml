@@ -80,7 +80,7 @@
                         android:id="@+id/textView38"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
-                        android:text="Số lượng:"
+                        android:text="@string/strQuantity1"
                         android:textColor="@color/brown_text" />
 
                     <TextView
@@ -96,14 +96,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end">
+
                     <Button
                         android:id="@+id/btnToRate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:backgroundTint="@color/brown_button"
-                        android:textColor="@color/brown_text"
-                        android:text="Rate" />
+                        android:text="@string/strRate"
+                        android:textColor="@color/brown_text" />
                 </LinearLayout>
 
             </LinearLayout>

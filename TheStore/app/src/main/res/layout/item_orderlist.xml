@@ -29,11 +29,11 @@
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textStyle="bold"
             android:paddingBottom="5dp"
+            android:text="@string/strOrderOn"
             android:textColor="@color/brown_text"
-            android:text="Order on " />
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtOrderDate"
@@ -77,16 +77,18 @@
             android:id="@+id/txt10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:paddingRight="20dp"
-            android:text=" products" />
+            android:layout_marginLeft="5dp"
+            android:paddingRight="15dp"
+            android:text="@string/strProducts"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/txtview10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Total:  " />
+            android:layout_marginRight="3dp"
+            android:text="@string/strTotalAmount"/>
 
         <TextView
             android:id="@+id/txtTotalMoney"
@@ -104,7 +106,7 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:backgroundTint="@color/brown_text"
-        android:text="Re - Order"
+        android:text="@string/strReOrder"
         android:textColor="@color/white"
         android:layout_gravity="right"
         android:layout_marginBottom="5dp"

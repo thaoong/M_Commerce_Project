@@ -95,7 +95,8 @@ public class OrderDetail2Activity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Chi tiết đơn hàng</font>"));
+        String title = getResources().getString(R.string.strOrderDetail);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
     private void addViews() {
@@ -118,7 +119,7 @@ public class OrderDetail2Activity extends AppCompatActivity {
     }
 
     private String formatPrice(double price) {
-        return String.format("%,.0f đ", price);
+        return String.format("%,.0fđ", price);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

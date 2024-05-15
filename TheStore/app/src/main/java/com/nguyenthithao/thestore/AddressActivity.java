@@ -73,7 +73,8 @@ public class AddressActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(AddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                    String title = getResources().getString(R.string.strFailedLoadAddresses);
+                    Toast.makeText(AddressActivity.this, title, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -121,7 +122,8 @@ public class AddressActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_ios_24);
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>My Addresses</font>"));
+        String title = getResources().getString(R.string.strAddressList);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+ title +"</font>"));
     }
 
     @Override
@@ -150,7 +152,8 @@ public class AddressActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddressActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                String title = getResources().getString(R.string.strFailedLoadAddresses);
+                Toast.makeText(AddressActivity.this, title, Toast.LENGTH_SHORT).show();
             }
         });
     }

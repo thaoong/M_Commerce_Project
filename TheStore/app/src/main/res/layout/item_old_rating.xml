@@ -1,92 +1,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nguyen Van A"
+
+        android:textColor="#5C3507"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Nguyen Van A"
-
-            android:textColor="#5C3507"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/img_Product"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/img_Product"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="10dp" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/txt_ProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txt_ProductName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Product Name"
-                        android:textColor="@color/brown_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giao hàng thành công:"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txtDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="12/12/2024"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
+                    android:text="Product Name"
+                    android:textColor="@color/brown_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtOtherReviews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Very good product, the smell of new books is fragrant, fast delivery, well packaged. Quality ok. Everyone should buy from this shop!"
-            android:textColor="#5C3507"
-            android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giao hàng thành công:"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12/12/2024"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtOtherReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Very good product, the smell of new books is fragrant, fast delivery, well packaged. Quality ok. Everyone should buy from this shop!"
+        android:textColor="#5C3507"
+        android:textSize="12sp" />
 
 </LinearLayout>

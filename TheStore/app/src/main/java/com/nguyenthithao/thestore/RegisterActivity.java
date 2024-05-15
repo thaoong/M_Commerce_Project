@@ -39,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         addEvents();
-
     }
 
     private void addEvents() {

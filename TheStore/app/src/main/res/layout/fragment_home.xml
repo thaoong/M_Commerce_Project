@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CATEGORY"
+                    android:text="@string/strCATEGORY"
                     android:textColor="@color/brown_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -162,7 +162,7 @@
                     android:id="@+id/txtSeeMoreFlashSale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See more"
+                    android:text="@string/strSeeMore"
                     android:textColor="#5C3507" />
 
             </LinearLayout>
@@ -205,17 +205,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="18sp"
+                    android:text="@string/strBESTSELLING"
                     android:textColor="#5C3507"
-                    android:textStyle="bold"
-                    android:text="BEST SELLING" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtSeeMoreBestSelling"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#5C3507"
-                    android:text="See more" />
+                    android:text="@string/strSeeMore"
+                    android:textColor="#5C3507" />
 
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -253,12 +253,12 @@
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
-                    android:textColor="#5C3507"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/strTOPAUTHORS"
+                    android:textColor="#5C3507"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="TOP AUTHORS" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -306,7 +306,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="NEW ARRIVALS"
+                    android:text="@string/strNEWARRIVALS"
                     android:textColor="#5C3507"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -314,9 +314,9 @@
                 <TextView
                     android:id="@+id/txtSeeMoreNewArrivals"
                     android:layout_width="wrap_content"
-                    android:textColor="#5C3507"
                     android:layout_height="wrap_content"
-                    android:text="See more" />
+                    android:text="@string/strSeeMore"
+                    android:textColor="#5C3507" />
 
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -355,18 +355,18 @@
                     android:id="@+id/txtRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#5C3507"
                     android:layout_weight="1"
+                    android:text="@string/strFORYOU"
+                    android:textColor="#5C3507"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="FOR YOU" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtSeeMoreForYou"
                     android:layout_width="wrap_content"
-                    android:textColor="#5C3507"
                     android:layout_height="wrap_content"
-                    android:text="See more" />
+                    android:text="@string/strSeeMore"
+                    android:textColor="#5C3507" />
 
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout

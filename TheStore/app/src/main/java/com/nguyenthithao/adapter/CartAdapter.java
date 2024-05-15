@@ -205,7 +205,6 @@ public class CartAdapter extends ArrayAdapter<CartItem> {
 
     private OnBuyClickListener onBuyClickListener;
 
-
     private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
         private ImageView imageView;
 

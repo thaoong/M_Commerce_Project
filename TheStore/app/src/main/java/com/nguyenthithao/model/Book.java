@@ -145,5 +145,4 @@ public class Book implements Serializable {
         this.isBuy = isBuy;
     }
 
-// Thêm vô đây bị lỗi
 }

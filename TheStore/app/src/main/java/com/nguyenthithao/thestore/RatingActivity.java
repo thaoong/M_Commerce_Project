@@ -55,8 +55,6 @@ public class RatingActivity extends AppCompatActivity {
 
         binding.ratingBar.setRating(5);
 
-
-
         Intent intent = getIntent();
 //        String productName = intent.getStringExtra("productName");
         float productPrice = intent.getFloatExtra("productPrice", 0);
@@ -65,7 +63,6 @@ public class RatingActivity extends AppCompatActivity {
 
         String productName = getIntent().getStringExtra("productName");
         binding.txtProductName.setText(productName);
-
 
         displayActionBar();
 

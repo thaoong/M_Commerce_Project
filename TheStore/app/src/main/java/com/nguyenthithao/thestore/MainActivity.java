@@ -23,7 +23,6 @@ import com.nguyenthithao.thestore.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-    private boolean isLoggedIn = false;
     int count_exit = 0;
 
     @Override
@@ -59,19 +58,23 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         binding.bottomNavigation.getMenu().findItem(R.id.navigation_home).setChecked(true);
-                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Trang chủ</font>"));
+                        String title = getResources().getString(R.string.strHome);
+                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
                         break;
                     case 1:
                         binding.bottomNavigation.getMenu().findItem(R.id.navigation_category).setChecked(true);
-                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Danh mục</font>"));
+                        String title1 = getResources().getString(R.string.strCategory);
+                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title1+"</font>"));
                         break;
                     case 2:
                         binding.bottomNavigation.getMenu().findItem(R.id.navigation_notification).setChecked(true);
-                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Thông báo</font>"));
+                        String title3 = getResources().getString(R.string.strNotification);
+                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title3+"</font>"));
                         break;
                     case 3:
                         binding.bottomNavigation.getMenu().findItem(R.id.navigation_profile).setChecked(true);
-                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Tài khoản</font>"));
+                        String title4 = getResources().getString(R.string.strProfile);
+                        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title4+"</font>"));
                         break;
                 }
             }
