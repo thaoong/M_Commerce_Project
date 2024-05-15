@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".OrderDetail2Activity">
+    tools:context=".OrderDetail3Activity">
 
 
     <ScrollView
@@ -424,18 +424,6 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnBuyAgain"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/brown_text"
-                android:text="Buy Again"
-                android:textColor="@color/brown_button"
-                android:layout_gravity="right"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

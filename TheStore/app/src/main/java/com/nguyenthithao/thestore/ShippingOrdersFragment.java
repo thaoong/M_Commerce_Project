@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -45,7 +46,7 @@ public class ShippingOrdersFragment extends Fragment {
                 orderKeys = new ArrayList<>(); // Create a list to store order keys
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Đang vận chuyển")) { // Filter orders with status "Chờ xác nhận"
+                    if (order.getStatus().equals("Đang vận chuyển")) { // Filter orders with status "Đang vận chuyển"
                         orders.add(order);
                         orderKeys.add(orderSnapshot.getKey()); // Add the order key to the list
                     }
@@ -66,12 +67,24 @@ public class ShippingOrdersFragment extends Fragment {
             }
         });
 
+        // Set click listener for each order item in the list view
+        lvPendingOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String orderKey = orderKeys.get(position);
+                openOrderDetailActivity(orderKey);
+            }
+        });
+
         return view;
     }
 
     private void openOrderDetailActivity(String orderKey) {
-        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+        Intent intent = new Intent(getContext(), OrderDetail3Activity.class);
         intent.putExtra("orderKey", orderKey);
         startActivity(intent);
     }
+
+
+
 }

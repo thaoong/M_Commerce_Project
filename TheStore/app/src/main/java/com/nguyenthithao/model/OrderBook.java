@@ -1,8 +1,9 @@
 package com.nguyenthithao.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class OrderBook implements Serializable {
+public class OrderBook implements Parcelable {
     private String Id;
     private String name;
     private float unitPrice;
@@ -68,5 +69,41 @@ public class OrderBook implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Id);
+        dest.writeString(name);
+        dest.writeFloat(unitPrice);
+        dest.writeString(imageLink);
+        dest.writeFloat(oldPrice);
+        dest.writeInt(quantity);
+    }
+
+    public static final Parcelable.Creator<OrderBook> CREATOR = new Parcelable.Creator<OrderBook>() {
+        @Override
+        public OrderBook createFromParcel(Parcel in) {
+            return new OrderBook(in);
+        }
+
+        @Override
+        public OrderBook[] newArray(int size) {
+            return new OrderBook[size];
+        }
+    };
+
+    protected OrderBook(Parcel in) {
+        Id = in.readString();
+        name = in.readString();
+        unitPrice = in.readFloat();
+        imageLink = in.readString();
+        oldPrice = in.readFloat();
+        quantity = in.readInt();
     }
 }

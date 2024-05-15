@@ -1,9 +1,11 @@
 package com.nguyenthithao.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Order implements Serializable {
+public class Order implements Parcelable {
     private String Id;
     private ArrayList<OrderBook> orderBooks;
     private String name;
@@ -179,5 +181,65 @@ public class Order implements Serializable {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    // getters and setters...
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Id);
+        dest.writeTypedList(orderBooks);
+        dest.writeString(name);
+        dest.writeString(phone);
+        dest.writeString(street);
+        dest.writeString(ward);
+        dest.writeString(district);
+        dest.writeString(province);
+        dest.writeFloat(prePrice);
+        dest.writeFloat(shippingFee);
+        dest.writeFloat(discount);
+        dest.writeFloat(total);
+        dest.writeString(paymentMethod);
+        dest.writeString(status);
+        dest.writeString(orderDate);
+        dest.writeString(receivedDate);
+        dest.writeString(userID);
+    }
+
+    public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+
+    protected Order(Parcel in) {
+        Id = in.readString();
+        orderBooks = in.createTypedArrayList(OrderBook.CREATOR);
+        name = in.readString();
+        phone = in.readString();
+        street = in.readString();
+        ward = in.readString();
+        district = in.readString();
+        province = in.readString();
+        prePrice = in.readFloat();
+        shippingFee = in.readFloat();
+        discount = in.readFloat();
+        total = in.readFloat();
+        paymentMethod = in.readString();
+        status = in.readString();
+        orderDate = in.readString();
+        receivedDate = in.readString();
+        userID = in.readString();
     }
 }

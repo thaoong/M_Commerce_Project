@@ -65,12 +65,15 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.core:core:1.9.0")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
 
     implementation("com.google.firebase:firebase-storage:20.0.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-location:17.1.0")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 
     implementation("com.squareup.picasso:picasso:2.71828")
     // add the dependency for the Google AI client SDK for Android

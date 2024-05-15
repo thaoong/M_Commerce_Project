@@ -18,22 +18,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.PendingOrdersAdapter;
+import com.nguyenthithao.adapter.ShippingOrdersAdapter;
 import com.nguyenthithao.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CancelledFragment extends Fragment {
-    private ListView lvPendingOrders;
-    private PendingOrdersAdapter adapter;
+    private ListView lvShippingOrders;
+    private ShippingOrdersAdapter adapter;
     private List<Order> orders;
     private List<String> orderKeys;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pending_orders, container, false);
-        lvPendingOrders = view.findViewById(R.id.lvPendingOrders);
-        lvPendingOrders.setOnTouchListener((v, event) -> true);
+        View view = inflater.inflate(R.layout.fragment_completed_orders, container, false);
+        lvShippingOrders = view.findViewById(R.id.lvShippingOrders);
+        lvShippingOrders.setOnTouchListener((v, event) -> true);
 
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -42,22 +43,16 @@ public class CancelledFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orders = new ArrayList<>();
-                orderKeys = new ArrayList<>(); // Create a list to store order keys
+                orderKeys = new ArrayList<>();
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Đã hủy")) { // Filter orders with status "Chờ xác nhận"
+                    if (order.getStatus().equals("Đã hủy")) {
                         orders.add(order);
-                        orderKeys.add(orderSnapshot.getKey()); // Add the order key to the list
+                        orderKeys.add(orderSnapshot.getKey());
                     }
                 }
-                adapter = new PendingOrdersAdapter(getContext(), orders, orderKeys); // Pass the order keys to the adapter
-                adapter.setOnOrderClickListener(new PendingOrdersAdapter.OnOrderClickListener() {
-                    @Override
-                    public void onOrderClick(Order order, String orderKey) {
-                        openOrderDetailActivity(orderKey);
-                    }
-                });
-                lvPendingOrders.setAdapter(adapter);
+                adapter = new ShippingOrdersAdapter(getContext(), orders, orderKeys);
+                lvShippingOrders.setAdapter(adapter);
             }
 
             @Override
@@ -67,11 +62,5 @@ public class CancelledFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private void openOrderDetailActivity(String orderKey) {
-        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
-        intent.putExtra("orderKey", orderKey);
-        startActivity(intent);
     }
 }

@@ -1,13 +1,11 @@
 package com.nguyenthithao.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
-import com.nguyenthithao.thestore.OrderDetailActivity;
 import com.nguyenthithao.thestore.R;
 
 import java.text.NumberFormat;
@@ -68,6 +65,7 @@ public class PendingOrdersAdapter extends BaseAdapter {
             holder.rvIteminorder = convertView.findViewById(R.id.rvIteminorder);
             holder.txtProductCount = convertView.findViewById(R.id.txtProductCount);
             holder.txtTotalMoney = convertView.findViewById(R.id.txtTotalMoney);
+            holder.txtOrderKey = convertView.findViewById(R.id.txtOrderKey);
             holder.btnDetails = convertView.findViewById(R.id.btnDetails);
             convertView.setTag(holder);
         } else {
@@ -75,6 +73,7 @@ public class PendingOrdersAdapter extends BaseAdapter {
         }
 
         Order order = orders.get(position);
+        String orderKey = orderKeys.get(position); // Lấy order key
 
         List<OrderBook> orderBooks = order.getOrderBooks();
         ProductAdapter productAdapter = new ProductAdapter(context, orderBooks);
@@ -88,17 +87,19 @@ public class PendingOrdersAdapter extends BaseAdapter {
         String formattedTotalMoney = currencyFormat.format(order.getTotal());
         holder.txtTotalMoney.setText(formattedTotalMoney);
 
+        holder.txtOrderKey.setText(orderKey); // Thiết lập giá trị cho txtOrderKey
+
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
+            final Order order = orders.get(position);
+            final String orderKey = orderKeys.get(position);
+
             @Override
             public void onClick(View v) {
-                if (onOrderClickListener!= null) {
-                    Order order = orders.get(position);
-                    String orderKey = orderKeys.get(position);
+                if (onOrderClickListener != null) {
                     onOrderClickListener.onOrderClick(order, orderKey);
                 }
             }
         });
-
 
         return convertView;
     }
@@ -107,6 +108,7 @@ public class PendingOrdersAdapter extends BaseAdapter {
         RecyclerView rvIteminorder;
         TextView txtProductCount;
         TextView txtTotalMoney;
+        TextView txtOrderKey;
         Button btnDetails;
     }
 }

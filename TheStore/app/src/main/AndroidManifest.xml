@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -28,6 +31,12 @@
             android:exported="false" />
         <activity
             android:name=".NewArrivalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrderDetail3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".PrePayment2Activity"
             android:exported="false" />
         <activity
             android:name=".FlashSaleActivity"
@@ -115,6 +124,9 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Prepayment2Activity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

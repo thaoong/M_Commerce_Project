@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nguyenthithao.adapter.PendingOrdersAdapter;
 import com.nguyenthithao.adapter.ShippingOrdersAdapter;
 import com.nguyenthithao.model.Order;
 
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class CompletedOrdersFragment extends Fragment {
     private ListView lvShippingOrders;
-    private PendingOrdersAdapter adapter;
+    private ShippingOrdersAdapter adapter;
     private List<Order> orders;
     private List<String> orderKeys;
 
@@ -35,46 +34,45 @@ public class CompletedOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_completed_orders, container, false);
         lvShippingOrders = view.findViewById(R.id.lvShippingOrders);
-        lvShippingOrders.setOnTouchListener((v, event) -> true);
 
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
-        ordersRef.orderByChild("userID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                orders = new ArrayList<>();
-                orderKeys = new ArrayList<>(); // Create a list to store order keys
-                for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
-                    Order order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Hoàn tất")) { // Filter orders with status "Hoàn tất"
-                        orders.add(order);
-                        orderKeys.add(orderSnapshot.getKey()); // Add the order key to the list
+        if (userId!= null) { // Check if userId is not null
+            DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
+            ordersRef.orderByChild("userID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    orders = new ArrayList<>();
+                    orderKeys = new ArrayList<>();
+                    for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
+                        Order order = orderSnapshot.getValue(Order.class);
+                        if (order!= null && order.getStatus().equals("Hoàn tất")) { // Check if order is not null
+                            orders.add(order);
+                            orderKeys.add(orderSnapshot.getKey());
+                        }
                     }
+                    adapter = new ShippingOrdersAdapter(getContext(), orders, orderKeys);
+                    lvShippingOrders.setAdapter(adapter); // Set the adapter to the ListView
                 }
-                adapter = new PendingOrdersAdapter(getContext(), orders, orderKeys); // Pass the order keys to the adapter
-                adapter.setOnOrderClickListener(new PendingOrdersAdapter.OnOrderClickListener() {
-                    @Override
-                    public void onOrderClick(Order order, String orderKey) {
-                        // Handle the buy again button click
-                        openBuyAgainActivity(orderKey);
-                    }
-                });
-                lvShippingOrders.setAdapter(adapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Error", "Error retrieving orders");
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error", "Error retrieving orders: " + databaseError.getMessage());
+                }
+            });
+        } else {
+            Log.e("Error", "User is not logged in");
+        }
 
         return view;
     }
 
-    private void openBuyAgainActivity(String orderKey) {
-        Intent intent = new Intent(getContext(), OrderDetail2Activity.class);
+
+    private void openBuyAgainActivity(Order order, String orderKey) {
+        Intent intent = new Intent(getContext(), PrePaymentActivity.class);
+        intent.putExtra("order", order);
         intent.putExtra("orderKey", orderKey);
         startActivity(intent);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.nguyenthithao.thestore;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,9 +10,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -28,6 +34,51 @@ public class OrderHistoryFragment extends Fragment {
         FragmentPagerAdapter adapter = new OrderHistoryPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.setTabTextColors(Color.BLACK, Color.parseColor("#964B00"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#964B00"));
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab!= null) {
+                TextView tabTextView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
+                tabTextView.setText(adapter.getPageTitle(i));
+                tab.setCustomView(tabTextView);
+
+                if (i == viewPager.getCurrentItem()) {
+                    tabTextView.setTextColor(Color.parseColor("#964B00"));
+                    tabTextView.setTypeface(null, Typeface.BOLD);
+                } else {
+                    tabTextView.setTextColor(Color.BLACK);
+                    tabTextView.setTypeface(null, Typeface.NORMAL);
+                }
+            }
+        }
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                    TabLayout.Tab tab = tabLayout.getTabAt(i);
+                    if (tab!= null) {
+                        TextView tabTextView = (TextView) tab.getCustomView();
+                        if (i == position) {
+                            tabTextView.setTextColor(Color.parseColor("#964B00")); // brown color
+                            tabTextView.setTypeface(null, Typeface.BOLD);
+                        } else {
+                            tabTextView.setTextColor(Color.BLACK);
+                            tabTextView.setTypeface(null, Typeface.NORMAL);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
 
         return view;
     }
@@ -59,10 +110,9 @@ public class OrderHistoryFragment extends Fragment {
         public int getCount() {
             return tabTitles.length;
         }
-
         @Override
         public CharSequence getPageTitle(int position) {
-            return Html.fromHtml("<font color='#5C3507'>" + tabTitles[position].toLowerCase() + "</font>");
+            return tabTitles[position];
         }
     }
 }

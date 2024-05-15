@@ -10,6 +10,11 @@
 
             <ListView
                 android:id="@+id/lvPendingOrders"
+                android:divider="@android:color/transparent"
+                android:paddingTop="20dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:dividerHeight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,10 +29,11 @@ import java.util.ArrayList;
 
 public class OrderDetail2Activity extends AppCompatActivity {
 
-    ListView lvOrderDetail;
-    TextView txtOrderID, txtOrderStatus, txtDate, txtDateReceive, txtBookQuantity, txtTotalPrice, txtCustomerName, txtCustomerPhone, txtCustomerAddress, txtPaymentMethod, txtTemporary, txtShippingFee, txtDiscount, txtTotalMoney;
-    Button btnBuyAgain;
-    Order order;
+    private ListView lvOrderDetail;
+    private TextView txtOrderID, txtOrderStatus, txtDate, txtDateReceive, txtBookQuantity, txtTotalPrice, txtCustomerName, txtCustomerPhone, txtCustomerAddress, txtPaymentMethod, txtTemporary, txtShippingFee, txtDiscount, txtTotalMoney;
+    private Button btnBuyAgain;
+    private Order order;
+    private String orderKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,34 +42,41 @@ public class OrderDetail2Activity extends AppCompatActivity {
         displayActionBar();
         addViews();
 
-        String orderKey = getIntent().getStringExtra("orderKey"); // Get the orderKey from the previous screen
+        orderKey = getIntent().getStringExtra("orderKey");
+        txtOrderID.setText(orderKey);
 
-        txtOrderID.setText(orderKey); // Set the orderKey to txtOrderID
-
-
+        btnBuyAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetail2Activity.this, Prepayment2Activity.class);
+                intent.putExtra("order", order);
+                intent.putExtra("orderKey", orderKey);
+                startActivity(intent);
+            }
+        });
 
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders").child(orderKey);
         orderRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Order orderData = dataSnapshot.getValue(Order.class);
+                order = dataSnapshot.getValue(Order.class);
 
-                if (orderData!= null) {
-                    txtOrderStatus.setText(orderData.getStatus());
-                    txtDate.setText(orderData.getOrderDate());
-                    txtDateReceive.setText(orderData.getReceivedDate());
-                    txtBookQuantity.setText(String.valueOf(orderData.getOrderBooks().size()));
-                    txtTotalPrice.setText(formatPrice(orderData.getTotal()));
-                    txtCustomerName.setText(orderData.getName());
-                    txtCustomerPhone.setText(orderData.getPhone());
-                    txtCustomerAddress.setText(orderData.getStreet() + ", " + orderData.getWard() + ", " + orderData.getDistrict() + ", " + orderData.getProvince());
-                    txtPaymentMethod.setText(orderData.getPaymentMethod());
-                    txtTemporary.setText(formatPrice(orderData.getPrePrice()));
-                    txtShippingFee.setText(formatPrice(orderData.getShippingFee()));
-                    txtDiscount.setText(formatPrice(orderData.getDiscount()));
-                    txtTotalMoney.setText(formatPrice(orderData.getTotal()));
+                if (order != null) {
+                    txtOrderStatus.setText(order.getStatus());
+                    txtDate.setText(order.getOrderDate());
+                    txtDateReceive.setText(order.getReceivedDate());
+                    txtBookQuantity.setText(String.valueOf(order.getOrderBooks().size()));
+                    txtTotalPrice.setText(formatPrice(order.getTotal()));
+                    txtCustomerName.setText(order.getName());
+                    txtCustomerPhone.setText(order.getPhone());
+                    txtCustomerAddress.setText(order.getStreet() + ", " + order.getWard() + ", " + order.getDistrict() + ", " + order.getProvince());
+                    txtPaymentMethod.setText(order.getPaymentMethod());
+                    txtTemporary.setText(formatPrice(order.getPrePrice()));
+                    txtShippingFee.setText(formatPrice(order.getShippingFee()));
+                    txtDiscount.setText(formatPrice(order.getDiscount()));
+                    txtTotalMoney.setText(formatPrice(order.getTotal()));
 
-                    ArrayList<OrderBook> orderBooks = orderData.getOrderBooks();
+                    ArrayList<OrderBook> orderBooks = order.getOrderBooks();
                     OrderBookAdapter adapter = new OrderBookAdapter(OrderDetail2Activity.this, R.layout.item_order_book, orderBooks);
                     lvOrderDetail.setAdapter(adapter);
                 } else {
@@ -106,18 +115,17 @@ public class OrderDetail2Activity extends AppCompatActivity {
         txtDiscount = findViewById(R.id.txtDiscount);
         txtTotalMoney = findViewById(R.id.txtTotalMoney);
         btnBuyAgain = findViewById(R.id.btnBuyAgain);
-        btnBuyAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OrderDetail2Activity.this, PrePaymentActivity.class);
-                intent.putExtra("orderData", order);
-                startActivity(intent);
-            }
-        });
     }
 
     private String formatPrice(double price) {
         return String.format("%,.0f đ", price);
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
+}

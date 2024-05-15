@@ -65,6 +65,7 @@ public class PrePaymentActivity extends AppCompatActivity {
         getSelectedBookFromCart();
         calculatePrePrice();
         addEvent();
+
     }
 
     private void getAddress() {
@@ -374,4 +375,6 @@ public class PrePaymentActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.nguyenthithao.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
+import com.nguyenthithao.thestore.OrderDetail2Activity;
+import com.nguyenthithao.thestore.Prepayment2Activity;
 import com.nguyenthithao.thestore.R;
 
 import java.text.NumberFormat;
@@ -24,21 +27,12 @@ public class ShippingOrdersAdapter extends BaseAdapter {
     private List<Order> orders;
     private List<String> orderKeys;
     private LayoutInflater inflater;
-    private OnOrderClickListener onOrderClickListener;
-
-    public interface OnOrderClickListener {
-        void onOrderClick(Order order, String orderKey);
-    }
 
     public ShippingOrdersAdapter(Context context, List<Order> orders, List<String> orderKeys) {
         this.context = context;
         this.orders = orders;
         this.orderKeys = orderKeys;
         inflater = LayoutInflater.from(context);
-    }
-
-    public void setOnOrderClickListener(OnOrderClickListener onOrderClickListener) {
-        this.onOrderClickListener = onOrderClickListener;
     }
 
     @Override
@@ -65,6 +59,7 @@ public class ShippingOrdersAdapter extends BaseAdapter {
             holder.rvIteminorder = convertView.findViewById(R.id.rvIteminorder);
             holder.txtProductCount = convertView.findViewById(R.id.txtProductCount);
             holder.txtTotalMoney = convertView.findViewById(R.id.txtTotalMoney);
+            holder.txtOrderKey = convertView.findViewById(R.id.txtOrderKey); // Thêm dòng này
             holder.btnBuyAgain = convertView.findViewById(R.id.btnBuyAgain);
             convertView.setTag(holder);
         } else {
@@ -72,6 +67,7 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         }
 
         Order order = orders.get(position);
+        String orderKey = orderKeys.get(position); // Lấy order key
 
         List<OrderBook> orderBooks = order.getOrderBooks();
         ProductAdapter productAdapter = new ProductAdapter(context, orderBooks);
@@ -85,14 +81,25 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         String formattedTotalMoney = currencyFormat.format(order.getTotal());
         holder.txtTotalMoney.setText(formattedTotalMoney);
 
+        holder.txtOrderKey.setText(orderKey); // Thiết lập giá trị cho txtOrderKey
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrderDetail2Activity.class);
+                intent.putExtra("order", order);
+                intent.putExtra("orderKey", orderKey);
+                context.startActivity(intent);
+            }
+        });
+
         holder.btnBuyAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onOrderClickListener!= null) {
-                    Order order = orders.get(position);
-                    String orderKey = orderKeys.get(position);
-                    onOrderClickListener.onOrderClick(order, orderKey);
-                }
+                Intent intent = new Intent(context, Prepayment2Activity.class);
+                intent.putExtra("order", order);
+                intent.putExtra("orderKey", orderKey);
+                context.startActivity(intent);
             }
         });
 
@@ -103,6 +110,7 @@ public class ShippingOrdersAdapter extends BaseAdapter {
         RecyclerView rvIteminorder;
         TextView txtProductCount;
         TextView txtTotalMoney;
+        TextView txtOrderKey; // Thêm biến này
         Button btnBuyAgain;
     }
 }
