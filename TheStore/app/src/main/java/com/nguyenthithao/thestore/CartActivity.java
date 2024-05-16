@@ -145,7 +145,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void buyProductActivity(View view) {
-        if (selectedCartItems != null && !selectedCartItems.isEmpty()) {
+        if (selectedCartItems != null && !selectedCartItems.isEmpty() && chkBuyAll.isChecked()) {
             Intent intent = new Intent(this, PrePaymentActivity.class);
             intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
             startActivity(intent);

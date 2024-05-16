@@ -152,4 +152,12 @@
     <string name="strCanceled">Đã hủy</string>
     <string name="strPayment">Thanh toán</string>
     <string name="strProductDetails">Chi tiết sản phẩm</string>
+    <string name="strcomment">bình luận</string>
+    <string name="strLike">thích</string>
+    <string name="strAddImage">Thêm hình ảnh</string>
+    <string name="strHintRating">Chia sẻ suy nghĩ của bạn về sản phẩm để giúp những người mua khác</string>
+    <string name="strProductQuality">Chất lượng sản phẩm</string>
+    <string name="strSuccessfulDelivery">Giao hàng thành công:</string>
+    <string name="strToRate">Chưa đánh giá</string>
+    <string name="strMyReviews">Đã đánh giá</string>
 </resources>

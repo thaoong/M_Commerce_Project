@@ -108,7 +108,7 @@ public class RatingActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> imageUrls = new ArrayList<>();
+        ArrayList<String> imageUrls = new ArrayList<>();
         for (Uri imageUri : imageUriList) {
             String imageName = "imagesReview/" + System.currentTimeMillis() + ".jpg";
             StorageReference imageRef = mStorageReference.child(imageName);
@@ -127,7 +127,7 @@ public class RatingActivity extends AppCompatActivity {
         }
     }
 
-    private void saveReviewToDatabase(Rating review, DatabaseReference bookRef, List<String> imageUrls) {
+    private void saveReviewToDatabase(Rating review, DatabaseReference bookRef, ArrayList<String> imageUrls) {
         review.setImageUrls(imageUrls);
         bookRef.child("reviews").push().setValue(review);
 

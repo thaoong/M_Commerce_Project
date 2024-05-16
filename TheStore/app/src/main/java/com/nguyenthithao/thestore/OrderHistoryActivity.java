@@ -1,25 +1,13 @@
 package com.nguyenthithao.thestore;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.nguyenthithao.adapter.OrderHistoryAdapterTest;
-import com.nguyenthithao.model.OrderHistory;
-
-import java.util.ArrayList;
 
 public class OrderHistoryActivity extends AppCompatActivity {
     @Override

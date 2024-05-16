@@ -1,15 +1,20 @@
 package com.nguyenthithao.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rating implements Serializable {
     private String userId;
     private float rating;
     private String comment;
-    private List<String> imageUrls;
+    private ArrayList<String> imageUrls;
 
     public Rating() {
+    }
+
+    public Rating(ArrayList<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public Rating(String userId, float rating, String comment) {
@@ -42,11 +47,11 @@ public class Rating implements Serializable {
         this.comment = comment;
     }
 
-    public List<String> getImageUrls() {
+    public ArrayList<String> getImageUrls() {
         return imageUrls;
     }
 
-    public void setImageUrls(List<String> imageUrls) {
+    public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
 }

@@ -24,10 +24,9 @@
 
                     <ImageView
                         android:id="@+id/img_Product"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        />
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_margin="10dp" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -51,7 +50,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Giao hàng thành công:"
+                                android:text="@string/strSuccessfulDelivery"
+                                android:textColor="@color/black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -60,6 +60,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="12/12/2024"
+                                android:textColor="@color/black"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -79,10 +80,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Product Quality"
+                        android:text="@string/strProductQuality"
                         android:textColor="@color/brown_text"
                         android:textSize="14sp"
-                        android:textStyle="bold"  />
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -131,7 +132,7 @@
                     android:layout_height="150dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/rectangle_background_shape"
-                    android:hint="Share more thoughts on the product to help other buyers."
+                    android:hint="@string/strHintRating"
                     android:padding="10dp"
                     android:textSize="14sp" />
 
@@ -143,8 +144,9 @@
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/brown_button"
                     android:gravity="center|center_horizontal"
-                    android:text="Thêm hình ảnh"
-                    android:textSize="12sp" />
+                    android:text="@string/strAddImage"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/aboveButtonLayout"
@@ -247,9 +249,11 @@
                 android:id="@+id/btnRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
                 android:backgroundTint="@color/brown_button"
-                android:text="Submit"
-                android:layout_alignParentBottom="true" />
+                android:text="@string/strSubmit"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

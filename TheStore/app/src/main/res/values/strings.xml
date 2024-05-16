@@ -151,5 +151,13 @@
     <string name="strCanceled">Canceled</string>
     <string name="strPayment">Payment</string>
     <string name="strProductDetails">Product details</string>
+    <string name="strcomment">comment</string>
+    <string name="strLike">like</string>
+    <string name="strAddImage">Add image</string>
+    <string name="strHintRating">Share more thoughts on the product to help other buyer</string>
+    <string name="strProductQuality">Product quality</string>
+    <string name="strSuccessfulDelivery">Successful delivery:</string>
+    <string name="strToRate">To rate</string>
+    <string name="strMyReviews">My reviews</string>
 
 </resources>

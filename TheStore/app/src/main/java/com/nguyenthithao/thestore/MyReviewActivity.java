@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,9 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.OrderDetailAdapterTest;
+import com.nguyenthithao.adapter.ReviewedProductAdapter;
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
 import com.nguyenthithao.model.OrderDetailTest;
+import com.nguyenthithao.model.ReviewedBook;
 import com.nguyenthithao.thestore.R;
 
 import java.util.ArrayList;
@@ -35,8 +38,10 @@ import java.util.ArrayList;
 public class MyReviewActivity extends AppCompatActivity {
     ListView lvToRate, lvReviewed;
     ArrayList<OrderDetailTest> dsToRate, dsReviewed;
-    OrderDetailAdapterTest adapterToRate, adapterReviewed;
+    OrderDetailAdapterTest adapterToRate;
+    ReviewedProductAdapter adapterReviewed;
     TabHost tabHost;
+    String reviewerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,7 @@ public class MyReviewActivity extends AppCompatActivity {
         dsToRate = new ArrayList<>();
         dsReviewed = new ArrayList<>();
         adapterToRate = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_rating, dsToRate);
-        adapterReviewed = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_old_rating, dsReviewed);
+        adapterReviewed = new ReviewedProductAdapter(MyReviewActivity.this, R.layout.item_old_rating);
         lvToRate.setAdapter(adapterToRate);
         lvReviewed.setAdapter(adapterReviewed);
 
@@ -61,16 +66,22 @@ public class MyReviewActivity extends AppCompatActivity {
 
         TabHost.TabSpec tab1 = tabHost.newTabSpec("t1");
         tab1.setContent(R.id.tab1);
-        tab1.setIndicator("To Rate");
+        String toRate = getResources().getString(R.string.strToRate);
+        tab1.setIndicator(toRate);
         tabHost.addTab(tab1);
 
         TabHost.TabSpec tab2 = tabHost.newTabSpec("t2");
         tab2.setContent(R.id.tab2);
-        tab2.setIndicator("My Reviews");
+        String myReviews = getResources().getString(R.string.strMyReviews);
+        tab2.setIndicator(myReviews);
         tabHost.addTab(tab2);
 
         customizeTabs(tabHost);
+        getToRate();
+        getReviewed();
+    }
 
+    private void getToRate() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -109,9 +120,7 @@ public class MyReviewActivity extends AppCompatActivity {
                             }
                         }
                     }
-
                     adapterToRate.notifyDataSetChanged();
-                    adapterReviewed.notifyDataSetChanged();
                 }
 
                 @Override
@@ -135,18 +144,63 @@ public class MyReviewActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        lvReviewed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                OrderDetailTest selectedProduct = dsReviewed.get(position);
-                String productName = selectedProduct.getName();
+    private void getReviewed() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String currentUserId = currentUser.getUid();
+            // Get reviewer name
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        reviewerName = dataSnapshot.child("name").getValue(String.class);
+                    }
+                }
 
-                Intent intent = new Intent(MyReviewActivity.this, RatingActivity.class);
-                intent.putExtra("productName", productName);
-                startActivity(intent);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                }
+            });
+
+            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("books");
+            databaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot bookSnapshot : dataSnapshot.getChildren()) {
+                        String bookName = bookSnapshot.child("name").getValue(String.class);
+                        String bookImgUrl = bookSnapshot.child("imageLink").child("0").getValue(String.class);
+                        DataSnapshot reviewsSnapshot = bookSnapshot.child("reviews");
+                        for (DataSnapshot reviewSnapshot : reviewsSnapshot.getChildren()) {
+                            String reviewUserId = reviewSnapshot.child("userId").getValue(String.class);
+                            if (reviewUserId != null && reviewUserId.equals(currentUserId)) {
+                                String reviewContent = reviewSnapshot.child("comment").getValue(String.class);
+                                long rating = reviewSnapshot.child("rating").getValue(long.class);
+                                // Get the imageUrls and add them to the review object
+                                ArrayList<String> imageUrls = new ArrayList<>();
+                                for (int i = 0; i < 3; i++) {
+                                    String imageUrl = reviewSnapshot.child("imageUrls").child(String.valueOf(i)).getValue(String.class);
+                                    if (imageUrl != null) {
+                                        imageUrls.add(imageUrl);
+                                    }
+                                }
+                                adapterReviewed.add(new ReviewedBook(reviewerName, rating, bookImgUrl, bookName, reviewContent, imageUrls));
+                            }
+                        }
+                    }
+                    adapterReviewed.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                }
+            });
+        }
     }
 
     private void customizeTabs(TabHost tabHost) {

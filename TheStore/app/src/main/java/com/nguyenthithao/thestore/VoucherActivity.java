@@ -6,29 +6,19 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nguyenthithao.adapter.OrderHistoryAdapterTest;
 import com.nguyenthithao.adapter.VoucherAdapter;
-import com.nguyenthithao.model.OrderHistory;
-import com.nguyenthithao.model.PaymentMethod;
 import com.nguyenthithao.model.Voucher;
 import com.nguyenthithao.thestore.databinding.ActivityVoucherBinding;
-
-import java.util.ArrayList;
 
 public class VoucherActivity extends AppCompatActivity {
     ActivityVoucherBinding binding;
