@@ -145,11 +145,12 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void buyProductActivity(View view) {
-        if (selectedCartItems != null && !selectedCartItems.isEmpty() && chkBuyAll.isChecked()) {
+        if (selectedCartItems != null && !selectedCartItems.isEmpty()) {
             Intent intent = new Intent(this, PrePaymentActivity.class);
             intent.putParcelableArrayListExtra("selectedItems", selectedCartItems);
             startActivity(intent);
-        } else {
+        }
+        else {
             String title = getResources().getString(R.string.strChooseItemInCart);
             Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
         }

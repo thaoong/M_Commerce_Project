@@ -38,9 +38,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nguyenthithao.adapter.BookAdapter;
+import com.nguyenthithao.adapter.CommentAdapter;
 import com.nguyenthithao.adapter.SliderAdapter;
 import com.nguyenthithao.model.Book;
 import com.nguyenthithao.model.CartItem;
+import com.nguyenthithao.model.ReviewedBook;
 import com.nguyenthithao.model.SliderItems;
 import com.nguyenthithao.model.WishlistBook;
 import com.nguyenthithao.thestore.databinding.ActivityProductDetailBinding;
@@ -53,11 +55,11 @@ import java.util.Objects;
 public class ProductDetailActivity extends AppCompatActivity {
     ActivityProductDetailBinding binding;
     private Book selectedBook;
-    private Handler slideHandle = new Handler();
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference wishlistRef;
     private boolean isInWishlist = false;
+    CommentAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +71,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         getBookImages();
         getBookDetails();
         getRelatedProducts();
+        getReviews();
         addEvents();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         // Lấy thông tin sách đã chọn
         selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
-
-        // Kiểm tra sách có trong wishlist hay không
         checkWishlistStatus();
-
-        // Đăng ký sự kiện click cho btnAddWishlist
-        binding.btnAddWishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleWishlist();
-            }
-        });
     }
 
     private void addEvents() {
@@ -100,6 +93,22 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 processBuyNow();
+            }
+        });
+
+        binding.btnAddWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleWishlist();
+            }
+        });
+
+        binding.txtSeeMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this, ReviewBookActivity.class);
+                intent.putExtra("SELECTED_BOOK_REVIEW", selectedBook);
+                startActivity(intent);
             }
         });
     }
@@ -465,5 +474,63 @@ public class ProductDetailActivity extends AppCompatActivity {
         } else {
             Toast.makeText(ProductDetailActivity.this, "Please log in to use wishlist", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getReviews() {
+        String selectedBookId = selectedBook.getId();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("books").child(selectedBookId).child("reviews");
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    binding.lvComment.setVisibility(View.GONE);
+                    binding.txtSeeMore.setVisibility(View.GONE);
+                    binding.txtNoReviews.setVisibility(View.VISIBLE);
+                } else {
+                    commentAdapter.clear();
+                    for (DataSnapshot reviewSnapshot : dataSnapshot.getChildren()) {
+                        String reviewContent = reviewSnapshot.child("comment").getValue(String.class);
+                        long rating = reviewSnapshot.child("rating").getValue(long.class);
+                        String userId = reviewSnapshot.child("userId").getValue(String.class);
+
+                        // Get the imageUrls and add them to the review object
+                        ArrayList<String> imageUrls = new ArrayList<>();
+                        for (int i = 0; i < 3; i++) {
+                            String imageUrl = reviewSnapshot.child("imageUrls").child(String.valueOf(i)).getValue(String.class);
+                            if (imageUrl != null) {
+                                imageUrls.add(imageUrl);
+                            }
+                        }
+
+                        // Get reviewerName
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    String reviewerName = dataSnapshot.child("name").getValue(String.class);
+                                    commentAdapter.add(new ReviewedBook(reviewerName, rating, "", "", reviewContent, imageUrls));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // Handle any errors
+                            }
+                        });
+                    }
+                    binding.lvComment.setVisibility(View.VISIBLE);
+                    binding.txtSeeMore.setVisibility(View.VISIBLE);
+                    binding.txtNoReviews.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors
+            }
+        });
+        commentAdapter = new CommentAdapter(ProductDetailActivity.this, R.layout.item_comment);
+        binding.lvComment.setAdapter(commentAdapter);
     }
 }

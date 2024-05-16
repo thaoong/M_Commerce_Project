@@ -159,5 +159,6 @@
     <string name="strSuccessfulDelivery">Successful delivery:</string>
     <string name="strToRate">To rate</string>
     <string name="strMyReviews">My reviews</string>
+    <string name="strNoReviews">This product has no reviews yet!</string>
 
 </resources>

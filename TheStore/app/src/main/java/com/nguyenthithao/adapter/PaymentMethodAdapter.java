@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.nguyenthithao.model.PaymentMethod;
 import com.nguyenthithao.thestore.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,40 +47,8 @@ public class PaymentMethodAdapter extends ArrayAdapter<PaymentMethod> {
         PaymentMethod paymentMethod = getItem(position);
         txtPaymentMethodName.setText(paymentMethod.getName());
         txtPaymentMethodDes.setText(paymentMethod.getDescription());
-        new PaymentMethodAdapter.ImageLoadTask(imgPaymentMethod).execute(paymentMethod.getImageLink());
+        Picasso.get().load(paymentMethod.getImageLink()).into(imgPaymentMethod);
 
         return row;
-    }
-
-    private class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
-        private final ImageView imageView;
-
-        public ImageLoadTask(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            String imageUrl = urls[0];
-            Bitmap bitmap = null;
-            try {
-                URL url = new URL(imageUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
     }
 }

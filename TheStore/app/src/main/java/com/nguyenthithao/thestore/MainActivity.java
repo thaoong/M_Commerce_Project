@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>Trang chủ</font>"));
+        String title = getResources().getString(R.string.strHome);
+        actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
     @Override

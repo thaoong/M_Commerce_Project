@@ -160,4 +160,5 @@
     <string name="strSuccessfulDelivery">Giao hàng thành công:</string>
     <string name="strToRate">Chưa đánh giá</string>
     <string name="strMyReviews">Đã đánh giá</string>
+    <string name="strNoReviews">Sản phẩm chưa có đánh giá nào!</string>
 </resources>

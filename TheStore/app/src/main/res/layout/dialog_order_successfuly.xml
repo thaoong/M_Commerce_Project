@@ -19,6 +19,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:text="@string/strOrderSuccessfully"
+        android:textAlignment="center"
         android:textColor="@color/brown_text"
         android:textSize="22sp"
         android:textStyle="bold" />

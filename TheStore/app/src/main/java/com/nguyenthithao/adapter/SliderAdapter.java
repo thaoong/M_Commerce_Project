@@ -24,14 +24,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
     private ArrayList<SliderItems> sliderItems;
     private ViewPager2 viewPager2;
     private Context context;
-//    private Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            sliderItems.addAll(sliderItems);
-//            notifyDataSetChanged();
-//        }
-//    };
-
     public SliderAdapter(ArrayList<SliderItems> sliderItems, ViewPager2 viewPager2) {
         this.sliderItems = sliderItems;
         this.viewPager2 = viewPager2;
