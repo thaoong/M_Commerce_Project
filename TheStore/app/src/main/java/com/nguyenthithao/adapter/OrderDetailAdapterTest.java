@@ -55,10 +55,13 @@ public class OrderDetailAdapterTest extends ArrayAdapter<OrderDetailTest> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, RatingActivity.class);
 
+                intent.putExtra("productName", orderDetailTest.getName());
+                intent.putExtra("productImage", orderDetailTest.getImageLink());
+
                 intent.putExtra("bookID", orderDetailTest.getId());
                 intent.putExtra("productPrice", orderDetailTest.getPrice());
                 intent.putExtra("productQuantity", orderDetailTest.getQuantity());
-                intent.putExtra("productImage", orderDetailTest.getImageLink());
+
 
                 context.startActivity(intent);
             }

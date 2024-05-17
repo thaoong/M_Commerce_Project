@@ -2,16 +2,21 @@ package com.nguyenthithao.thestore;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -139,6 +144,28 @@ public class ProfileInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setDatePickerTextColor(DatePickerDialog datePickerDialog, int textColor) {
+        try {
+            // Thay đổi màu chữ cho nút "OK" và "Cancel"
+            Button positiveButton = datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE);
+            Button negativeButton = datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE);
+            Button neutralButton = datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL);
+
+            if (positiveButton != null) {
+                positiveButton.setTextColor(textColor);
+            }
+            if (negativeButton != null) {
+                negativeButton.setTextColor(textColor);
+            }
+            if (neutralButton != null) {
+                neutralButton.setTextColor(textColor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void showDatePickerDialog(View v) {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -153,6 +180,15 @@ public class ProfileInfoActivity extends AppCompatActivity {
             }
         }, year, month, dayOfMonth);
 
+        datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                setDatePickerTextColor(datePickerDialog, ContextCompat.getColor(ProfileInfoActivity.this, R.color.brown_text));
+            }
+        });
+
         datePickerDialog.show();
     }
+
+
 }

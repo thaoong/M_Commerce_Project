@@ -10,6 +10,7 @@ public class Rating implements Serializable {
     private String comment;
     private ArrayList<String> imageUrls;
 
+
     public Rating() {
     }
 

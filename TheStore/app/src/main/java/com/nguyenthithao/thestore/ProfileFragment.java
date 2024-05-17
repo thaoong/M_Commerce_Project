@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
             isLoggedIn = true;
             binding.btnLogin.setVisibility(View.GONE);
             binding.btnSignup.setVisibility(View.GONE);
-            binding.btnLogout.setVisibility(View.VISIBLE);
+            binding.txtLogout.setVisibility(View.VISIBLE);
             binding.imgProfile.setVisibility(View.VISIBLE);
             binding.txtName.setVisibility(View.VISIBLE);
             binding.txtPhone.setVisibility(View.GONE);
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
             binding.imgProfile.setOnClickListener(v -> uploadProfileImage());
         } else {
             isLoggedIn = false;
-            binding.btnLogout.setVisibility(View.GONE);
+            binding.txtLogout.setVisibility(View.GONE);
             binding.btnLogin.setVisibility(View.VISIBLE);
             binding.imgProfile.setVisibility(View.VISIBLE);
             binding.txtName.setVisibility(View.GONE);
@@ -206,7 +206,37 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.textViewAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your addresses", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), AddressActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         binding.btnViewRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your rating", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), MyReviewActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        binding.txtMyRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -236,6 +266,21 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.textWhistlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your wishlist", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), WishlistActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         binding.btnViewVouchers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +289,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+        binding.textViewVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), VoucherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.txtLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Call a method to logout
@@ -253,6 +306,21 @@ public class ProfileFragment extends Fragment {
         });
 
         binding.btnViewOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to view your order history", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        binding.textViewOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -289,7 +357,28 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.textSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSupport();
+            }
+        });
+
         binding.btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(getContext(), "Please log in to change password", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    openChangePassword();
+                }
+            }
+        });
+
+        binding.textChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

@@ -32,6 +32,7 @@ import com.nguyenthithao.model.OrderBook;
 import com.nguyenthithao.model.OrderDetailTest;
 import com.nguyenthithao.model.Rating;
 import com.nguyenthithao.thestore.databinding.ActivityRatingBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +57,17 @@ public class RatingActivity extends AppCompatActivity {
         binding.ratingBar.setRating(5);
 
         Intent intent = getIntent();
-//        String productName = intent.getStringExtra("productName");
+        String productName = intent.getStringExtra("productName");
+        String productImage = intent.getStringExtra("productImage");
+        if (productName != null) {
+            binding.txtProductName.setText(productName);
+        } else {
+            binding.txtProductName.setText("Product name not available");
+        }
+        Picasso.get().load(productImage).into(binding.imgProduct);
+
         float productPrice = intent.getFloatExtra("productPrice", 0);
         int productQuantity = intent.getIntExtra("productQuantity", 0);
-        String productImage = intent.getStringExtra("productImage");
-
-        String productName = getIntent().getStringExtra("productName");
-        binding.txtProductName.setText(productName);
 
         displayActionBar();
 
