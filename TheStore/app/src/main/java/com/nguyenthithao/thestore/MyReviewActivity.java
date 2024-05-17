@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,20 +24,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nguyenthithao.adapter.OrderDetailAdapterTest;
+import com.nguyenthithao.adapter.ToRateProductAdapter;
 import com.nguyenthithao.adapter.ReviewedProductAdapter;
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
-import com.nguyenthithao.model.OrderDetailTest;
+import com.nguyenthithao.model.ToRateBook;
 import com.nguyenthithao.model.ReviewedBook;
-import com.nguyenthithao.thestore.R;
 
 import java.util.ArrayList;
 
 public class MyReviewActivity extends AppCompatActivity {
     ListView lvToRate, lvReviewed;
-    ArrayList<OrderDetailTest> dsToRate, dsReviewed;
-    OrderDetailAdapterTest adapterToRate;
+    ArrayList<ToRateBook> dsToRate, dsReviewed;
+    ToRateProductAdapter adapterToRate;
     ReviewedProductAdapter adapterReviewed;
     TabHost tabHost;
     String reviewerName;
@@ -56,7 +54,7 @@ public class MyReviewActivity extends AppCompatActivity {
         lvReviewed = findViewById(R.id.lvReviewed);
         dsToRate = new ArrayList<>();
         dsReviewed = new ArrayList<>();
-        adapterToRate = new OrderDetailAdapterTest(MyReviewActivity.this, R.layout.item_rating, dsToRate);
+        adapterToRate = new ToRateProductAdapter(MyReviewActivity.this, R.layout.item_rating, dsToRate);
         adapterReviewed = new ReviewedProductAdapter(MyReviewActivity.this, R.layout.item_old_rating);
         lvToRate.setAdapter(adapterToRate);
         lvReviewed.setAdapter(adapterReviewed);
@@ -97,24 +95,22 @@ public class MyReviewActivity extends AppCompatActivity {
                         if (order != null && order.getStatus().equals("Hoàn tất")) {
                             for (OrderBook book : order.getOrderBooks()) {
                                 if (book.isReview()) {
-                                    dsReviewed.add(new OrderDetailTest(
+                                    dsReviewed.add(new ToRateBook(
                                             book.getName(),
                                             book.getImageLink(),
                                             book.getUnitPrice(),
                                             book.getOldPrice(),
                                             book.getQuantity(),
-                                            book.getId(),
-                                            order.getOrderDate()
+                                            book.getId()
                                     ));
                                 } else {
-                                    dsToRate.add(new OrderDetailTest(
+                                    dsToRate.add(new ToRateBook(
                                             book.getName(),
                                             book.getImageLink(),
                                             book.getUnitPrice(),
                                             book.getOldPrice(),
                                             book.getQuantity(),
-                                            book.getId(),
-                                            order.getOrderDate()
+                                            book.getId()
                                     ));
                                 }
                             }
@@ -136,7 +132,7 @@ public class MyReviewActivity extends AppCompatActivity {
         lvToRate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                OrderDetailTest selectedProduct = dsToRate.get(position);
+                ToRateBook selectedProduct = dsToRate.get(position);
                 String productName = selectedProduct.getName();
 
                 Intent intent = new Intent(MyReviewActivity.this, RatingActivity.class);
@@ -152,20 +148,6 @@ public class MyReviewActivity extends AppCompatActivity {
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
             // Get reviewer name
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId);
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        reviewerName = dataSnapshot.child("name").getValue(String.class);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle any errors
-                }
-            });
 
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("books");
             databaseRef.addValueEventListener(new ValueEventListener() {
@@ -180,6 +162,8 @@ public class MyReviewActivity extends AppCompatActivity {
                             if (reviewUserId != null && reviewUserId.equals(currentUserId)) {
                                 String reviewContent = reviewSnapshot.child("comment").getValue(String.class);
                                 long rating = reviewSnapshot.child("rating").getValue(long.class);
+                                String ratingDate = reviewSnapshot.child("ratingDate").getValue(String.class);
+
                                 // Get the imageUrls and add them to the review object
                                 ArrayList<String> imageUrls = new ArrayList<>();
                                 for (int i = 0; i < 3; i++) {
@@ -188,7 +172,22 @@ public class MyReviewActivity extends AppCompatActivity {
                                         imageUrls.add(imageUrl);
                                     }
                                 }
-                                adapterReviewed.add(new ReviewedBook(reviewerName, rating, bookImgUrl, bookName, reviewContent, imageUrls));
+                                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId);
+                                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            reviewerName = dataSnapshot.child("name").getValue(String.class);
+                                            adapterReviewed.add(new ReviewedBook(reviewerName, rating, bookImgUrl, bookName, reviewContent, imageUrls, ratingDate));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        // Handle any errors
+                                    }
+                                });
+
                             }
                         }
                     }

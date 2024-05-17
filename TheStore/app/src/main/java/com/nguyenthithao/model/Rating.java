@@ -9,7 +9,7 @@ public class Rating implements Serializable {
     private float rating;
     private String comment;
     private ArrayList<String> imageUrls;
-
+    private String ratingDate;
 
     public Rating() {
     }
@@ -18,10 +18,11 @@ public class Rating implements Serializable {
         this.imageUrls = imageUrls;
     }
 
-    public Rating(String userId, float rating, String comment) {
+    public Rating(String userId, float rating, String comment, String ratingDate) {
         this.userId = userId;
         this.rating = rating;
         this.comment = comment;
+        this.ratingDate = ratingDate;
     }
 
     public String getUserId() {
@@ -54,5 +55,13 @@ public class Rating implements Serializable {
 
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public String getRatingDate() {
+        return ratingDate;
+    }
+
+    public void setRatingDate(String ratingDate) {
+        this.ratingDate = ratingDate;
     }
 }

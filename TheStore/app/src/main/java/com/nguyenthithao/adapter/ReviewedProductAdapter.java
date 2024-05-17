@@ -46,6 +46,7 @@ public class ReviewedProductAdapter extends ArrayAdapter<ReviewedBook> {
         ImageView imgReview1 = row.findViewById(R.id.imgReview1);
         ImageView imgReview2 = row.findViewById(R.id.imgReview2);
         ImageView imgReview3 = row.findViewById(R.id.imgReview3);
+        TextView txtDayReview = row.findViewById(R.id.txtDayReview);
 
         ReviewedBook reviewedBook = getItem(position);
         txtReviewerName.setText(reviewedBook.getReviewerName());
@@ -71,6 +72,11 @@ public class ReviewedProductAdapter extends ArrayAdapter<ReviewedBook> {
             imgReview2.setVisibility(View.GONE);
             imgReview3.setVisibility(View.GONE);
         }
+        String ratingDate = reviewedBook.getRatingDate();
+        if (ratingDate == null || ratingDate.isEmpty()) {
+            ratingDate = "15/05/2024";
+        }
+        txtDayReview.setText(ratingDate);
         return row;
     }
 }

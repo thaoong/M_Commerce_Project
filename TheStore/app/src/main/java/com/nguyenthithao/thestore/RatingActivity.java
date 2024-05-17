@@ -5,16 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,22 +23,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.nguyenthithao.adapter.OrderDetailAdapterTest;
+import com.nguyenthithao.adapter.ToRateProductAdapter;
 import com.nguyenthithao.model.Order;
 import com.nguyenthithao.model.OrderBook;
-import com.nguyenthithao.model.OrderDetailTest;
+import com.nguyenthithao.model.ToRateBook;
 import com.nguyenthithao.model.Rating;
 import com.nguyenthithao.thestore.databinding.ActivityRatingBinding;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class RatingActivity extends AppCompatActivity {
     ActivityRatingBinding binding;
-    ArrayList<OrderDetailTest> dsOrderDetail;
-    OrderDetailAdapterTest adapterOrderDetail;
+    ArrayList<ToRateBook> dsToRateBook;
+    ToRateProductAdapter adapterOrderDetail;
     private ArrayList<Uri> imageUriList = new ArrayList<>();
     private static final int MAX_IMAGE_COUNT = 3;
     private static final int REQUEST_CODE_PICK_IMAGE = 100;
@@ -73,8 +71,8 @@ public class RatingActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("orders");
         mStorageReference = FirebaseStorage.getInstance().getReference();
-        dsOrderDetail = new ArrayList<>();
-        adapterOrderDetail = new OrderDetailAdapterTest(RatingActivity.this, R.layout.item_rating, dsOrderDetail);
+        dsToRateBook = new ArrayList<>();
+        adapterOrderDetail = new ToRateProductAdapter(RatingActivity.this, R.layout.item_rating, dsToRateBook);
 
         eventsRating();
     }
@@ -98,18 +96,57 @@ public class RatingActivity extends AppCompatActivity {
             String comment = binding.edtReview.getText().toString();
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            Rating review = new Rating(userId, rating, comment);
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String ratingDate = dateFormat.format(currentDate);
+            Rating review = new Rating(userId, rating, comment, ratingDate);
             Intent intent = getIntent();
             String bookId = intent.getStringExtra("bookID");
             DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference().child("books").child(bookId);
 
-            uploadImagesToFirebase(review, bookRef);
+            // Show the progress dialog
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Uploading review...");
+            progressDialog.show();
+
+            uploadImagesToFirebase(review, bookRef, progressDialog);
         });
     }
 
-    private void uploadImagesToFirebase(Rating review, DatabaseReference bookRef) {
+    private void updateRatingAndReviewNum() {
+        String bookId = getIntent().getStringExtra("bookID");
+        DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference("books").child(bookId);
+        DatabaseReference reviewsRef = bookRef.child("reviews");
+
+        // Get the average rating
+        reviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    float totalRating = 0;
+                    int reviewCount = 0;
+                    for (DataSnapshot reviewSnapshot : snapshot.getChildren()) {
+                        float rating = reviewSnapshot.child("rating").getValue(Float.class);
+                        totalRating += rating;
+                        reviewCount++;
+                    }
+                    float averageRating = totalRating / reviewCount;
+
+                    // Update the book's rating and reviewNum
+                    bookRef.child("rating").setValue(averageRating);
+                    bookRef.child("reviewNum").setValue(reviewCount);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle any errors
+            }
+        });    }
+
+    private void uploadImagesToFirebase(Rating review, DatabaseReference bookRef, ProgressDialog progressDialog) {
         if (imageUriList.isEmpty()) {
-            saveReviewToDatabase(review, bookRef, new ArrayList<>());
+            saveReviewToDatabase(review, bookRef, new ArrayList<>(), progressDialog);
             return;
         }
 
@@ -122,7 +159,7 @@ public class RatingActivity extends AppCompatActivity {
                     imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         imageUrls.add(uri.toString());
                         if (imageUrls.size() == imageUriList.size()) {
-                            saveReviewToDatabase(review, bookRef, imageUrls);
+                            saveReviewToDatabase(review, bookRef, imageUrls, progressDialog);
                         }
                     });
                 } else {
@@ -132,7 +169,7 @@ public class RatingActivity extends AppCompatActivity {
         }
     }
 
-    private void saveReviewToDatabase(Rating review, DatabaseReference bookRef, ArrayList<String> imageUrls) {
+    private void saveReviewToDatabase(Rating review, DatabaseReference bookRef, ArrayList<String> imageUrls, ProgressDialog progressDialog) {
         review.setImageUrls(imageUrls);
         bookRef.child("reviews").push().setValue(review);
 
@@ -153,6 +190,7 @@ public class RatingActivity extends AppCompatActivity {
                         }
                     }
                 }
+                progressDialog.dismiss();
                 Toast.makeText(RatingActivity.this, "Rating submitted successfully!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RatingActivity.this, MyReviewActivity.class));
                 finish();
@@ -163,6 +201,7 @@ public class RatingActivity extends AppCompatActivity {
                 Toast.makeText(RatingActivity.this, "Failed to submit rating!", Toast.LENGTH_SHORT).show();
             }
         });
+        updateRatingAndReviewNum();
     }
 
     private String getDescriptionForRating(float rating) {
@@ -239,21 +278,20 @@ public class RatingActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dsOrderDetail.clear();
+                dsToRateBook.clear();
                 for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
                     if (order != null && order.getStatus().equals("Hoàn tất")) {
                         String orderDate = order.getOrderDate();
                         binding.txtDate.setText(orderDate);
                         for (OrderBook book : order.getOrderBooks()) {
-                            dsOrderDetail.add(new OrderDetailTest(
+                            dsToRateBook.add(new ToRateBook(
                                     book.getName(),
                                     book.getImageLink(),
                                     book.getUnitPrice(),
                                     book.getOldPrice(),
                                     book.getQuantity(),
-                                    book.getId(),
-                                    order.getOrderDate()
+                                    book.getId()
                             ));
                         }
                     }

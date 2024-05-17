@@ -46,6 +46,7 @@ public class ReviewBookActivity extends AppCompatActivity {
                     String reviewContent = reviewSnapshot.child("comment").getValue(String.class);
                     long rating = reviewSnapshot.child("rating").getValue(long.class);
                     String userId = reviewSnapshot.child("userId").getValue(String.class);
+                    String ratingDate = reviewSnapshot.child("ratingDate").getValue(String.class);
 
                     // Get the imageUrls and add them to the review object
                     ArrayList<String> imageUrls = new ArrayList<>();
@@ -63,7 +64,7 @@ public class ReviewBookActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 String reviewerName = dataSnapshot.child("name").getValue(String.class);
-                                commentAdapter.add(new ReviewedBook(reviewerName, rating, "", "", reviewContent, imageUrls));
+                                commentAdapter.add(new ReviewedBook(reviewerName, rating, "", "", reviewContent, imageUrls, ratingDate));
                             }
                         }
 

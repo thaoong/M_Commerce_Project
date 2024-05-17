@@ -9,17 +9,19 @@ public class ReviewedBook {
     private String bookName;
     private String comment;
     private ArrayList<String> imageUrls;
+    private String ratingDate;
 
     public ReviewedBook() {
     }
 
-    public ReviewedBook(String reviewerName, long rating, String bookImgUrl, String bookName, String comment, ArrayList<String> imageUrls) {
+    public ReviewedBook(String reviewerName, long rating, String bookImgUrl, String bookName, String comment, ArrayList<String> imageUrls, String ratingDate) {
         this.reviewerName = reviewerName;
         this.rating = rating;
         this.bookImgUrl = bookImgUrl;
         this.bookName = bookName;
         this.comment = comment;
         this.imageUrls = imageUrls;
+        this.ratingDate = ratingDate;
     }
 
     public String getReviewerName() {
@@ -32,10 +34,6 @@ public class ReviewedBook {
 
     public float getRating() {
         return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public String getBookImgUrl() {
@@ -68,5 +66,17 @@ public class ReviewedBook {
 
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public void setRating(long rating) {
+        this.rating = rating;
+    }
+
+    public String getRatingDate() {
+        return ratingDate;
+    }
+
+    public void setRatingDate(String ratingDate) {
+        this.ratingDate = ratingDate;
     }
 }
