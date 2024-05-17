@@ -1,23 +1,39 @@
 package com.nguyenthithao.thestore;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nguyenthithao.adapter.ViewPaperAdapter;
 import com.nguyenthithao.thestore.databinding.ActivityMainBinding;
 
@@ -41,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 binding.mainViewpager.setCurrentItem(1);
             }
         }
+
+        getDeviceToken();
     }
 
     private void createBottomNavigation() {
@@ -160,5 +178,58 @@ public class MainActivity extends AppCompatActivity {
             finish();
             count_exit=0;
         }
+    }
+
+    private void getDeviceToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("FireBaseLogs", " Fetching Token Failed" + task.getException());
+                    return;
+                }
+
+                // Lấy được token
+                String token = task.getResult();
+                Log.v("FireBaseLogs", "Device Token: " + token);
+
+                // Thêm token vào Database
+                addTokenToDatabase(token);
+            }
+        });
+    }
+
+    private void addTokenToDatabase(String token) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("clientTokens");
+
+        databaseReference.child(token).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    // Token chưa tồn tại, thêm mới
+                    databaseReference.child(token).setValue(true)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.v("FireBaseLogs", "Đã thêm token: " + token);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("FireBaseLogs", "Lỗi khi thêm token: " + e.getMessage());
+                                }
+                            });
+                } else {
+                    // Token đã tồn tại, không cần thêm
+                    Log.v("FireBaseLogs", "Token đã tồn tại: " + token);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("FireBaseLogs", "Lỗi khi thêm token: " + databaseError.getMessage());
+            }
+        });
     }
 }

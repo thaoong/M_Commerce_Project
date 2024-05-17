@@ -83,6 +83,8 @@ dependencies {
     // Required for streaming operations (to use `Publisher` from Reactive Streams)
     implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation ("com.google.firebase:firebase-storage:20.0.0")
+    implementation("com.google.firebase:firebase-messaging")
+
 
 
 }
