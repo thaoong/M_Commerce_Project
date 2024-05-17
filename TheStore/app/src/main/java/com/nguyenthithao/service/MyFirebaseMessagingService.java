@@ -38,59 +38,59 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token) {
-        DatabaseReference clientTokenRef = FirebaseDatabase.getInstance().getReference("clientTokens");
-        clientTokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean exists = false;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String clientToken = snapshot.getValue(String.class);
-                    if (clientToken.equals(token)) {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (!exists) {
-                    clientTokenRef.push().setValue(token);
-                }
-                else {
-                    Log.v(TAG, "Token existed: " + token);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Error when add token: " + databaseError.getMessage());
-            }
-        });
+//        DatabaseReference clientTokenRef = FirebaseDatabase.getInstance().getReference("clientTokens");
+//        clientTokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                boolean exists = false;
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String clientToken = snapshot.getValue(String.class);
+//                    if (clientToken.equals(token)) {
+//                        exists = true;
+//                        break;
+//                    }
+//                }
+//                if (!exists) {
+//                    clientTokenRef.push().setValue(token);
+//                }
+//                else {
+//                    Log.v(TAG, "Token existed: " + token);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.e(TAG, "Error when add token: " + databaseError.getMessage());
+//            }
+//        });
     }
 
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        // Kiểm tra xem message có dữ liệu tùy chỉnh hay không
-//        if (remoteMessage.getData().size() > 0) {
-            // Lấy nội dung message và title từ dữ liệu tùy chỉnh
-            String messageText = remoteMessage.getData().get("message");
-            String messageTitle = remoteMessage.getData().get("title");
-
-            // Lưu message vào Firebase Realtime Database
-            saveMessageToDatabase(messageTitle, messageText);
-//        } else if (remoteMessage.getNotification() != null) {
-//            // Lấy nội dung message và title từ thông báo
-//            String messageText = remoteMessage.getNotification().getBody();
-//            String messageTitle = remoteMessage.getNotification().getTitle();
+//    @Override
+//    public void onMessageReceived(RemoteMessage remoteMessage) {
+//        // Kiểm tra xem message có dữ liệu tùy chỉnh hay không
+////        if (remoteMessage.getData().size() > 0) {
+//            // Lấy nội dung message và title từ dữ liệu tùy chỉnh
+//            String messageText = remoteMessage.getData().get("message");
+//            String messageTitle = remoteMessage.getData().get("title");
 //
 //            // Lưu message vào Firebase Realtime Database
 //            saveMessageToDatabase(messageTitle, messageText);
-//        }
-    }
-
-    private void saveMessageToDatabase(String messageTitle, String messageText) {
-        DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference("notifications");
-        Notification notification = new Notification(messageTitle, messageText, "17/05/2024");
-
-        // Lưu message vào database
-        notificationRef.push().setValue(notification);
-    }
+////        } else if (remoteMessage.getNotification() != null) {
+////            // Lấy nội dung message và title từ thông báo
+////            String messageText = remoteMessage.getNotification().getBody();
+////            String messageTitle = remoteMessage.getNotification().getTitle();
+////
+////            // Lưu message vào Firebase Realtime Database
+////            saveMessageToDatabase(messageTitle, messageText);
+////        }
+//    }
+//
+//    private void saveMessageToDatabase(String messageTitle, String messageText) {
+//        DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference("notifications");
+//        Notification notification = new Notification(messageTitle, messageText, "17/05/2024");
+//
+//        // Lưu message vào database
+//        notificationRef.push().setValue(notification);
+//    }
 
 }
