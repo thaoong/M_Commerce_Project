@@ -72,6 +72,8 @@ public class ProfileFragment extends Fragment {
         } else {
             isLoggedIn = false;
             binding.txtLogout.setVisibility(View.GONE);
+            binding.imageLogout.setVisibility(View.GONE);
+            binding.btnLogout.setVisibility(View.GONE);
             binding.btnLogin.setVisibility(View.VISIBLE);
             binding.imgProfile.setVisibility(View.VISIBLE);
             binding.txtName.setVisibility(View.GONE);
@@ -129,8 +131,6 @@ public class ProfileFragment extends Fragment {
             databaseReference.child("profileImage").setValue(imageUrl)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(getActivity(), "Profile image updated successfully", Toast.LENGTH_SHORT).show();
-                        // Sau khi cập nhật thành công, cập nhật lại UI nếu cần thiết
-                        // Ví dụ: gọi phương thức showUserData() để cập nhật thông tin người dùng
                         showUserData();
                     })
                     .addOnFailureListener(e -> {
@@ -298,6 +298,14 @@ public class ProfileFragment extends Fragment {
         });
 
         binding.txtLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call a method to logout
+                logout();
+            }
+        });
+
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Call a method to logout
