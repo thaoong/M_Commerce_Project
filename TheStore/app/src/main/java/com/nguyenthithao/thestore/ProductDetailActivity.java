@@ -60,6 +60,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private DatabaseReference wishlistRef;
     private boolean isInWishlist = false;
     CommentAdapter commentAdapter;
+    private int cartQuantity = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Lấy thông tin sách đã chọn
         selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
         checkWishlistStatus();
+
+//        shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
+//        shopViewModel.getCart().observe(this, new Observer<List<CartItem>>() {
+//            @Override
+//            public void onChanged(List<CartItem> cartItems) {
+//                int quantity = 0;
+//                for (CartItem cartItem: cartItems) {
+//                    quantity += cartItem.getQuantity();
+//                }
+//                cartQuantity = quantity;
+//                invalidateOptionsMenu();
+//            }
+//        });
     }
 
     private void addEvents() {
@@ -316,6 +330,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.mnuCart);
+        View actionView = menuItem.getActionView();
+        TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
+        cartBadgeTextView.setText("2");
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
+
         return true;
     }
 

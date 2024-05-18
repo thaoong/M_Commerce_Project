@@ -9,7 +9,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/mnuCart"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        app:actionLayout="@layout/menu_cart_with_badge"
         android:title="Giỏ hàng"
         app:showAsAction="always" />
     <item

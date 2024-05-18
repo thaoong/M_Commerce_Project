@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -126,6 +128,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.mnuCart);
+        View actionView = menuItem.getActionView();
+        TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
+        cartBadgeTextView.setText("2");
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
         return true;
     }
 
