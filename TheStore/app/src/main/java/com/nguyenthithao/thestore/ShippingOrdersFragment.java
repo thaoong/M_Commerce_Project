@@ -26,35 +26,38 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ShippingOrdersFragment extends Fragment {
     private ListView lvPendingOrders;
     private PendingOrdersAdapter adapter;
     private List<Order> orders;
     private List<String> orderKeys;
+    private Map<String, Order> orderMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pending_orders, container, false);
         lvPendingOrders = view.findViewById(R.id.lvPendingOrders);
-        lvPendingOrders.setOnTouchListener((v, event) -> {
-            return false;
-        });
-        // Retrieve orders from Firebase database
+
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
         ordersRef.orderByChild("userID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orders = new ArrayList<>();
-                orderKeys = new ArrayList<>(); // Create a list to store order keys
+                orderKeys = new ArrayList<>();
+                orderMap = new HashMap<>();
+
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
-                    if (order.getStatus().equals("Đang vận chuyển")) { // Filter orders with status "Đang vận chuyển"
+                    if (order != null && "Đang vận chuyển".equals(order.getStatus())) {
                         orders.add(order);
-                        orderKeys.add(orderSnapshot.getKey()); // Add the order key to the list
+                        orderKeys.add(orderSnapshot.getKey());
+                        orderMap.put(orderSnapshot.getKey(), order);
                     }
                 }
 
@@ -72,7 +75,23 @@ public class ShippingOrdersFragment extends Fragment {
                     }
                 });
 
-                adapter = new PendingOrdersAdapter(getContext(), orders, orderKeys); // Pass the order keys to the adapter
+                // Sort orderKeys to sync with sorted orders
+                Collections.sort(orderKeys, new Comparator<String>() {
+                    @Override
+                    public int compare(String key1, String key2) {
+                        Order o1 = orderMap.get(key1);
+                        Order o2 = orderMap.get(key2);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        try {
+                            return sdf.parse(o2.getOrderDate()).compareTo(sdf.parse(o1.getOrderDate()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            return 0;
+                        }
+                    }
+                });
+
+                adapter = new PendingOrdersAdapter(getContext(), orders, orderKeys);
                 adapter.setOnOrderClickListener(new PendingOrdersAdapter.OnOrderClickListener() {
                     @Override
                     public void onOrderClick(Order order, String orderKey) {
@@ -88,7 +107,6 @@ public class ShippingOrdersFragment extends Fragment {
             }
         });
 
-        // Set click listener for each order item in the list view
         lvPendingOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -40,29 +40,47 @@ public class CompletedOrdersFragment extends Fragment {
 
         // Retrieve orders from Firebase database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (userId!= null) { // Check if userId is not null
+        if (userId != null) {
             DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
-            ordersRef.orderByChild("userID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    orders = new ArrayList<>();
-                    orderKeys = new ArrayList<>();
-                    for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
-                        Order order = orderSnapshot.getValue(Order.class);
-                        if (order!= null && order.getStatus().equals("Hoàn tất")) { // Check if order is not null
-                            orders.add(order);
-                            orderKeys.add(orderSnapshot.getKey());
-                        }
-                    }
-                    adapter = new ShippingOrdersAdapter(getContext(), orders, orderKeys);
-                    lvShippingOrders.setAdapter(adapter); // Set the adapter to the ListView
-                }
+            ordersRef.orderByChild("userID").equalTo(userId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            orders = new ArrayList<>();
+                            orderKeys = new ArrayList<>();
+                            for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
+                                Order order = orderSnapshot.getValue(Order.class);
+                                if (order!= null && order.getStatus().equals("Hoàn tất")) {
+                                    orders.add(order);
+                                    orderKeys.add(orderSnapshot.getKey());
+                                }
+                            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("Error", "Error retrieving orders: " + databaseError.getMessage());
-                }
-            });
+                            // Sort both lists together
+                            List<Order> sortedOrders = new ArrayList<>();
+                            List<String> sortedOrderKeys = new ArrayList<>();
+                            for (int i = 0; i < orders.size(); i++) {
+                                int maxIndex = i;
+                                for (int j = i + 1; j < orders.size(); j++) {
+                                    if (orders.get(j).getOrderDate().compareTo(orders.get(maxIndex).getOrderDate()) > 0) {
+                                        maxIndex = j;
+                                    }
+                                }
+                                sortedOrders.add(orders.get(maxIndex));
+                                sortedOrderKeys.add(orderKeys.get(maxIndex));
+                                orders.remove(maxIndex);
+                                orderKeys.remove(maxIndex);
+                            }
+
+                            adapter = new ShippingOrdersAdapter(getContext(), sortedOrders, sortedOrderKeys);
+                            lvShippingOrders.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("Error", "Error retrieving orders: " + databaseError.getMessage());
+                        }
+                    });
         } else {
             Log.e("Error", "User is not logged in");
         }

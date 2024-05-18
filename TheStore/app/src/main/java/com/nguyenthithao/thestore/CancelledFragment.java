@@ -50,27 +50,31 @@ public class CancelledFragment extends Fragment {
                 orderKeys = new ArrayList<>();
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     Order order = orderSnapshot.getValue(Order.class);
-                    if (order != null && "Đã hủy".equals(order.getStatus())) {
+                    if (order!= null && "Đã hủy".equals(order.getStatus())) {
                         orders.add(order);
                         orderKeys.add(orderSnapshot.getKey());
                     }
                 }
 
                 // Sort orders by order date from newest to oldest
-                Collections.sort(orders, new Comparator<Order>() {
-                    @Override
-                    public int compare(Order o1, Order o2) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        try {
-                            return sdf.parse(o2.getOrderDate()).compareTo(sdf.parse(o1.getOrderDate()));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            return 0;
+                List<Order> sortedOrders = new ArrayList<>(orders);
+                List<String> sortedOrderKeys = new ArrayList<>(orderKeys);
+                for (int i = 0; i < sortedOrders.size(); i++) {
+                    int maxIndex = i;
+                    for (int j = i + 1; j < sortedOrders.size(); j++) {
+                        if (sortedOrders.get(j).getOrderDate().compareTo(sortedOrders.get(maxIndex).getOrderDate()) > 0) {
+                            maxIndex = j;
                         }
                     }
-                });
+                    Order tempOrder = sortedOrders.get(maxIndex);
+                    String tempOrderKey = sortedOrderKeys.get(maxIndex);
+                    sortedOrders.set(maxIndex, sortedOrders.get(i));
+                    sortedOrderKeys.set(maxIndex, sortedOrderKeys.get(i));
+                    sortedOrders.set(i, tempOrder);
+                    sortedOrderKeys.set(i, tempOrderKey);
+                }
 
-                adapter = new ShippingOrdersAdapter(getContext(), orders, orderKeys);
+                adapter = new ShippingOrdersAdapter(getContext(), sortedOrders, sortedOrderKeys);
                 lvShippingOrders.setAdapter(adapter);
             }
 

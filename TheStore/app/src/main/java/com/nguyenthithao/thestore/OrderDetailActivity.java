@@ -133,8 +133,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("deletedOrderKey", orderKey);
                 setResult(AppCompatActivity.RESULT_OK, resultIntent);
-
-                Toast.makeText(OrderDetailActivity.this, "Order cancelled successfully", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
