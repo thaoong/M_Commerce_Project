@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 	<link rel="stylesheet" href="./CSS/style_voucher_add.css">
 	<link rel="icon" href="./assets/images/ic_logo.png">
-	<title>Add voucher</title>
+	<title>Edit Book</title>
 </head>
 <body>
 
@@ -30,7 +30,7 @@
 					<span class="text">Order management</span>
 				</a>
 			</li>
-			<li>
+			<li class="active">
 				<a href="category_management.html">
 					<i class='bx bxs-category' ></i>
 					<span class="text">Category management</span>
@@ -48,7 +48,7 @@
 					<span class="text">Customer management</span>
 				</a>
 			</li>
-			<li class="active">
+			<li>
 				<a href="voucher_manangement.html">
 					<i class='bx bxs-discount' ></i>
 					<span class="text">Voucher management</span>
@@ -92,44 +92,46 @@
 		<!-- MAIN -->
 		<main>
 			<div class="left">
-				<p>Voucher management</p>
-                <!-- <div class="subtitle">
-                    <button id="add" class="add-button" onclick="addVoucher()">Thêm voucher</button>
-                </div> -->
+				<p>Book management</p>
 			</div>
 
-			<div class="page__content">
+            <div class="page__content">
                 <div class="content-button">
-                    <button style="cursor: pointer;" id="addVoucher">Save</button>
-                    <button style="cursor: pointer;" onclick="goBack()">Cancel</button>
+                    <button id="updateBook">Save</button>
+                    <button onclick="goBack()">Cancel</button>
                 </div>
-                <p>Add voucher</p>
+                <p>Edit Book</p>
                 <div class="content__box">
-                    <label for="codeAdd">Voucher code:
-                        <input type="text" class="form-control" id="codeAdd">
+                    <label for="myFile">Image:
+                        <input type="file" class="file-input" id="imageUpload">
                     </label>
-                    <label for="amountAdd">Voucher value:
-                        <input type="number" class="form-control" id="amountAdd">
+                    <img id="book_image" style="margin-left: 10px;">
+                    <label for="idAdd">Book ID:
+                        <input type="text" class="form-control" id="idAdd" readonly>
                     </label>
-                    <label for="conditionAdd">Minimum order value applies:
-                        <input type="number" class="form-control" id="conditionAdd">
+                    <label for="nameAdd">Book Name:
+                        <input type="text" class="form-control" id="nameAdd">
                     </label>
-                    <label for="expirationAdd">Expired date:
-                        <input type="date" class="form-control" id="expirationAdd">
+					<label for="categoryAdd">Category ID:
+                        <input type="text" class="form-control" id="categoryAdd">
+                    </label>
+					<label for="unitpriceAdd">Unit price:
+                        <input type="text" class="form-control" id="unitpriceAdd">
                     </label>
                 </div>
+                <button id="delete">Delete Book</button>
             </div>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
-	
-	<script src="JS/script.js"></script>
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
-    <script type="module" src="JS/voucher_add.js"></script>
+	<script src="JS/script.js"></script>
+    <script type="module" src="JS/book_edit.js"></script>
 </body>
+
 </html>

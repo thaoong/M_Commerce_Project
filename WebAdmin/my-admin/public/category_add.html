@@ -15,7 +15,7 @@
 	<section id="sidebar">
 		<a href="home.html" class="brand">
 			<i class='bx bxs-smile'></i>
-			<span class="text">The Twinkle</span>
+			<span class="text">The Store</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -97,18 +97,18 @@
 
             <div class="page__content">
                 <div class="content-button">
-                    <button style="cursor: pointer;" id="addCategory">Lưu</button>
-                    <button style="cursor: pointer;" onclick="goBack()">Hủy</button>
+                    <button style="cursor: pointer;" id="addCategory">Save</button>
+                    <button style="cursor: pointer;" onclick="goBack()">Cancel</button>
                 </div>
-                <p>Thêm danh mục</p>
+                <p>Add category</p>
                 <div class="content__box">
-                    <label for="myFile">Ảnh:
+                    <label for="myFile">Image:
                         <input type="file" class="file-input" id="imageUpload">
                     </label>
-                    <label for="idAdd">ID danh mục:
+                    <label for="idAdd">Category ID:
                         <input type="text" class="form-control" id="idAdd">
                     </label>
-                    <label for="nameAdd">Tên danh mục:
+                    <label for="nameAdd">Category name:
                         <input type="text" class="form-control" id="nameAdd">
                     </label>
                 </div>
@@ -121,6 +121,7 @@
             window.history.back();
         }
     </script>
+	<script src="JS/script.js"></script>
     <script type="module" src="JS/category_add.js"></script>
 </body>
 

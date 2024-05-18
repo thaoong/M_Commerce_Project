@@ -17,7 +17,7 @@
 	<section id="sidebar">
 		<a href="home.html" class="brand">
 			<i class='bx bxs-smile'></i>
-			<span class="text">The Twinkle</span>
+			<span class="text">The Store</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -94,20 +94,20 @@
 		<!-- MAIN -->
 		<main>
 			<div class="left">
-				<p>Chi tiết đơn hàng</p>
+				<p>Order detail</p>
 			</div>
 			<div class="page-body-main">
 				<div class="page-body-header">
 					<div class="order_info--detail">
-						<p class="title">Mã</p>
+						<p class="title">Order ID</p>
 						<p class="data" id="ord_id"></p>
 					</div>
 					<div class="order_info--detail">
-						<p class="title">Ngày tạo</p>
+						<p class="title">Order date</p>
 						<p class="data" id="order_date"></p>
 					</div>
 					<div class="order_info--detail">
-						<p class="title">Phương thức thanh toán</p>
+						<p class="title">Payment method</p>
 						<p class="data" id="payment_method"></p>
 					</div>
 				</div>
@@ -115,29 +115,29 @@
 					<div class="page-body-table">
 						<table class="order_table">
 							<thead>
-								<th>STT</th>
-								<th>Ảnh</th>
-								<th>Tên sản phẩm</th>
-								<th>Số lượng</th>
-								<th>Đơn giá</th>
-								<th>Thành tiền</th>
+								<th>No.</th>
+								<th>Image</th>
+								<th>Book name</th>
+								<th>Quantity</th>
+								<th>Unit Price</th>
+								<th>Sum</th>
 							</thead>
 							<tbody class="table_content">
 							<tbody id="tbody1"></tbody>
 							<tr>
-								<td colspan="5" class="text-end">Tạm tính</td>
+								<td colspan="5" class="text-end">Pre Price</td>
 								<td id="pre_price"></td>
 							</tr>
 							<tr>
-								<td colspan="5" class="text-end">Phí vận chuyển</td>
+								<td colspan="5" class="text-end">Shipping fee</td>
 								<td id="shipping_fee"></td>
 							</tr>
 							<tr>
-								<td colspan="5" class="text-end">Giảm giá</td>
+								<td colspan="5" class="text-end">Discount</td>
 								<td id="discount"></td>
 							</tr>
 							<tr class="table_data">
-								<td colspan="5" class="total text-end">Tổng cộng</td>
+								<td colspan="5" class="total text-end">Total</td>
 								<td id="total" style="font-weight: bold; color:#5C3507; font-size:15pt"></td>
 							</tr>
 							</tbody>
@@ -145,17 +145,17 @@
 						<div class="order_action">
 							<span>
 								<button id="approve">
-									Hoàn thành
+									Complete
 								</button>
 							</span>
 							<span>
 								<button id="deli">
-									Đang vận chuyển
+									Delivery
 								</button>
 							</span>
 							<span>
 								<button id="cancel">
-									Hủy đơn
+									Cancel
 								</button>
 							</span>
 						</div>
@@ -163,17 +163,17 @@
 					<div class="page-body-detail">
 						<div class="order-info">
 							<div>
-								<p class="order-info-title">Thông tin người mua</p>
+								<p class="order-info-title">Customer information</p>
 								<p id="customer_name"></p>
 							</div>
 							<div class="deli-info">
-								<p class="order-info-title">Thông tin giao hàng</p>
+								<p class="order-info-title">Delivery information</p>
 								<p id="phone_number"></p>
 								<p id="address"></p>
 							</div>
 							<div class="note-info">
-								<p class="order-info-title">Ghi chú về đơn hàng</p>
-								<p id="note">Không có ghi chú</p>
+								<p class="order-info-title">Order note</p>
+								<p id="note">No note</p>
 							</div>
 						</div>
 					</div>
@@ -184,7 +184,6 @@
 	<!-- CONTENT -->
 
 	<script src="JS/script.js"></script>
-
 	<script type="module" src="JS/order_detail.js"></script>
 </body>
 
