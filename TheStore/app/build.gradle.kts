@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("my_cofig") {
+            storeFile = file("D:\\UEL\\Hoc_ky_6\\Android\\TheStoreKey\\TheStoreKey.jks")
+            storePassword = "03052003"
+            keyAlias = "TheStore"
+            keyPassword = "03052003"
+        }
+    }
     namespace = "com.nguyenthithao.thestore"
     compileSdk = 34
 
@@ -24,6 +32,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("my_cofig")
         }
     }
     compileOptions {
