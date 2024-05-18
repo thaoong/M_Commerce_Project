@@ -14,32 +14,33 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const orderRef = ref(db, "orders/");
+const bookRef = ref(db, "books/");
 const dataContainer = document.querySelector("tbody")
 
-onValue(orderRef, (snapshot) => {
+onValue(bookRef, (snapshot) => {
   const data = snapshot.val();
   var htmlData = "";
   var i = 0;
-  var totalOrder = Object.keys(data).length;
-  document.getElementById("totalOrder").innerHTML = "Total order: " + totalOrder + " orders"
   for (var key in data) {
-    var order = data[key];
-    var name = order.name;
-    var orderDate = order.orderDate;
-    var total = order.total.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";
-    var status = order.status;
+    var book = data[key];
+    var id = book.Id;
+    var imageLink = book.imageLink;
+    var name = book.name;
+    var unitprice = book.unitPrice;
+    var category = book.category;
 
     htmlData += `
       <tr>
         <td>${++i}</td>
-        <td>${key}</td>
+        <td>${id}</td>
         <td>${name}</td>
-        <td>${orderDate}</td>
-        <td>${total}</td>
-        <td>${status}</td>
+        <td>${category}</td>
         <td>
-          <button id="visual" onclick="viewOrderDetail('${key}')">
+            <img src='${imageLink}' width="100">
+        </td>
+        <td>${unitprice}</td>
+        <td>
+          <button id="visual" onclick="viewBookDetail('${key}')">
             <span class="material-icons-outlined">visibility</span>
           </button>
         </td>

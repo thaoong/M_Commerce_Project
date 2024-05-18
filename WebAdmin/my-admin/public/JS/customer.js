@@ -22,7 +22,7 @@ onValue(userRef, (snapshot) => {
   var htmlData = "";
   var i = 0;
   var totalUser = Object.keys(data).length;
-  document.getElementById("totalUser").innerHTML = "Tổng số lượng khách hàng: " + totalUser + " khách hàng"
+  document.getElementById("totalCustomer").innerHTML = "Total custocustomer: " + totalUser + " customers"
   for (var key in data) {
     var user = data[key];
     var name = user.name;

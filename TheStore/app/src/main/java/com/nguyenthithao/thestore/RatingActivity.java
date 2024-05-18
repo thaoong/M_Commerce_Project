@@ -60,7 +60,7 @@ public class RatingActivity extends AppCompatActivity {
         if (productName != null) {
             binding.txtProductName.setText(productName);
         } else {
-            binding.txtProductName.setText("Product name not available");
+            binding.txtProductName.setText("Product name is not available");
         }
         Picasso.get().load(productImage).into(binding.imgProduct);
 
@@ -107,6 +107,7 @@ public class RatingActivity extends AppCompatActivity {
             // Show the progress dialog
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Uploading review...");
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             uploadImagesToFirebase(review, bookRef, progressDialog);
