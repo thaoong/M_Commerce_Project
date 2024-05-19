@@ -35,6 +35,7 @@ import com.nguyenthithao.thestore.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     int count_exit = 0;
+    private int cartQuantity = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         displayActionBar();
         createBottomNavigation();
         getDeviceToken();
+        getCartCount();
 
         if (getIntent().hasExtra("selectedFragment")) {
             String selectedFragment = getIntent().getStringExtra("selectedFragment");
@@ -124,14 +126,14 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
-    public void getCartCount(final OnCartCountLoadedListener listener) {
+    public void getCartCount() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser == null) {
-            // User is not logged in, return 0
-            listener.onCartCountLoaded(0);
-            return;
+            int quantity = 0;
+            cartQuantity = quantity;
+            invalidateOptionsMenu();
         }
 
         String userId = currentUser.getUid();
@@ -140,8 +142,9 @@ public class MainActivity extends AppCompatActivity {
         cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int cartCount = (int) dataSnapshot.getChildrenCount();
-                listener.onCartCountLoaded(cartCount);
+                int quantity = (int) dataSnapshot.getChildrenCount();
+                cartQuantity = quantity;
+                invalidateOptionsMenu();
             }
 
             @Override
@@ -151,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public interface OnCartCountLoadedListener {
-        void onCartCountLoaded(int cartCount);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,12 +164,8 @@ public class MainActivity extends AppCompatActivity {
         View actionView = menuItem.getActionView();
         final TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
 
-        getCartCount(new OnCartCountLoadedListener() {
-            @Override
-            public void onCartCountLoaded(int cartCount) {
-                cartBadgeTextView.setText(String.valueOf(cartCount));
-            }
-        });
+        cartBadgeTextView.setText(String.valueOf(cartQuantity));
+        cartBadgeTextView.setVisibility(cartQuantity == 0 ? View.GONE : View.VISIBLE);
 
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override

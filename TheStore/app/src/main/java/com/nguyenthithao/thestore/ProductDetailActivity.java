@@ -59,6 +59,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference wishlistRef;
     private boolean isInWishlist = false;
+    private int cartQuantity = 0;
     CommentAdapter commentAdapter;
 
     @Override
@@ -79,6 +80,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Lấy thông tin sách đã chọn
         selectedBook = (Book) getIntent().getSerializableExtra("SELECTED_BOOK");
         checkWishlistStatus();
+        getCartCount();
     }
 
     private void addEvents() {
@@ -313,14 +315,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
-    public void getCartCount(final OnCartCountLoadedListener listener) {
+    public void getCartCount() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser == null) {
-            // User is not logged in, return 0
-            listener.onCartCountLoaded(0);
-            return;
+            int quantity = 0;
+            cartQuantity = quantity;
+            invalidateOptionsMenu();
         }
 
         String userId = currentUser.getUid();
@@ -329,8 +331,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int cartCount = (int) dataSnapshot.getChildrenCount();
-                listener.onCartCountLoaded(cartCount);
+                int quantity = (int) dataSnapshot.getChildrenCount();
+                cartQuantity = quantity;
+                invalidateOptionsMenu();
             }
 
             @Override
@@ -352,14 +355,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         final MenuItem menuItem = menu.findItem(R.id.mnuCart);
         View actionView = menuItem.getActionView();
         final TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
-
-        getCartCount(new ProductDetailActivity.OnCartCountLoadedListener() {
-            @Override
-            public void onCartCountLoaded(int cartCount) {
-                cartBadgeTextView.setText(String.valueOf(cartCount));
-            }
-        });
-
+        cartBadgeTextView.setText(String.valueOf(cartQuantity));
+        cartBadgeTextView.setVisibility(cartQuantity == 0 ? View.GONE : View.VISIBLE);
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
