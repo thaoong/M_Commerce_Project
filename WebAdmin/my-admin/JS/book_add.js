@@ -58,7 +58,7 @@ function postBook() {
         })
         .then((imageUrl) => {
           set(bookRef, {
-            id: idInput.value,
+            Id: idInput.value,
             imageLink: {0:imageUrl},
             name: bookNameInput.value,
             unitPrice: unitpriceInput.value,
