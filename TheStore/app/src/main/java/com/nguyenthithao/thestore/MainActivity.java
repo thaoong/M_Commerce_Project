@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         displayActionBar();
         createBottomNavigation();
         getDeviceToken();
+        getCartQuantity();
 
         if (getIntent().hasExtra("selectedFragment")) {
             String selectedFragment = getIntent().getStringExtra("selectedFragment");
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 binding.mainViewpager.setCurrentItem(1);
             }
         }
+    }
+
+    private void getCartQuantity() {
+
     }
 
     private void createBottomNavigation() {
@@ -124,15 +129,44 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
+    public void getCartCount(final OnCartCountLoadedListener listener) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference cartRef = firebaseDatabase.getReference("carts").child(userId);
+
+        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int cartCount = (int) dataSnapshot.getChildrenCount();
+                listener.onCartCountLoaded(cartCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
+    public interface OnCartCountLoadedListener {
+        void onCartCountLoaded(int cartCount);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
         final MenuItem menuItem = menu.findItem(R.id.mnuCart);
         View actionView = menuItem.getActionView();
-        TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
-        cartBadgeTextView.setText("2");
+        final TextView cartBadgeTextView = actionView.findViewById(R.id.cart_badge_text_view);
+
+        getCartCount(new OnCartCountLoadedListener() {
+            @Override
+            public void onCartCountLoaded(int cartCount) {
+                cartBadgeTextView.setText(String.valueOf(cartCount));
+            }
+        });
 
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
                 onOptionsItemSelected(menuItem);
             }
         });
-
         return true;
     }
 
@@ -186,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             count_exit=0;
         }
     }
+
 
     private void getDeviceToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
