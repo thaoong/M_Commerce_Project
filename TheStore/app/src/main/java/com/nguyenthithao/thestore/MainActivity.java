@@ -135,23 +135,24 @@ public class MainActivity extends AppCompatActivity {
             cartQuantity = quantity;
             invalidateOptionsMenu();
         }
+        else {
+            String userId = currentUser.getUid();
+            DatabaseReference cartRef = firebaseDatabase.getReference("carts").child(userId);
 
-        String userId = currentUser.getUid();
-        DatabaseReference cartRef = firebaseDatabase.getReference("carts").child(userId);
+            cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int quantity = (int) dataSnapshot.getChildrenCount();
+                    cartQuantity = quantity;
+                    invalidateOptionsMenu();
+                }
 
-        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int quantity = (int) dataSnapshot.getChildrenCount();
-                cartQuantity = quantity;
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle error
+                }
+            });
+        }
     }
 
 
