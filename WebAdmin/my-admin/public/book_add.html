@@ -30,13 +30,13 @@
 					<span class="text">Order management</span>
 				</a>
 			</li>
-			<li class="active">
+			<li >
 				<a href="category_management.html">
 					<i class='bx bxs-category' ></i>
 					<span class="text">Category management</span>
 				</a>
 			</li>
-			<li>
+			<li class="active">
 				<a href="book_management.html">
 					<i class='bx bxs-book' ></i>
 					<span class="text">Book management</span>
@@ -112,11 +112,23 @@
                     <label for="nameAdd">Book Name:
                         <input type="text" class="form-control" id="nameAdd">
                     </label>
-					<label for="categoryAdd">Category ID:
-                        <input type="text" class="form-control" id="categoryAdd">
+					<label for="categoryAdd">Category:
+						<select name="category" class="form-control" id="categoryAdd"></select>
+                        <!-- <input type="text" class="form-control" id="categoryAdd"> -->
                     </label>
 					<label for="unitpriceAdd">Unit price:
-                        <input type="text" class="form-control" id="unitpriceAdd">
+                        <input type="number" class="form-control" id="unitpriceAdd">
+                    </label>
+					<label for="oldpriceAdd">Old price:
+                        <input type="number" class="form-control" id="oldpriceAdd" value=0>
+                    </label>
+					<label for="authorAdd">Author:
+                        <input type="text" class="form-control" id="authorAdd">
+                    </label>
+					<label for="descriptionAdd">Description:</label>
+					<textarea class="form-control" id="descriptionAdd"></textarea>
+					<label for="publicationDateAdd">Publication Date:
+                        <input type="date" class="form-control" id="publicationDateAdd">
                     </label>
                 </div>
             </div>

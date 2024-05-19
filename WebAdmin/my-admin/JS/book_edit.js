@@ -17,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const dbRef = ref(getDatabase());
 const storage = getStorage(app);
+const categoryRef = ref(db, "categories/");
 
 var urlParams = new URLSearchParams(window.location.search);
 var key = urlParams.get('key');
@@ -37,34 +38,6 @@ let categoryInput = document.getElementById("categoryAdd")
 get(child(dbRef, `books/${key}`)).then((snapshot) => {
   if (snapshot.exists()) {
     var book = snapshot.val()
-
-    // //Get book image
-    // const imageLinkRef = ref(db, 'books/' + key + '/imageLink');
-    // onValue(imageLinkRef, (snapshot) => {
-    //   // var tableListProduct = "";
-    //   const imageLinksData = snapshot.val();
-    //   console.log(imageLinksData[0])
-    //   imgBook.src = imageLinksData[0]
-    //   imgBook.width = 300
-    //   // for (var bookKey in booksData) {
-    //   //   var book = booksData[bookKey];
-    //   //   var imageLink = book.imageLink;
-    //   //   var bookName = book.name;
-    //   //   var quantity = book.quantity;
-    //   //   var unitPrice = book.unitPrice.toLocaleString("vi-VN", { minimumFractionDigits: 0 });
-    //   //   tableListProduct += `
-    //   //         <tr>
-    //   //             <td class="img-column">
-    //   //                 <img class="table_list_product-img" src="${imageLink}">
-    //   //             </td>
-    //   //             <td class="name-column">${bookName}</td>
-    //   //             <td class="price-column">${unitPrice}đ</td>
-    //   //             <td class="quantity-column">x${quantity}</td>
-    //   //         </tr>
-    //   //     `;
-    //   // }
-    //   // document.getElementById(`order_books_${key}`).innerHTML = tableListProduct;
-    // });
     imgBook.src = book.imageLink[0]
     imgBook.width = 300
     idInput.value = book.Id
@@ -78,7 +51,25 @@ get(child(dbRef, `books/${key}`)).then((snapshot) => {
     publicationDateInput.value = formattedpublicationDate
     ratingInput.value = book.rating
     reviewNumInput.value = book.reviewNum
-    categoryInput.value = book.category
+    const option = document.createElement("option");
+    option.value = book.category;
+    option.text = book.category;
+    categoryInput.add(option);
+    categoryInput.value = book.category;
+
+    onValue(categoryRef, (snapshot) => {
+      const data = snapshot.val();
+      for (var key in data) {
+        var category = data[key];
+        var name = category.name;
+        if (name != book.category) {
+          const option = document.createElement("option");
+          option.value = name;
+          option.text = name;
+          categoryInput.add(option);
+        } 
+      }
+    });
   } else {
     console.log("No data available");
   }
@@ -132,8 +123,7 @@ function updateBook() {
         return getDownloadURL(snapshot.ref); // Get the image URL after upload
       })
       .then((imageUrl) => {
-        // updateData = imageUrl; // Update imageLink with the new URL
-        return set(bookImageLinkRef, {0: imageUrl}); // Update the book with image
+        return set(bookImageLinkRef, { 0: imageUrl }); // Update the book with image
       })
       .then(() => {
         alert("Book updated successfully!");

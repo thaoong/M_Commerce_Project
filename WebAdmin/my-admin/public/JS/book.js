@@ -16,19 +16,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const bookRef = ref(db, "books/");
 const dataContainer = document.querySelector("tbody")
+
 onValue(bookRef, (snapshot) => {
   const data = snapshot.val();
   var htmlData = "";
   var i = 0;
-
   for (var key in data) {
     var book = data[key];
     var id = book.Id;
     var imageLink = book.imageLink;
-    console.log("uar")
     var name = book.name;
-    var unitprice = book.unitPrice;
+    var unitprice = book.unitPrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";;
     var category = book.category;
+
     htmlData += `
       <tr>
         <td>${++i}</td>

@@ -357,13 +357,23 @@ body {
     flex-direction: column;
     padding: 10px 10px;
 }
-.content__box input{
+.content__box input, select{
     margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 15px;
     padding: 7px 10px;
+}
+
+.content__box textarea{
+    margin: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    padding: 7px 10px;
+	height: 100px;
 }
 
 #delete {

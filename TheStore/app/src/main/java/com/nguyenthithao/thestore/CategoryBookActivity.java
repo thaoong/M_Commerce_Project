@@ -37,7 +37,7 @@ public class CategoryBookActivity extends AppCompatActivity {
 
     private void loadBookByCategory() {
         selectedCategory = (Category) getIntent().getSerializableExtra("SELECTED_CATEGORY");
-        String category = selectedCategory.getId();
+        String category = selectedCategory.getName();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("books");
         binding.progressBar.setVisibility(View.VISIBLE);

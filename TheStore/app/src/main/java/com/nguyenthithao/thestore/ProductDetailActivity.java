@@ -412,24 +412,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         binding.txtAuthor.setText(selectedBook.getAuthor());
+        binding.txtCategory.setText(selectedBook.getCategory());
         binding.txtPublicationDate.setText(selectedBook.getPublicationDate());
         binding.txtDescription.setText(selectedBook.getDescription());
-
-        // Get category name from category table
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference categoryRef = firebaseDatabase.getReference().child("categories").child(selectedBook.getCategory());
-        categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String categoryName = dataSnapshot.child("name").getValue(String.class);
-                    binding.txtCategory.setText(categoryName);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
     }
 
     private String formatCurrency(float value) {

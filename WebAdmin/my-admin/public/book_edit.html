@@ -30,13 +30,13 @@
 					<span class="text">Order management</span>
 				</a>
 			</li>
-			<li class="active">
+			<li >
 				<a href="category_management.html">
 					<i class='bx bxs-category' ></i>
 					<span class="text">Category management</span>
 				</a>
 			</li>
-			<li>
+			<li class="active">
 				<a href="book_management.html">
 					<i class='bx bxs-book' ></i>
 					<span class="text">Book management</span>
@@ -106,17 +106,41 @@
                         <input type="file" class="file-input" id="imageUpload">
                     </label>
                     <img id="book_image" style="margin-left: 10px;">
+					<div>
+						<img id="book_image" style="margin-left: 10px;">
+						<img id="book_image" style="margin-left: 10px;">
+						<img id="book_image" style="margin-left: 10px;">
+					</div>
                     <label for="idAdd">Book ID:
                         <input type="text" class="form-control" id="idAdd" readonly>
                     </label>
                     <label for="nameAdd">Book Name:
                         <input type="text" class="form-control" id="nameAdd">
                     </label>
-					<label for="categoryAdd">Category ID:
-                        <input type="text" class="form-control" id="categoryAdd">
-                    </label>
+					<label for="categoryAdd">Category:
+                        <!-- <input type="text" class="form-control" id="categoryAdd"> -->
+						<select name="category" class="form-control" id="categoryAdd"></select>
+					</label>
+					
 					<label for="unitpriceAdd">Unit price:
-                        <input type="text" class="form-control" id="unitpriceAdd">
+                        <input type="number" class="form-control" id="unitpriceAdd">
+                    </label>
+					<label for="oldpriceAdd">Old price:
+                        <input type="number" class="form-control" id="oldpriceAdd">
+                    </label>
+					<label for="authorAdd">Author:
+                        <input type="text" class="form-control" id="authorAdd">
+                    </label>
+					<label for="descriptionAdd">Description:</label>
+					<textarea class="form-control" id="descriptionAdd"></textarea>
+					<label for="publicationDateAdd">Publication Date:
+                        <input type="date" class="form-control" id="publicationDateAdd">
+                    </label>
+					<label for="ratingAdd">Rating:
+                        <input type="number" class="form-control" id="ratingAdd" readonly>
+                    </label>
+					<label for="reviewNumAdd">Review Num:
+                        <input type="number" class="form-control" id="reviewNumAdd" readonly>
                     </label>
                 </div>
                 <button id="delete">Delete Book</button>

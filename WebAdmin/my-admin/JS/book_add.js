@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -25,9 +25,22 @@ let unitpriceInput = document.getElementById("unitpriceAdd");
 let authorInput = document.getElementById("authorAdd");
 let descriptionInput = document.getElementById("descriptionAdd");
 let publicationDateInput = document.getElementById("publicationDateAdd");
-// let ratingInput = document.getElementById("ratingAdd");
-// let reviewNumInput = document.getElementById("reviewNumAdd");
-let categoryInput = document.getElementById("categoryAdd")
+const categoryInput = document.getElementById("categoryAdd");
+
+const categoryRef = ref(db, "categories/");
+onValue(categoryRef, (snapshot) => {
+  const data = snapshot.val();
+  categoryInput.innerHTML = '';
+
+  for (var key in data) {
+    var category = data[key];
+    var name = category.name;
+    const option = document.createElement("option");
+    option.value = name;
+    option.text = name;
+    categoryInput.add(option);
+  }
+});
 
 function postBook() {
   if (idInput.value.trim() === '' || bookNameInput.value.trim() === '') {
