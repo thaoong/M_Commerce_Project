@@ -20,13 +20,13 @@ const storage = getStorage(app);
 let idInput = document.getElementById("idAdd");
 let bookNameInput = document.getElementById("nameAdd");
 let imageUploadInput = document.getElementById("imageUpload");
-let imgBook = document.getElementById("book_image");
+let oldpriceInput = document.getElementById("oldpriceAdd");
 let unitpriceInput = document.getElementById("unitpriceAdd");
 let authorInput = document.getElementById("authorAdd");
 let descriptionInput = document.getElementById("descriptionAdd");
 let publicationDateInput = document.getElementById("publicationDateAdd");
-let ratingInput = document.getElementById("ratingAdd");
-let reviewNumInput = document.getElementById("reviewNumAdd");
+// let ratingInput = document.getElementById("ratingAdd");
+// let reviewNumInput = document.getElementById("reviewNumAdd");
 let categoryInput = document.getElementById("categoryAdd")
 
 function postBook() {
@@ -57,16 +57,21 @@ function postBook() {
           return getDownloadURL(snapshot.ref);
         })
         .then((imageUrl) => {
+          const publicationDateParts = publicationDateInput.value.split("-");
+          const formattedpublicationDate = publicationDateParts[2] + "/" + publicationDateParts[1] + "/" + publicationDateParts[0];
+          const unitPrice = parseInt(unitpriceInput.value);
+          const oldPrice = parseInt(oldpriceInput.value);
           set(bookRef, {
             Id: idInput.value,
             imageLink: {0:imageUrl},
             name: bookNameInput.value,
-            unitPrice: unitpriceInput.value,
+            unitPrice: unitPrice,
+            oldPrice: oldPrice,
             author: authorInput.value,
             description: descriptionInput.value,
-            publicationDate: publicationDateInput.value,
-            rating: ratingInput.value,
-            reviewNum: reviewNumInput.value,
+            publicationDate: formattedpublicationDate,
+            rating: 0,
+            reviewNum: 0,
             category: categoryInput.value,
           })
           .then(() => {

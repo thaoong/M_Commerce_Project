@@ -106,8 +106,13 @@
                         <input type="file" class="file-input" id="imageUpload">
                     </label>
                     <img id="book_image" style="margin-left: 10px;">
+					<div>
+						<img id="book_image" style="margin-left: 10px;">
+						<img id="book_image" style="margin-left: 10px;">
+						<img id="book_image" style="margin-left: 10px;">
+					</div>
                     <label for="idAdd">Book ID:
-                        <input type="text" class="form-control" id="idAdd">
+                        <input type="text" class="form-control" id="idAdd" readonly>
                     </label>
                     <label for="nameAdd">Book Name:
                         <input type="text" class="form-control" id="nameAdd">
@@ -116,22 +121,24 @@
                         <input type="text" class="form-control" id="categoryAdd">
                     </label>
 					<label for="unitpriceAdd">Unit price:
-                        <input type="text" class="form-control" id="unitpriceAdd">
+                        <input type="number" class="form-control" id="unitpriceAdd">
+                    </label>
+					<label for="oldpriceAdd">Old price:
+                        <input type="number" class="form-control" id="oldpriceAdd">
                     </label>
 					<label for="authorAdd">Author:
                         <input type="text" class="form-control" id="authorAdd">
                     </label>
-					<label for="descriptionAdd">Description:
-                        <input type="text" class="form-control" id="descriptionAdd">
-                    </label>
+					<label for="descriptionAdd">Description:</label>
+					<textarea class="form-control" id="descriptionAdd"></textarea>
 					<label for="publicationDateAdd">Publication Date:
-                        <input type="text" class="form-control" id="publicationDateAdd">
+                        <input type="date" class="form-control" id="publicationDateAdd">
                     </label>
 					<label for="ratingAdd">Rating:
-                        <input type="text" class="form-control" id="ratingAdd">
+                        <input type="number" class="form-control" id="ratingAdd" readonly>
                     </label>
 					<label for="reviewNumAdd">Review Num:
-                        <input type="text" class="form-control" id="reviewNumAdd">
+                        <input type="number" class="form-control" id="reviewNumAdd" readonly>
                     </label>
                 </div>
                 <button id="delete">Delete Book</button>

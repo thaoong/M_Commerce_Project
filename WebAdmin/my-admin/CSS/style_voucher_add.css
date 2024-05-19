@@ -366,6 +366,16 @@ body {
     padding: 7px 10px;
 }
 
+.content__box textarea{
+    margin: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    padding: 7px 10px;
+	height: 100px;
+}
+
 #delete {
     cursor: pointer;
     font-size: 14px;

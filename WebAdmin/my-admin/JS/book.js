@@ -26,9 +26,8 @@ onValue(bookRef, (snapshot) => {
     var id = book.Id;
     var imageLink = book.imageLink;
     var name = book.name;
-    var unitprice = book.unitPrice;
+    var unitprice = book.unitPrice.toLocaleString("vi-VN", {minimumFractionDigits: 0})+"đ";;
     var category = book.category;
-
 
     htmlData += `
       <tr>
@@ -37,7 +36,7 @@ onValue(bookRef, (snapshot) => {
         <td>${name}</td>
         <td>${category}</td>
         <td>
-            <img src='${imageLink}' width="100">
+            <img src='${imageLink[0]}' width="100">
         </td>
         <td>${unitprice}</td>
         <td>

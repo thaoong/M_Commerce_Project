@@ -16,19 +16,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const bookRef = ref(db, "books/");
 const dataContainer = document.querySelector("tbody")
-
 onValue(bookRef, (snapshot) => {
   const data = snapshot.val();
   var htmlData = "";
   var i = 0;
+
   for (var key in data) {
     var book = data[key];
     var id = book.Id;
     var imageLink = book.imageLink;
+    console.log("uar")
     var name = book.name;
     var unitprice = book.unitPrice;
     var category = book.category;
-
     htmlData += `
       <tr>
         <td>${++i}</td>
@@ -36,7 +36,7 @@ onValue(bookRef, (snapshot) => {
         <td>${name}</td>
         <td>${category}</td>
         <td>
-            <img src='${imageLink}' width="100">
+            <img src='${imageLink[0]}' width="100">
         </td>
         <td>${unitprice}</td>
         <td>
