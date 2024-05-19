@@ -29,6 +29,7 @@ onValue(bookRef, (snapshot) => {
     var unitprice = book.unitPrice;
     var category = book.category;
 
+
     htmlData += `
       <tr>
         <td>${++i}</td>

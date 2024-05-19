@@ -25,7 +25,13 @@ let idInput = document.getElementById("idAdd");
 let bookNameInput = document.getElementById("nameAdd");
 let imageUploadInput = document.getElementById("imageUpload");
 let imgBook = document.getElementById("book_image");
-let unitprice = document.getElementById("unitpriceAdd");
+let unitpriceInput = document.getElementById("unitpriceAdd");
+let authorInput = document.getElementById("authorAdd");
+let descriptionInput = document.getElementById("descriptionAdd");
+let publicationDateInput = document.getElementById("publicationDateAdd");
+let ratingInput = document.getElementById("ratingAdd");
+let reviewNumInput = document.getElementById("reviewNumAdd");
+let categoryInput = document.getElementById("categoryAdd")
 
 get(child(dbRef, `books/${key}`)).then((snapshot) => {
     if (snapshot.exists()) {
@@ -34,7 +40,13 @@ get(child(dbRef, `books/${key}`)).then((snapshot) => {
         imgBook.width = 300
         idInput.value = book.Id
         bookNameInput.value = book.name
-        unitprice.value = book.unitPrice
+        unitpriceInput.value = book.unitPrice
+        authorInput.value = book.author
+        descriptionInput.value = book.description
+        publicationDateInput.value = book.publicationDate
+        ratingInput.value = book.rating
+        reviewNumInput.value = book.reviewNum
+        categoryInput.value = book.category
         // console.log(snapshot.val());
     } else {
         console.log("No data available");
@@ -66,6 +78,14 @@ function updateBook() {
     const updateData = {
       id: idInput.value,
       name: bookNameInput.value,
+      unitPrice: unitpriceInput.value,
+      author: authorInput.value,
+      description: descriptionInput.value,
+      publicationDate: publicationDateInput.value,
+      rating: ratingInput.value,
+      reviewNum: reviewNumInput.value,
+      category: categoryInput.value,
+
     };
   
     // Check if an image was selected for upload
