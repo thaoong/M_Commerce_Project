@@ -313,9 +313,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         actionBar.setTitle(Html.fromHtml("<font color='#5C3507'>"+title+"</font>"));
     }
 
-    public void getCartCount(final ProductDetailActivity.OnCartCountLoadedListener listener) {
+    public void getCartCount(final OnCartCountLoadedListener listener) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser == null) {
+            // User is not logged in, return 0
+            listener.onCartCountLoaded(0);
+            return;
+        }
+
+        String userId = currentUser.getUid();
         DatabaseReference cartRef = firebaseDatabase.getReference("carts").child(userId);
 
         cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -327,7 +335,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
+                // Handle error
             }
         });
     }
