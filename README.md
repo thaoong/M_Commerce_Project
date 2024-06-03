@@ -1,4 +1,4 @@
-# The Store Book Selling App 
+# The Store Book Selling Application 
 This is the Final-term Project for Mobile App Development course in University of Economic and Law, VNU by our team with 5 members in 3 months. Our project includes 3 part:
 1. System analysis and Design
 2. Client application implementation
@@ -47,5 +47,9 @@ In this part, we draw diagrams such as Sitemap, BPMN, Use case, DFD, Sequence di
 * Voucher management
   
 **Deployment :** https://thestore-55f0f.firebaseapp.com/
+
+To login to Administrator website, enter the following user name and password
+* User name: adminthestore
+* Password: 12345678
 
 **Video demo:** [View demo](https://youtu.be/efnTAfnCaR8)
